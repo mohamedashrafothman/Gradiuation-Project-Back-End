@@ -1,0 +1,43 @@
+{
+  "name": "gradiuation-project-back-end",
+  "version": "1.0.0",
+  "description": "gradiuation project",
+  "main": "app.js",
+  "scripts": {
+    "start": "supervisor app.js"
+  },
+  "keywords": [
+    "graduation",
+    "hajj",
+    "uomra"
+  ],
+  "author": "Mohamed Ashraf",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^2.0.1",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "express-validator": "^4.3.0",
+    "mongoose": "^5.0.1",
+    "morgan": "^1.9.0",
+    "nodemailer": "^4.4.2",
+    "pug": "^2.0.0-rc.4"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.2.5",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "css-loader": "^0.28.9",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "node-sass": "^4.7.2",
+    "postcss-loader": "^2.0.10",
+    "sass-loader": "^6.0.6",
+    "supervisor": "^0.12.0",
+    "webpack": "^3.10.0"
+  }
+}
