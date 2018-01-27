@@ -1,0 +1,41 @@
+.sidebar(data-color='purple', data-image='/img/sidebar-1.jpg')
+	//-
+		Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+		Tip 2: you can also add an image using data-image tag
+	.logo
+		a.simple-text(href='/')
+			| Hajj-Umrah System
+	.sidebar-wrapper
+		ul.nav
+			li(class=(title == 'Home Page' ? 'active' : ''))
+				a(href='/')
+					i.material-icons dashboard
+					p Dashboard
+			li(class=(title == 'Profile' ? 'active' : ''))
+				a(href='/profile')
+					i.material-icons person
+					p Profile
+			li(class=(title == 'Companies' ? 'active' : ''))
+				a(href='/companies')
+					i.material-icons content_paste
+					p Companies
+			li
+				a(href='/companies/add')
+					i.material-icons library_books
+					p Add Company
+			li
+				a(href='icons.html')
+					i.material-icons bubble_chart
+					p Icons
+			li
+				a(href='maps.html')
+					i.material-icons location_on
+					p Maps
+			li
+				a(href='notifications.html')
+					i.material-icons.text-gray notifications
+					p Notifications
+			li.active-pro
+				a(href='upgrade.html')
+					i.material-icons unarchive
+					p Upgrade to PRO

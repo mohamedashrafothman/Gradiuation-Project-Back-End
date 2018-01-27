@@ -1,9 +1,7 @@
-/**
- * requiring dependencies
- */
-const router = require('express').Router();
-const indexConteoller = require('../controllers/index');
+const express = require('express');
+const router = express.Router();
+const indexController = require('../controllers/index');
 
-router.get('/', indexConteoller.index);
+router.get('/', indexController.getHome);
 
 module.exports = router;

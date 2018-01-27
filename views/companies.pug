@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+html(lang="en")
+	include partials/header.pug
+
+	body
+
+		.wrapper
+			include partials/sidebar.pug
+			
+			.main-panel
+				include partials/nav.pug
+				.content
+					.container-fluid
+						.row
+							.col-md-12
+								.card
+									.card-header(data-background-color='purple')
+										h4.title Companies Table
+										p.category Here is a list of all of companies in the system
+									.card-content.table-responsive
+										table.table
+											thead.text-primary
+												th 
+													h3 Name
+												th 
+													h3 Country
+												th 
+													h3 City
+												th 
+													h3 Mobile Number
+												th 
+													h3 Email
+												th 
+													h3 Edit / Delete
+											tbody
+												each company in companies
+													tr
+														td.text-primary
+															a(href=`/companies/${company.slug}`)= company.name
+														td= company.location.country
+														td= company.location.city
+														td= company.contacts.mobileNumber
+														td= company.contacts.email
+														td
+															a(href=`/companies/edit/${company._id}` class="col-md-6")
+																i.material-icons create
+															a(href=`/companies/delete/${company._id}` class="col-md-6")
+																i.material-icons delete
+												
+
+				footer.footer
+					.container-fluid
+						nav.pull-left
+							ul
+								li
+									a(href='/')
+										| Home
+								li
+									a(href='/companies')
+										| Companies
+								li
+									a(href='/portfolio')
+										| Portfolio
+										
+						p.copyright.pull-right Mohamed ashraf othman
+
+
+		include partials/footer.pug

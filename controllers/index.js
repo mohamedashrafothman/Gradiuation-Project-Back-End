@@ -1,3 +1,5 @@
-module.exports.index = (req, res, next)=> {
-	res.send('server is running');
-};
+module.exports.getHome = (req, res, next)=> {
+	res.render('index', {
+		title: 'Home Page'
+	});
+}
