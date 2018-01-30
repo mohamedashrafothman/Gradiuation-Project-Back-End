@@ -1,0 +1,39 @@
+doctype html
+html
+	include partials/header.pug
+	body
+
+		.container-scroller
+			.container-fluid.page-body-wrapper
+				.row
+					.content-wrapper.full-page-wrapper.d-flex.align-items-center.auth-pages
+						.card.col-lg-4.mx-auto
+							.card-body.px-5.py-5
+								h3.card-title.text-left.mb-3 Login
+								form
+									.form-group
+										label Username or email *
+										input.form-control.p_input(type='text')
+									.form-group
+										label Password *
+										input.form-control.p_input(type='text')
+									.form-group.d-flex.align-items-center.justify-content-between
+										.form-check
+											label.form-check-label
+												input.form-check-input(type='checkbox')
+												|                         Remember me
+										a.forgot-pass(href='#') Forgot password
+									.text-center
+										button.btn.btn-primary.btn-block.enter-btn(type='submit') Login
+									.d-flex
+										button.btn.btn-facebook.mr-2.col
+											i.mdi.mdi-facebook
+											|  Facebook
+										button.btn.btn-google.col
+											i.mdi.mdi-google-plus
+											|  Google plus
+									p.sign-up
+										| Don't have an Account?
+										a(href='#')  Sign Up
+
+		include partials/footer.pug

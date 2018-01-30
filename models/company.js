@@ -33,9 +33,26 @@ const companySchema = new Schema({
 			type: String,
 			default: 'point'
 		},
-		address: String,
-		country: String,
-		city: String
+		coordinates: [{
+			type: Number,
+			required: 'You must supply coordinates'
+		}],
+		address: {
+			type: String,
+			required: 'You must supply an address!'
+		},
+		country: {
+			type: String,
+			required: 'You must supply an address!'
+		},
+		city: {
+			type: String,
+			required: 'You must supply an address!'
+		}
+	},
+	created: {
+		type: Date,
+		default: Date.now
 	}
 
 });

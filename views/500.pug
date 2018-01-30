@@ -1,0 +1,16 @@
+doctype html
+html
+	include partials/header.pug
+	body
+
+		.container-scroller
+			.container-fluid.page-body-wrapper
+				.row
+					.content-wrapper.full-page-wrapper.d-flex.align-items-center.text-center.error-page
+						.col-lg-6.mx-auto
+							h1.display-1.mb-0 500
+							h2.mb-4 Internal server error!
+							a.btn.btn-primary.mt-5.btn-rounded.btn-lg(href='/') Back to home
+
+
+		include partials/footer.pug

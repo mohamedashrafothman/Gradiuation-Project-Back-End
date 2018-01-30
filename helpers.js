@@ -8,15 +8,24 @@ const moment = require('moment');
 // Dump is a handy debugging function we can use to sort of "console.log" our data
 const dump = (obj) => JSON.stringify(obj, null, 2);
 
+const isEmpty = (obj)=> {
+	for (var key in obj) {
+		if (obj.hasOwnProperty(key))
+			return false;
+	}
+	return true;
+};
+
 // Making a static map is really long - this is a handy helper function to make one
 const staticMap = ([lng, lat]) => `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=14&size=800x150&key=${process.env.MAP_KEY}&markers=${lat},${lng}&scale=2`;
 
 // Some details about the site
-const siteName = `Hajj and Umrah Management System`;
+const siteName = 'Hajj and Umrah Management System';
 
 module.exports = {
 	moment,
 	dump,
 	staticMap,
-	siteName
+	siteName,
+	isEmpty
 };

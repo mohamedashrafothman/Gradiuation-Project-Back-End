@@ -1,0 +1,110 @@
+/*------------------------------------------------------------------
+ [Master Stylesheet]
+
+  Project:	Purple Admin (Free)
+  Version:	1.0
+-------------------------------------------------------------------*/
+
+
+
+/*-------------------------------------------------------------------
+  ===== Table of Contents =====
+
+  * Bootstrap functions
+  * Template variables
+  * SCSS Compass Functions
+  * Boostrap Main SCSS
+  * Template mixins
+    + Animation Mixins
+    + Badge Mixins
+    + Button Mixins
+    + Miscellaneous Mixins
+    + BlockQuote Mixins
+    + Cards Mixins
+  * Core Styles
+    + Reset Styles
+    + Fonts
+    + Functions
+    + Backgrounds
+    + Sidebar
+    + Navbar
+    + Typography
+    + Miscellaneous
+    + Footer
+    + Layouts
+    + Utilities
+    + Demo styles
+    + Authentication
+  * Components
+    + Buttons
+    + Cards
+    + Checkboxes and Radios
+    + Forms
+    + Icons
+    + Lists
+    + Preview
+    + Tables
+-------------------------------------------------------------------*/
+
+
+/*-------------------------------------------------------------------*/
+/* === Import Bootstrap functions and variables === */
+@import "../../node_modules/bootstrap/scss/_functions.scss";
+@import "../../node_modules/bootstrap/scss/_variables.scss";
+
+/*-------------------------------------------------------------------*/
+/* === Import template variables === */
+@import "./_variables.scss";
+
+/*-------------------------------------------------------------------*/
+/* === SCSS Compass Functions === */
+@import "../../node_modules/compass-mixins/lib/compass";
+@import "../../node_modules/compass-mixins/lib/animate";
+
+/*-------------------------------------------------------------------*/
+/* === Boostrap Main SCSS === */
+// @import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+/*-------------------------------------------------------------------*/
+/* === Template mixins === */
+@import "./mixins/_animation.scss";
+@import "./mixins/_buttons.scss";
+@import "./mixins/_badges.scss";
+@import "./mixins/_misc.scss";
+@import "./mixins/_blockqoute.scss";
+@import "./mixins/_cards.scss";
+
+/*-------------------------------------------------------------------*/
+/* === Core Styles === */
+@import "./_reset.scss";
+@import "./_fonts.scss";
+@import "./_functions.scss";
+@import "./_background.scss";
+@import "./_sidebar.scss";
+@import "./_navbar.scss";
+@import "./_typography.scss";
+@import "./_misc.scss";
+@import "./_footer.scss";
+@import "./_layouts.scss";
+@import "./_utilities.scss";
+@import "./_demo.scss";
+@import "./_auth.scss";
+
+/*-------------------------------------------------------------------*/
+/* === Components === */
+@import "./components/_buttons.scss";
+@import "./components/_badges.scss";
+@import "./components/_bootstrap-progress.scss";
+@import "./components/_cards.scss";
+@import "./components/_checkbox-radio.scss";
+@import "./components/_forms.scss";
+@import "./components/_icons.scss";
+@import "./components/_lists.scss";
+@import "./components/_preview.scss";
+@import "./components/_tables.scss";
+
+/*-------------------------------------------------------------------*/
+
+body{
+  background-color: red !important;
+}

@@ -1,0 +1,41 @@
+mixin companyForm(company = {})
+
+	form.forms-sample.row(action=(h.isEmpty(company) ? `/companies/add` : `/companies/add/${company._id}`), method="POST")
+		.form-group.col-md-4
+			label(for='name') Name
+			input#name.form-control(type='text', placeholder='Name', value=(company != undefined ? company.name : '') , name="name" required)
+		.form-group.col-md-4
+			label(for='email') Email address
+			input#email.form-control(type='email', placeholder='Email', name="contacts[email]", value=(company.contacts != undefined ? company.contacts.email : ''))
+		.form-group.col-md-4
+			label(for='mobileNumber') Mobile Number
+			input#mobileNumber.form-control(type='text', name="contacts[mobileNumber]", value=(company.contacts != undefined ? company.contacts.mobileNumber : ''), placeholder='Mobile number')
+		//- .form-group.col-md-12
+		//- 	label File upload
+		//- 	input.file-upload-default(type='file', name='img[]')
+		//- 	.input-group.col-xs-12
+		//- 		input.form-control.file-upload-info(type='text', disabled='', placeholder='Upload Image')
+		//- 		span.input-group-btn
+		//- 		button.file-upload-browse.btn.btn-info(type='button') Upload
+		.form-group.col-md-12
+			label(for='address') Address
+			input#autocomplete.form-control(type='text', placeholder='Address', name="location[address]", value=(company.location && company.location.address) required)
+		.form-group.col-md-6
+			label(for='lng') Address Lng
+			input#lng.form-control(type='text', placeholder='Lng', name="location[coordinates][0]", value=(company.location && company.location.coordinates[0]) required)
+		.form-group.col-md-6
+			label(for='lat') Address Lat
+			input#lat.form-control(type='text', placeholder='Lat', name="location[coordinates][1]", value=(company.location && company.location.coordinates[1]) required)
+		.form-group.col-md-6
+			label(for='city') Address City
+			input#city.form-control(type='text', placeholder='City', name="location[city]", value=(company.location && company.location.city) required)
+		.form-group.col-md-6
+			label(for='country') Address Country
+			input#country.form-control(type='text', placeholder='Country', name="location[country]", value=(company.location && company.location.country) required)
+
+		.form-group.col-md-12
+			label(for='description') Description
+			textarea#description.form-control(rows='5', name="description" required)=company.description 
+		.form-group.col-md-4
+			button.btn.btn-success.mr-2(type='submit') Add
+			button.btn.btn-light Cancel

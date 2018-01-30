@@ -8,6 +8,7 @@ const mongoose         = require('mongoose');
 const MongoStore       = require('connect-mongo')(session);
 const logger           = require('morgan');
 const helpers		   = require('./helpers');
+const errorHandlers    = require('./handlers/errorHandlers');
 const indexRoute       = require('./routes/index');
 const apiRoute 		   = require('./routes/api');
 const companiesRouter  = require('./routes/companies');
@@ -77,6 +78,22 @@ app.use((req, res, next)=> {
 app.use('/', indexRoute);
 app.use('/api/v1', apiRoute);
 app.use('/companies', companiesRouter);
+
+
+// If that above routes didnt work, we 404 them and forward to error handler
+app.use(errorHandlers.notFound);
+
+// One of our error handlers will see if these errors are just validation errors
+app.use(errorHandlers.flashValidationErrors);
+
+// Otherwise this was a really bad error we didn't expect! Shoot eh
+if (app.get('env')==='development') {
+	/* Development Error Handler - Prints stack trace */
+	app.use(errorHandlers.developmentErrors);
+}
+
+// production error handler
+app.use(errorHandlers.productionErrors);
 
 
 /**
