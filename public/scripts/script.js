@@ -1,8 +1,10 @@
-function initAutocomplete() {
-	var autocomplete;
-	autocomplete = new google.maps.places.Autocomplete( /* @type {!HTMLInputElement} */(document.getElementById('autocomplete')), {
-		types: ['geocode']
-	});
+var autocomplete;
+function initAutocomplete () {
+	if(!document.getElementById('autocomplete')) return ;
+	autocomplete = new google.maps.places.Autocomplete(
+		/* @type {!HTMLInputElement} */(document.getElementById('autocomplete')), {
+			types: ['geocode']
+		});
 
 	autocomplete.addListener('place_changed', function () {
 		var place = autocomplete.getPlace();
@@ -18,8 +20,8 @@ function initAutocomplete() {
 		if (e.keyCode === 13) e.preventDefault();
 	});
 }
+
+
 $(document).ready(function () {
-
 	initAutocomplete();
-
 });

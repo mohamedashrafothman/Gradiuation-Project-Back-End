@@ -12,6 +12,7 @@ block content
 						thead
 							tr
 								th Name
+								th Prev
 								th Address
 								th Mobile number
 								th Email
@@ -21,7 +22,9 @@ block content
 								tr
 									td
 										a(href=`/companies/${company.slug}`)= company.name
-									td= company.location.address.split(' ').slice(0, 5).join(' ')
+									td.py-1
+										img(src=`/uploads/${company.photo}`, alt=`${company.photo}`)
+									td= company.location.address.split(' ').slice(0, 3).join(' ')
 									td= company.contacts.mobileNumber
 									td= company.contacts.email
 									td

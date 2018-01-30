@@ -18,6 +18,7 @@ const companySchema = new Schema({
 		type: String,
 		trim: true
 	},
+	photo: String,
 	contacts: {
 		mobileNumber: String,
 		email: {

@@ -69,7 +69,7 @@ exports.developmentErrors = (err, req, res, next) => {
 ==========================================================================================================*/
 exports.productionErrors = (err, req, res, next) => {
 	res.status(err.status || 500);
-	res.render('404', {
+	res.render('error', {
 		message: err.message,
 		error: {}
 	});

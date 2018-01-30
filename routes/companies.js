@@ -7,8 +7,14 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 router.get('/', catchErrors(companiesController.getCompanies));
 router.get('/add', companiesController.addCompany);
-router.post('/add', catchErrors(companiesController.createCompany));
-router.post('/add/:id', catchErrors(companiesController.updateCompany));
+router.post('/add',
+	companiesController.upload,
+	catchErrors(companiesController.resize),
+	catchErrors(companiesController.createCompany));
+router.post('/add/:id', 
+	companiesController.upload,
+	catchErrors(companiesController.resize),
+	catchErrors(companiesController.updateCompany));
 router.get('/edit/:id', catchErrors(companiesController.editCompany));
 router.get('/delete/:id', catchErrors(companiesController.deleteCompany));
 
