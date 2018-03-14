@@ -131,8 +131,8 @@
         }
       }
       .rtl & {
-        @extend .ml-0;
-        @extend .mr-4;
+        // @extend .ml-0;
+        // @extend .mr-4;
         .search-button {
           padding-left: 10px;
           padding-right: 23px;
@@ -207,8 +207,8 @@
             padding: 0;
 
             .dropdown-item {
-              @extend .d-flex;
-              @extend .align-items-center;
+              // @extend .d-flex;
+              // @extend .align-items-center;
               border-bottom: 1px solid lighten(color(gray-light),30%);
               margin-bottom: 0;
               padding: 11px 13px;
@@ -224,7 +224,7 @@
               }
               .rtl & {
                 i{
-                  @extend .mr-0;
+                  // @extend .mr-0;
                   margin-left: 10px;
                 }
               }

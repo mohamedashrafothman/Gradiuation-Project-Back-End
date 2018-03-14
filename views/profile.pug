@@ -1,0 +1,56 @@
+extends layout.pug
+
+block content
+	.container
+		.row
+			.col-lg-12.grid-margin.stretch-card
+				.card
+					nav#profileTabs.nav.nav-pills.nav-justified.border.border-secondary.border-top-0.border-left-0.border-right-0(role="tablist")
+						a.nav-item.nav-link.text-capitalize.rounded-0.active(id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true") overview
+						a.nav-item.nav-link.text-capitalize.rounded-0(id="#reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false") Reviews
+						a.nav-item.nav-link.text-capitalize.rounded-0(id="#photos-tab" data-toggle="tab" href="#photos" role="tab" aria-controls="photos" aria-selected="false") photos
+
+					.card-body
+						.tab-content
+							.tab-pane.fade.show.active#overview(role="tabpanel" arial-labelledby="overview-tab")
+								h1.card-title.mb-2= `${company.name} Company`
+									a.h6.font-weight-light.text-primary.ml-1.float-right(href="/company/account/edit") Edit
+								.d-flex
+									.br-wrapper.br-theme-fontawesome-stars
+										.text-muted.ml-0
+											select#viewRating(disabled="disabled")
+												option(value="1")
+												option(value="2" selected)
+												option(value="3")
+												option(value="4")
+												option(value="5")
+								.d-flex
+									.d-flex.text-muted#createdAt
+										i.mdi.mdi-calendar-blank.icon-sm.mr-2
+										-
+											var now = h.moment(company.created);
+											var diff = now.toNow();
+										span= `Created ${diff}`
+									.d-flex.text-muted.ml-5
+										i.fa.fa-phone.icon-sm.mr-2.pt-1
+										span= `${company.contacts.mobileNumber}`
+								.row.mt-3
+									.col-12.pr-1
+										img.mb-2.mw-100.w-100.rounded(src=h.staticMap([`${company.location.coordinates[0]}`, `${company.location.coordinates[1]}`]), alt='image')
+								.d-flex.mt-3.align-items-top
+									.mb-0.flex-grow
+										p= `${company.description}`
+
+
+							.tab-pane.fade#reviews(role="tabPanel" arial-labelledby="reviews-tab")
+								h1 reviews goes here
+
+
+							.tab-pane.fade#photos(role="tabPanel" arial-labelledby="photos-tab")
+								.row.mt-0
+									.col-6.pr-1
+										img.mb-2.mw-100.w-100.rounded(src='/img/dashboard/img_1.jpg', alt='image')
+										img.mw-100.w-100.rounded(src='/img/dashboard/img_4.jpg', alt='image')
+									.col-6.pl-1
+										img.mb-2.mw-100.w-100.rounded(src='/img/dashboard/img_2.jpg', alt='image')
+										img.mw-100.w-100.rounded(src='/img/dashboard/img_3.jpg', alt='image')

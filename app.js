@@ -1,17 +1,20 @@
 const express          = require('express');
-const path             = require('path');
-const bodyParser       = require('body-parser');
 const session          = require('express-session');
-const cookieParser 	   = require('cookie-parser');
-const flash			   = require('connect-flash');
 const mongoose         = require('mongoose');
 const MongoStore       = require('connect-mongo')(session);
+const path             = require('path');
+const cookieParser 	   = require('cookie-parser');
+const bodyParser       = require('body-parser');
 const logger           = require('morgan');
+const passport 		   = require('passport');
+const promisify        = require('es6-promisify');
+const flash			   = require('connect-flash');
+const expressValidator = require('express-validator');
 const helpers		   = require('./helpers');
-const errorHandlers    = require('./handlers/errorHandlers');
 const indexRoute       = require('./routes/index');
 const apiRoute 		   = require('./routes/api');
 const companiesRouter  = require('./routes/companies');
+const errorHandlers    = require('./handlers/errorHandlers');
 const PORT             = process.env.PORT || 8000;
 mongoose.Promise	   = global.Promise;
 
@@ -45,6 +48,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 // logger middleware
 app.use(logger('dev'));
 
+// Body-parser Middelware, Takes the raw requests and turns them into usable properties on req.body
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(expressValidator({
+	errorFormatter: function(param, msg, value){
+		var namespace = param.split('.'),
+		root = namespace.shift(),
+		formParam = root;
+
+		while(namespace.length){
+			formParam += '[' + namespace.shift() + ']';
+		}
+		return {
+			param: formParam,
+			msg: msg,
+			value: value
+		};
+	}
+}));
+
+
 // populates req.cookies with any cookies that came along with the request
 app.use(cookieParser());
 
@@ -59,25 +84,32 @@ app.use(session({
 		mongooseConnection: mongoose.connection
 	})
 }));
+
+// Passport JS is what we use to handle our logins
+app.use(passport.initialize());
+app.use(passport.session());
+
 // flash middleware will send a message for success of failur operation to the next page we direct to
 app.use(flash());
-
-// Body-parser Middelware, Takes the raw requests and turns them into usable properties on req.body
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 
 
 app.use((req, res, next)=> {
 	res.locals.h = helpers;
 	res.locals.flashes = req.flash();
+	res.locals.user = req.user || null;
 	next();
 });
 
+// promisify some callback based APIs
+app.use((req, res, next) => {
+	req.login = promisify(req.login, req);
+	next();
+});
 
 app.use('/', indexRoute);
 app.use('/api/v1', apiRoute);
-app.use('/companies', companiesRouter);
+app.use('/company', companiesRouter);
+
 
 
 // If that above routes didnt work, we 404 them and forward to error handler

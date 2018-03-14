@@ -1,0 +1,62 @@
+doctype html
+html
+	include partials/header.pug
+	body
+		block messages
+			if locals.flashes
+				- const categories = Object.keys(locals.flashes)
+					each category in categories
+						.messages
+						each message, i in flashes[category]
+							.col-xs-11.col-sm-4.alert.alert-with-icon.animated.fadeInDown(class=`alert-${category}`, data-notify='container', role='alert', data-notify-position='top-right', style=`display: block; margin: 20px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 1031; top: ${i*60+30}px; right: 20px;`)
+								if message.msg						
+										button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1033;', onClick="this.parentElement.remove()") &times;
+										span(data-notify='title')
+										span(data-notify='message')= message.msg
+										a(href='#', target='_blank', data-notify='url')
+
+								else 
+										button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1033;', onClick="this.parentElement.remove()") &times;
+										span(data-notify='title')
+										span(data-notify='message')= message
+										a(href='#', target='_blank', data-notify='url')
+
+		.container-scroller
+			.container-fluid.page-body-wrapper
+				.row
+					.content-wrapper.full-page-wrapper.d-flex.align-items-center.auth-pages
+						.card.col-md-6.mx-auto
+							.card-body.px-4.py-4
+								h3.card-title.text-left.mb-3 Login 
+								form.row.mt-5(action="/company/login", method="POST")
+									.col-12
+										.form-group
+											label.font-weight-bold Username
+											input.form-control.p_input.form-control-lg(type='text' name="username" placeholder="Type Your Username.", required)
+									.w-100
+									.col-12
+										.form-group
+											label.font-weight-bold Password
+											input.form-control.p_input.form-control-lg(type='password', name="password", placeholder="Type Your Password.", required)
+									.w-100
+									.col-12
+										.row.justify-content-center
+											.col-6
+												.text-center
+													button.btn.btn-primary.btn-block.enter-btn(type='submit') Login
+												//- .d-flex
+												//- 	button.btn.btn-facebook.col.mr-2
+												//- 		i.mdi.mdi-facebook
+												//- 		|  Facebook
+												//- 	button.btn.btn-google.col
+												//- 		i.mdi.mdi-google-plus
+												//- 		|  Google plus
+												p.sign-up.text-center
+													| You don't have an Account?
+													a(href='/company/register')  Sign Up
+												p.forgot-pass.text-center
+													a(href="/company/forgot") Forgot Password
+													
+												//- p.terms
+												//- 	| By creating an account you are accepting our
+												//- 	a(href='#')  Terms & Conditions

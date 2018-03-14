@@ -1,8 +1,70 @@
+//*************************** Requiring Dependencies ***************************//
 const Company = require('../models/company');
 const multer = require('multer'); // allawing us to upload a photo to the server
 const jimp = require('jimp'); // for resizing image
 const uuid = require('uuid'); // unique idenifier package
+//*************************** End of Requiring Dependencies ***************************//
 
+
+//*************************** Regesteration Functions ***************************//
+module.exports.getLogin = (req, res, next) => {
+	res.render('login');
+};
+module.exports.getRegister = (req, res, next) => {
+	res.render('register');
+};
+module.exports.getForgot = (req, res, next)=> {
+	res.render('forgotPassword');
+};
+module.exports.getProfile = async (req, res)=> {
+	const company = await Company.findOne({ slug: req.params.companyName});
+	res.render('profile', {title: 'Profile', company});
+};
+// to do: 1- validate the regesteration data (done)
+// 		  2- regester the company (done)
+// 	      3- log the company in
+module.exports.validateRegister = (req, res, next)=> {
+	req.sanitizeBody('name'); // validate the name
+	req.checkBody('name', 'You must supply a name!').notEmpty();
+	req.checkBody('username', 'You must supply a username!').notEmpty();
+	req.checkBody('contacts[email]', 'You must supply an email!').notEmpty();
+	req.checkBody('contacts[email]', 'That Email is not Valid!').isEmail();
+	req.sanitizeBody('contacts[email]').normalizeEmail({
+		remove_dots: false,
+		remove_extention: false,
+		gmail_remove_subaddress: false
+	});
+	req.checkBody('location[address]', 'You must supply where is your company!').notEmpty();
+	req.checkBody('location[country]', 'You must supply where is your company!').notEmpty();
+	req.checkBody('location[city]', 'You must supply where is your company!').notEmpty();
+	req.checkBody('password', 'Password Cannot be Blank!').notEmpty();
+	req.checkBody('password-confirm', 'Confirmed Password cannot be blank!').notEmpty();
+	req.checkBody('password-confirm', 'Your Password do not mach!').equals(req.body.password);
+
+	const errors = req.validationErrors();
+	if(errors){
+		req.flash('danger', errors.map(err=> err.msg));
+		res.render('register', {title: 'register', body: req.body, flashes: req.flash()});
+		return ;
+	}
+	next();
+};
+module.exports.register = async (req, res, next)=> {
+	var newCompany = new Company(req.body);
+	Company.createCompany(newCompany, function(err, company){
+		if(err) throw err;
+	});
+	req.flash('success', 'You are registered and can login!');
+	res.redirect('/company/login');
+};
+module.exports.login = (req, res)=> {
+	res.redirect('/dashboard');
+};
+//*************************** End of regesteration functions ***************************//
+
+
+
+//*************************** Upload Images functions ***************************//
 const multerOptions = {
 	storage: multer.memoryStorage(),
 	fileFilter(req, file, next){
@@ -14,23 +76,6 @@ const multerOptions = {
 		}
 	} 
 };
-
-
-
-module.exports.getCompanies = async (req, res, next)=> {
-	const companies = await Company.find();
-	res.render('companies', {
-		title: 'Companies',
-		companies
-	});
-};
-
-module.exports.addCompany = (req, res, next)=> {
-	res.render('addCompany', {
-		title: 'Add New Company'
-	});
-};
-
 // multer middleware
 module.exports.upload = multer(multerOptions).single('photo');
 module.exports.resize = async (req, res, next)=> {
@@ -45,40 +90,57 @@ module.exports.resize = async (req, res, next)=> {
 	// resizing
 	const photo = await jimp.read(req.file.buffer);
 	await photo.resize(800, jimp.AUTO);
-	await photo.write(`./public/uploads/${req.body.photo}`);
+	await photo.write(`./public/img/uploads/${req.body.photo}`);
 
 	next();
 };
+//*************************** End of Upload Images functions ***************************//
 
 
-module.exports.createCompany = async (req, res, next)=> {
-	const company = await (new Company(req.body)).save();
 
-	req.flash('success', `Successfully created ${company.name} Company.`);
-	// res.redirect(`/companies/${company.slug}`);
-	res.redirect('/companies'); 
-};
-
+//*************************** Edit Company functions ***************************//
 module.exports.editCompany = async (req, res, next)=> {
-	const company = await Company.findOne({ _id: req.params.id });
-	res.render('addCompany', {
-		title: `Edit ${company.name}'s Company`,
-		company
+	res.render('editCompany', {
+		title: `Edit ${req.user.name}'s Company`,
+		company: req.user
 	});
 };
-
 module.exports.updateCompany = async (req, res, next)=> {
-
 	req.body.location.type = 'point';
-	const company = await Company.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, runValidator: true}).exec();
-
+	const company = await Company.findOneAndUpdate({ _id: req.user.id }, req.body, { new: true, runValidator: true});
 	req.flash('success', `Successfully update ${company.name}'s company.`);
-	res.redirect('/companies');
+	res.redirect('/dashboard');
 };
+//*************************** End of Edit Comapny functions ***************************//
 
-module.exports.deleteCompany = async (req, res, next)=> {
-	const company = await Company.findByIdAndRemove({ _id: req.params.id });
-	req.flash('success', `Successfully deleted ${company.name}'s company`);
-	res.redirect('/companies');
+
+
+
+// module.exports.getCompanies = async (req, res, next)=> {
+// 	const companies = await Company.find();
+// 	res.render('companies', {
+// 		title: 'Companies',
+// 		companies
+// 	});
+// };
+
+// module.exports.addCompany = (req, res, next)=> {
+// 	res.render('addCompany', {
+// 		title: 'Add New Company'
+// 	});
+// };
+
+// module.exports.createCompany = async (req, res, next)=> {
+// 	const company = await (new Company(req.body)).save();
+
+// 	req.flash('success', `Successfully created ${company.name} Company.`);
+// 	// res.redirect(`/companies/${company.slug}`);
+// 	res.redirect('/companies'); 
+// };
+
+// module.exports.deleteCompany = async (req, res, next)=> {
+// 	const company = await Company.findByIdAndRemove({ _id: req.user.id });
+// 	req.flash('success', `Successfully deleted ${company.name}'s company`);
+// 	res.redirect('/');
 	
-};
+// };

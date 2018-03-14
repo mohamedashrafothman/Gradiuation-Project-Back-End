@@ -1,10 +1,15 @@
 /**
  * Requiring Dependencies
  */
-const mongoose = require('mongoose');
-const Schema   = mongoose.Schema;
-const slug     = require('slugs');
-const validator = require('validator');
+const mongoose              = require('mongoose');
+const Schema                = mongoose.Schema;
+mongoose.Promise      		= global.Promise;
+const slug                  = require('slugs');
+const validator             = require('validator');
+const md5                   = require('md5');
+const mongoodbErrorHandler  = require('mongoose-mongodb-errors');
+const passportLocalMongoose = require('passport-local-mongoose');
+const bcrypt = require('bcryptjs');
 
 // Company Schema
 const companySchema = new Schema({
@@ -13,12 +18,16 @@ const companySchema = new Schema({
 		required: 'please enter a company name',
 		trim: true
 	},
+	username: String,
 	slug: String,
 	description: {
 		type: String,
 		trim: true
 	},
-	photo: String,
+	photo: {
+		type: String,
+		index: true
+	},
 	contacts: {
 		mobileNumber: String,
 		email: {
@@ -54,21 +63,55 @@ const companySchema = new Schema({
 	created: {
 		type: Date,
 		default: Date.now
-	}
+	},
+	password: {
+		type: String
+	},
+	resetPasswordTaken: String,
+	resetPasswordExpires: Date
 
 });
 
-
 // before saving make slug property
-companySchema.pre('save', function(next) {
+companySchema.pre('save', async function(next) {
 	if(!this.isModified('name')){
 		next(); // skip it
 		return ; // stop this function from running
 	}
 	this.slug = slug(this.name); // assign slug name to slug property
+
+	// create a unique company name
+	const slugRegEx = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, 'i');
+	const companyWithSlug = await this.constructor.find({slug: slugRegEx});
+	if(companyWithSlug.length){
+		this.slug = `${this.slug}-${companyWithSlug.length + 1}`;
+	}
+
 	next(); // go to next function
 });
 
 
 
-module.exports = mongoose.model('Company', companySchema);
+var Company = module.exports = mongoose.model('Company', companySchema);
+
+module.exports.createCompany = (newCompany, callback)=> {
+	bcrypt.genSalt(10, function(err, salt){
+		bcrypt.hash(newCompany.password, salt, function(err, hash){
+			newCompany.password = hash;
+			newCompany.save(callback);
+			console.log(newCompany);
+		})
+	});
+};
+module.exports.getCompaniesByUsername = (username, callback)=> {
+	Company.findOne({username: username}, callback);
+};
+module.exports.getCompanyById = (id, callback) => {
+	Company.findById(id, callback);
+};
+module.exports.comparePassword = (candidatePassword, hash, callback)=>{
+	bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
+		if(err) throw err;
+		callback(null, isMatch);
+	});
+};

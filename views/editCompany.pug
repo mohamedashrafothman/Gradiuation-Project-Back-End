@@ -1,0 +1,51 @@
+extends layout.pug
+
+block content
+	.col-md-12.grid-margin.stretch-card
+		.card
+			.card-body
+				h3.card-title.mb-1= title
+				h5.card-description.text-muted.mb-5
+					| Edit Your company information.
+				form.forms-sample.row(action='/company/account/edit', method="POST", enctype="multipart/form-data")
+					.form-group.col-md-4
+						label(for='name') Name
+						input#name.form-control.form-control-lg(type='text', placeholder='Name', value=(company != undefined ? company.name : '') , name="name" required)
+					.form-group.col-md-4
+						label(for='email') Email address
+						input#email.form-control.form-control-lg(type='email', placeholder='Email', name="contacts[email]", value=(company.contacts != undefined ? company.contacts.email : ''))
+					.form-group.col-md-4
+						label(for='mobileNumber') Mobile Number
+						input#mobileNumber.form-control.form-control-lg(type='text', name="contacts[mobileNumber]", value=(company.contacts != undefined ? company.contacts.mobileNumber : ''), placeholder='Mobile number')
+					.form-group.col-md-12
+						label Image
+						input.file-upload-default(type='file', name='photo', id="photo", accept="image/gif, image/png, image/jpeg")
+						.input-group.col-xs-12
+							input.form-control.file-upload-info.form-control-lg(type='file', name='photo', id="photo", accept="image/gif, image/png, image/jpeg", placeholder="Upload image")
+							span.input-group-btn
+								button.file-upload-browse.btn.btn-info(type='button') Upload
+					if company.photo
+						.form-group.col-md-12.text-center
+							img.mb-2.mw-50.w-50.rounded(src=`/img/uploads/${company.photo}`, alt=`${company.photo}`)
+
+					.form-group.col-md-12
+						label(for='address') Address
+						input#autocomplete.form-control.form-control-lg(type='text', placeholder='Address', name="location[address]", value=(company.location && company.location.address) required)
+					.form-group.col-md-6
+						label(for='lng') Address Lng
+						input#lng.form-control.form-control-lg(type='text', placeholder='Lng', name="location[coordinates][0]", value=(company.location && company.location.coordinates[0]) required)
+					.form-group.col-md-6
+						label(for='lat') Address Lat
+						input#lat.form-control.form-control-lg(type='text', placeholder='Lat', name="location[coordinates][1]", value=(company.location && company.location.coordinates[1]) required)
+					.form-group.col-md-6
+						label(for='city') Address City
+						input#city.form-control.form-control-lg(type='text', placeholder='City', name="location[city]", value=(company.location && company.location.city) required)
+					.form-group.col-md-6
+						label(for='country') Address Country
+						input#country.form-control.form-control-lg(type='text', placeholder='Country', name="location[country]", value=(company.location && company.location.country) required)
+
+					.form-group.col-md-12
+						label(for='description') Description
+						textarea#description.form-control.form-control-lg(rows='5', name="description" required)=company.description 
+					.form-group.col-md-4
+						button.btn.btn-success.btn-lg.mr-2(type='submit') Submit

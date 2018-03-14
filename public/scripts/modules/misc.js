@@ -1,4 +1,4 @@
-export function misc() {
+(function(){
 	var body = $('body');
 	var contentWrapper = $('.content-wrapper');
 	var scroller = $('.container-scroller');
@@ -84,4 +84,4 @@ export function misc() {
 
 	//checkbox and radios
 	$('.form-check label,.form-radio label').append('<i class="input-helper"></i>');
-}
+})();

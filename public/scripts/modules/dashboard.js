@@ -1,4 +1,4 @@
-export function dashboard() {
+(function() {
 	if ($('#sales-chart').length) {
 		var ctx = document.getElementById('sales-chart').getContext('2d');
 
@@ -144,4 +144,4 @@ export function dashboard() {
 			}
 		});
 	}
-}
+})();

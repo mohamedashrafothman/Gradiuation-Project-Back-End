@@ -1,4 +1,4 @@
-export function chart () {
+(function(){
 	/* ChartJS
    * -------
    * Data and config for chartjs
@@ -401,4 +401,4 @@ export function chart () {
 	//     }
 	//   });
 	// }
-}
+})();

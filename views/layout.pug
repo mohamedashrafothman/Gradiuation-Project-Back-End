@@ -2,31 +2,43 @@ doctype html
 html
 	include partials/header.pug
 	body
-		.container-scroller
+
+		.loader-wrapper.d-block
+			.loader
+				.roller
+				.roller
+			#loader2.loader
+				.roller
+				.roller
+			#loader3.loader
+				.roller
+				.roller
+		.container-scroller#content.d-none
 			block navbar
 				nav.navbar.col-lg-12.col-12.p-0.fixed-top.d-flex.flex-row
 					.text-center.navbar-brand-wrapper.d-flex.align-items-center.justify-content-center
-						a.navbar-brand.brand-logo(href='index.html')
-							img(src='/img/logo.svg', alt='logo')
-						a.navbar-brand.brand-logo-mini(href='index.html')
-							img(src='/img/logo-mini.svg', alt='logo')
+						a.navbar-brand.brand-logo.pt-4.pb-4.pl-5(href='/')
+							img.image-fluid(src='/img/logo-sm-black.png', alt='logo', style="width: auto !important; margin: 0px !important;")
+							p.h3.font-weight-bold.text-uppercase.text-black.mt-1.mb-0.ml-1 kaʿbah
+						a.navbar-brand.brand-logo-mini(href='/')
+							img.image-fluid(src='/img/logo-sm-black.png', alt='logo')
 					.navbar-menu-wrapper.d-flex.align-items-stretch
-						.search-field.ml-4.d-none.d-md-block
-							form.d-flex.align-items-stretch.h-100(action='#')
-								.input-group
-									input.form-control.bg-transparent.border-0(type='text', placeholder='Search')
-									.input-group-btn
-										button.btn.bg-transparent.dropdown-toggle.px-0(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-											i.mdi.mdi-earth
-										.dropdown-menu.dropdown-menu-right
-											a.dropdown-item(href='#') Today
-											a.dropdown-item(href='#') This week
-											a.dropdown-item(href='#') This month
-											.dropdown-divider(role='separator')
-											a.dropdown-item(href='#') Month and older
-									.input-group-addon.bg-transparent.border-0.search-button
-										button.btn.btn-sm.bg-transparent.px-0(type='submit')
-											i.mdi.mdi-magnify
+						//- .search-field.ml-4.d-none.d-md-block
+						//- 	form.d-flex.align-items-stretch.h-100(action='#')
+						//- 		.input-group
+						//- 			input.form-control.bg-transparent.border-0(type='text', placeholder='Search')
+						//- 			.input-group-btn
+						//- 				button.btn.bg-transparent.dropdown-toggle.px-0(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+						//- 					i.mdi.mdi-earth
+						//- 				.dropdown-menu.dropdown-menu-right
+						//- 					a.dropdown-item(href='#') Today
+						//- 					a.dropdown-item(href='#') This week
+						//- 					a.dropdown-item(href='#') This month
+						//- 					.dropdown-divider(role='separator')
+						//- 					a.dropdown-item(href='#') Month and older
+						//- 			.input-group-addon.bg-transparent.border-0.search-button
+						//- 				button.btn.btn-sm.bg-transparent.px-0(type='submit')
+						//- 					i.mdi.mdi-magnify
 						ul.navbar-nav.navbar-nav-right
 							li.nav-item.d-none.d-lg-block.full-screen-link
 								a.nav-link
@@ -98,21 +110,22 @@ html
 												| New admin wow!
 									.dropdown-divider
 									h6.p-3.mb-0.text-center See all notifications
-							li.nav-item.dropdown
-								a#profileDropdown.nav-link.dropdown-toggle.nav-profile(href='#', data-toggle='dropdown', aria-expanded='false')
-									img(src='/img/faces/face1.jpg', alt='image')
-									span.d-none.d-lg-inline Daniel Russiel
-								.dropdown-menu.navbar-dropdown.w-100(aria-labelledby='profileDropdown')
-									a.dropdown-item(href='#')
-										i.mdi.mdi-cached.mr-2.text-success
-										|                 Activity Log
-									.dropdown-divider
-									a.dropdown-item(href='#')
-										i.mdi.mdi-logout.mr-2.text-primary
-										|                 Signout
-							li.nav-item.nav-logout.d-none.d-lg-block
-								a.nav-link(href='#')
-									i.mdi.mdi-power
+							if(company)
+								li.nav-item.dropdown
+									a#profileDropdown.nav-link.dropdown-toggle.nav-profile(href='/company/account/edit', data-toggle='dropdown', aria-expanded='false')
+										img(src=(!company.photo? '/img/faces-clipart/pic-1.png' : `/img/uploads/${company.photo}`), alt='image')
+										span.d-none.d-lg-inline= `${company.name}`
+									.dropdown-menu.navbar-dropdown.w-100(aria-labelledby='profileDropdown')
+										a.dropdown-item(href=`/company/profile/${company.slug}`)
+											i.mdi.mdi-cached.mr-2.text-success
+											| Profile
+										.dropdown-divider
+										a.dropdown-item(href='/logout')
+											i.mdi.mdi-logout.mr-2.text-primary
+											| Signout
+							//- li.nav-item.nav-logout.d-none.d-lg-block
+							//- 	a.nav-link(href='/logout')
+							//- 		i.mdi.mdi-power
 						button.navbar-toggler.navbar-toggler-right.d-lg-none.align-self-center(type='button', data-toggle='offcanvas')
 							span.mdi.mdi-menu
 
@@ -122,25 +135,26 @@ html
 						nav#sidebar.sidebar.sidebar-offcanvas
 							ul.nav
 								li(class=(title=="Home Page" ? "nav-item active" : "nav-item"))
-									a.nav-link(href='/')
+									a.nav-link(href='/dashboard')
 										span.menu-title Dashboard
-										i.mdi.mdi-home.menu-icon
-								li(class=(title=="Companies" ? "nav-item active" : "nav-item"))
-									a.nav-link(href='/companies')
-										span.menu-title Companies
-										i.mdi.mdi-contacts.menu-icon
-								li(class=(title=="Add New Company" ? "nav-item active" : "nav-item"))
-									a.nav-link(href='/companies/add')
-										span.menu-title Add company
-										i.mdi.mdi-format-list-bulleted.menu-icon
+										i.fa.fa-home
+								//- li(class=(title==`Edit Profile` ? "nav-item active" : "nav-item"))
+								//- 	a.nav-link(href=`/company/account/edit`)
+								//- 		span.menu-title Edit Profile
+								//- 		i.fa.fa-cog
+								//- li(class=(title==`Profile` ? "nav-item active" : "nav-item"))
+								//- 	a.nav-link(href=`/company/profile/${company.slug}`)
+								//- 		span.menu-title Profile
+								//- 		i.fa.fa-user
 
 
 						block messages
 							if locals.flashes
 								- const categories = Object.keys(locals.flashes)
 									each category in categories
-										each message in flashes[category]
-											.col-xs-11.col-sm-4.alert.alert-with-icon.animated.fadeInDown(class=`alert-${category}`, data-notify='container', role='alert', data-notify-position='top-right', style='display: inline-block; margin: 0px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 1031; top: 20px; right: 20px;')
+										.messages
+										each message, i in flashes[category]
+											.col-xs-11.col-sm-4.alert.alert-with-icon.animated.fadeInDown(class=`alert-${category}`, data-notify='container', role='alert', data-notify-position='top-right', style=`display: block; margin: 20px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 1031; top: ${i*60+30}px; right: 20px;`)
 												if message.msg						
 														button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1033;', onClick="this.parentElement.remove()") &times;
 														span(data-notify='title')
@@ -156,5 +170,17 @@ html
 
 					.content-wrapper
 						block content
+
+
+					footer.footer
+						.d-sm-flex.justify-content-center.justify-content-sm-between
+							span.text-muted.text-center.text-sm-left.d-block.d-sm-inline-block
+								| Copyright © 2017 
+								a(href='/', target='_blank') Hajj & Umrah Management System
+								| . All rights reserved.
+							span.float-none.float-sm-right.d-block.mt-1.mt-sm-0.text-center
+								| Hand-crafted & made with 
+								i.mdi.mdi-heart.text-danger
+
 
 					include partials/footer.pug
