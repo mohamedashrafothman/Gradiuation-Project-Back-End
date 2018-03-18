@@ -14,7 +14,7 @@ block content
 						.tab-content
 							.tab-pane.fade.show.active#overview(role="tabpanel" arial-labelledby="overview-tab")
 								h1.card-title.mb-2= `${company.name} Company`
-									a.h6.font-weight-light.text-primary.ml-1.float-right(href="/company/account/edit") Edit
+									a.h6.font-weight-light.text-primary.ml-1.float-right(href="/company/account/edit") Edit profile
 								.d-flex
 									.br-wrapper.br-theme-fontawesome-stars
 										.text-muted.ml-0
@@ -33,7 +33,10 @@ block content
 										span= `Created ${diff}`
 									.d-flex.text-muted.ml-5
 										i.fa.fa-phone.icon-sm.mr-2.pt-1
-										span= `${company.contacts.mobileNumber}`
+										if !company.contacts.mobileNumber
+											span +01-xxx-xxxxxx
+										else 
+											span= `${company.contacts.mobileNumber}`
 								.row.mt-3
 									.col-12.pr-1
 										img.mb-2.mw-100.w-100.rounded(src=h.staticMap([`${company.location.coordinates[0]}`, `${company.location.coordinates[1]}`]), alt='image')
