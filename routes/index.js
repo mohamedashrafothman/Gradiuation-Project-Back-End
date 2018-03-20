@@ -4,7 +4,6 @@ const indexController = require('../controllers/index');
 const authController  = require('../controllers/auth');
 
 router.get('/',indexController.getHome);
-router.get('/dashboard', authController.ensureAuthenticated,indexController.getDashboard);
 router.get('/companies', indexController.getCompanies);
 router.get('/logout', authController.logout);
 

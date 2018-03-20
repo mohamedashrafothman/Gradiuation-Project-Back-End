@@ -1,0 +1,116 @@
+extends layout.pug
+
+block content
+	.col-12.grid-margin
+		.card
+			.card-body
+				h3.card-title.mb-1= title
+				h5.card-description.text-muted.mb-5
+					| Add new Trip.
+				form.form-sample(action='/company/trips/add', method="POST")
+					.row
+						.col-md-6
+							.form-group.row
+								label.font-weight-bold.col-sm-3.col-form-label(style="padding-top: 20px;") Trip Type
+								.col-sm-4
+									.form-radio
+										label.form-check-label
+											input.form-check-input(type='radio', name='type', value='umrah', checked='')
+											| Umrah
+											i.input-helper
+								.col-sm-5
+									.form-radio
+										label.form-check-label
+											input.form-check-input(type='radio', name='type', value='hajj')
+											| Hajj
+											i.input-helper
+						.col-md-6
+							.form-group.row
+								label.font-weight-bold.col-sm-3.col-form-label Includes
+								.col-sm-9
+									input.form-control(type='text', id="selecteInclude", name="include", data-paraia-multi-select="true", placeholder="what this trip include")
+					.row
+						.col-md-12
+							.row
+								.col-md-12
+									.card-description.font-weight-bold Duration
+								.col-md-6
+									.form-group.row
+										label.col-sm-3.font-weight-bold.col-form-label From
+										.col-sm-9
+											input.form-control(type="text", name="duration[from]", class="datepicker", id="addDatePicker-from", placeholder='dd/mm/yyyy')
+								.col-md-6
+									.form-group.row
+										label.col-sm-3.font-weight-bold.col-form-label To
+										.col-sm-9
+											input.form-control(type="text", name="duration[to]", class="datepicker", id="addDatePicker-to", placeholder='dd/mm/yyyy')
+					.row.mt-5
+						.col-md-12
+							button.btn.btn-success.btn-lg.mr-2.float-right(type='submit') Add
+						
+				script.
+					$(document).ready(function(){
+						var datepickersOpt = {
+							dateFormat: 'dd-mm-yy',
+							minDate: 0
+						}
+						var $datePickerFrom = $(`#addDatePicker-from`);
+						var $datePickerTo = $(`#addDatePicker-to`);
+
+						$datePickerFrom.datepicker($.extend({
+							onSelect: function() {
+								var minDate = $(this).datepicker('getDate');
+								minDate.setDate(minDate.getDate() + 2); //add two days
+								$datePickerTo.datepicker( "option", "minDate", minDate);
+							}
+						},datepickersOpt));
+
+						$datePickerTo.datepicker($.extend({
+							onSelect: function() {
+								var maxDate = $(this).datepicker('getDate');
+								maxDate.setDate(maxDate.getDate());
+								$datePickerFrom.datepicker( "option", "maxDate", maxDate);
+							}
+						},datepickersOpt));
+					});
+					//- .form-group.col-md-4
+					//- 	label(for='name') Name
+					//- 	input#name.form-control.form-control-lg(type='text', placeholder='Name', value=(company != undefined ? company.name : '') , name="name" required)
+					//- .form-group.col-md-4
+					//- 	label(for='email') Email address
+					//- 	input#email.form-control.form-control-lg(type='email', placeholder='Email', name="contacts[email]", value=(company.contacts != undefined ? company.contacts.email : ''))
+					//- .form-group.col-md-4
+					//- 	label(for='mobileNumber') Mobile Number
+					//- 	input#mobileNumber.form-control.form-control-lg(type='text', name="contacts[mobileNumber]", value=(company.contacts != undefined ? company.contacts.mobileNumber : ''), placeholder='Mobile number')
+					//- .form-group.col-md-12
+					//- 	label Image
+					//- 	input.file-upload-default(type='file', name='photo', id="photo", accept="image/gif, image/png, image/jpeg")
+					//- 	.input-group.col-xs-12
+					//- 		input.form-control.file-upload-info.form-control-lg(type='file', name='photo', id="photo", accept="image/gif, image/png, image/jpeg", placeholder="Upload image")
+					//- 		span.input-group-btn
+					//- 			button.file-upload-browse.btn.btn-info(type='button') Upload
+					//- if company.photo
+					//- 	.form-group.col-md-12.text-center
+					//- 		img.mb-2.mw-50.w-50.rounded(src=`/img/uploads/${company.photo}`, alt=`${company.photo}`)
+
+					//- .form-group.col-md-12
+					//- 	label(for='address') Address
+					//- 	input#autocomplete.form-control.form-control-lg(type='text', placeholder='Address', name="location[address]", value=(company.location && company.location.address) required)
+					//- .form-group.col-md-6
+					//- 	label(for='lng') Address Lng
+					//- 	input#lng.form-control.form-control-lg(type='text', placeholder='Lng', name="location[coordinates][0]", value=(company.location && company.location.coordinates[0]) required)
+					//- .form-group.col-md-6
+					//- 	label(for='lat') Address Lat
+					//- 	input#lat.form-control.form-control-lg(type='text', placeholder='Lat', name="location[coordinates][1]", value=(company.location && company.location.coordinates[1]) required)
+					//- .form-group.col-md-6
+					//- 	label(for='city') Address City
+					//- 	input#city.form-control.form-control-lg(type='text', placeholder='City', name="location[city]", value=(company.location && company.location.city) required)
+					//- .form-group.col-md-6
+					//- 	label(for='country') Address Country
+					//- 	input#country.form-control.form-control-lg(type='text', placeholder='Country', name="location[country]", value=(company.location && company.location.country) required)
+
+					//- .form-group.col-md-12
+					//- 	label(for='description') Description
+					//- 	textarea#description.form-control.form-control-lg(rows='5', name="description" required)=company.description 
+					//- .form-group.col-md-4
+					//- 	button.btn.btn-success.btn-lg.mr-2(type='submit') Submit

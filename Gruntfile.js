@@ -92,10 +92,10 @@ module.exports = function (grunt) {
 				files: ['public/sass/**/*.scss'],
 				tasks: ['sass', 'autoprefixer', 'concat:css', 'cssmin']
 			},
-			eslint: {
-				files: 'public/scripts/*.js',
-				tasks: ['eslint', 'uglify'] //'browserify:dist',
-			},
+			// eslint: {
+			// 	files: 'public/scripts/*.js',
+			// 	tasks: ['eslint', 'uglify'] //'browserify:dist',
+			// },
 			// imagemin: {
 			// 	files: ['src/images/*.{png,jpeg,jpg,gif}'],
 			// 	tasks: ['imagemin']

@@ -14,207 +14,207 @@ html(lang="en")
 				.roller
 		#content.d-none
 
-		block messages
-			if locals.flashes
-				- const categories = Object.keys(locals.flashes)
-					each category in categories
-						.messages
-						each message, i in flashes[category]
-							.col-xs-11.col-sm-4.alert.alert-with-icon.animated.fadeInDown(class=`alert-${category}`, data-notify='container', role='alert', data-notify-position='top-right', style=`display: block; margin: 20px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 1031; top: ${i*60+30}px; right: 20px;`)
-								if message.msg						
-										button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1033;', onClick="this.parentElement.remove()") &times;
-										span(data-notify='title')
-										span(data-notify='message')= message.msg
-										a(href='#', target='_blank', data-notify='url')
-								else 
-										button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1033;', onClick="this.parentElement.remove()") &times;
-										span(data-notify='title')
-										span(data-notify='message')= message
-										a(href='#', target='_blank', data-notify='url')
+			block messages
+				if locals.flashes
+					- const categories = Object.keys(locals.flashes)
+						each category in categories
+							.messages
+							each message, i in flashes[category]
+								.col-xs-11.col-sm-4.alert.alert-with-icon.animated.fadeInDown(class=`alert-${category}`, data-notify='container', role='alert', data-notify-position='top-right', style=`display: block; margin: 20px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 1031; top: ${i*60+30}px; right: 20px;`)
+									if message.msg						
+											button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1033;', onClick="this.parentElement.remove()") &times;
+											span(data-notify='title')
+											span(data-notify='message')= message.msg
+											a(href='#', target='_blank', data-notify='url')
+									else 
+											button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1033;', onClick="this.parentElement.remove()") &times;
+											span(data-notify='title')
+											span(data-notify='message')= message
+											a(href='#', target='_blank', data-notify='url')
 
-			<!-- Nav bar -->
-			nav.fixed-top#navbar
-				.container
-					.row.border.border-secoundary.border-top-0.border-left-0.border-right-0
-						.pt-2.pb-2#navbar-top
-							if !company
-								.col-4#navbar-top-company
-									a.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/company/register") for companies
-								.col-4.text-center#navbar-top-logo
-									a#navbar-top-logo-img(href="/")
-										img(src="/img/logo-sm-black.png")
-								.col-4#navbar-top-regester
-									a.btn.btn-gradient-primary.text-white.btn-fw.text-uppercase.font-weight-bold(href="/company/login") sign in
-									a.ml-2.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/company/register") sign up
-							else
-								.col-4#navbar-top-company
-									a.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/dashboard") my dashboard
-								.col-4.text-center#navbar-top-logo
-									a#navbar-top-logo-img(href="index.html")
-										img(src="/img/logo-sm-black.png")
-								.col-4#navbar-top-regester
-									a.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/logout") logout
-					.row
-						.pt-4.pb-4.w-100#navbar-bottom
-							ul.d-flex.justify-content-center.m-0
-								li.text-uppercase.pr-3
-									a.font-weight-bold(href="/") Home
-								li.text-uppercase.pr-3
-									a.font-weight-bold(href="#") about
-								li.text-uppercase.pr-3
-									a.font-weight-bold(href="#") services
-								li.text-uppercase.pr-3
-									a.font-weight-bold(href="#") blog
-								li.text-uppercase.pr-3
-									a.font-weight-bold(href="#") terms
-								li.text-uppercase.pr-3
-									a.font-weight-bold(href="#") contact us
-								//- li.text-uppercase.text-black
-								//- 	a(href="#")
-			<!-- End Nav bar -->
-			
-			<!-- Big Section -->
-			section#big-section
-				.container
-					.row
-						#big-section-content
-							img.wow.tracking-in-expand-fwd(src="/img/logo-big-white.png", data-wow-duration="1.5s")
-							h1.h1.mt-4.text-white.font-weight-bold.text-uppercase.wow.tracking-in-expand-fwd(data-wow-duration="1.5s") kaʿbah
-							p.mt-5.wow.text-focus-in(data-wow-duration="0.75s")
-								| al-musharrafah, is a building at the center of Islam's most sacred mosque, that is Al-Masjid Al-Ḥarām, in Mecca, Hejaz, Saudi Arabia. It is the most sacred site in Islam. It is considered by Muslims to be the bayt Allāh, the "House of God".
-							a.mt-4.text-white.btn.btn-gradient-primary.btn-lg.btn-fw.font-weight-bold.text-uppercase(href="#") learn more
-
-			<!-- End Big Section -->
-			
-			<!-- Companies Section -->
-			section#companies
-				.container
-					.row
-						h1.col-12.text-uppercase.font-weight-bold.text-center#companies-title featured best rated companies
-						.companies.col-sm-12.mt-5
-							.row
-								include mixins/_company.pug
-								//- company(name, date, desc, link, imgName)
-								if companies
-									each company in companies
-										+company(`${company.name}`, `${company.created}`, `${company.description}`, `${company.slug}`, `${company.photo}`)
-						.col-12.text-center.mt-5
-							a#companies-more.text-uppercase.font-weight-bold(href="/companies") view more
-							
-			<!-- End Companies Section -->
-
-
-
-			<!-- Shaaer Section -->
-			section#shaaer
-				.container
-					.row
-						h1.col-12.text-uppercase.font-weight-bold.text-center#shaaer-title shaaer for hajj & umrah
-						.shaaers.col-sm-12.mt-5
-							.row.d-flex.flex-row.justify-content-between
-								.shaaera.col-lg-6.col-sm-12.d-flex.flex-row.wow.scale-up-hor-center(data-wow-offset="10", data-wow-duration="1s")
-									.col-sm-4.p-0
-										img.img-fluid.shaaera-image(src="/img/shaaera-1.png" title="shaaer al umrah")
-									.col-sm-8.shaaera-content.d-flex.flex-column.justify-content-around.pl-5.pr-4
-										a(href="#")
-											h2.shaaera-title.font-weight-bold.text-uppercase.text-black.h2.pr-4.mb-3 shaaer al-umrah
-											p.shaaera-description.text-black.font-weight-light printing and typesetting industry lorem Ipsum has been the indus try's standard dummy text ever since printer 
-											a.shaaera-showMore.text-white.btn.btn-gradient-primary.btn-sm.btn-fw.font-weight-bold.text-uppercase(href="#", type="button") more
-								.shaaera.col-lg-6.col-sm-12.d-flex.flex-row.wow.scale-up-hor-center(data-wow-offset="10", data-wow-duration="1s")
-									.col-sm-4.p-0
-										img.img-fluid.shaaera-image(src="/img/shaaera-2.png" title="shaaer al umrah")
-									.col-sm-8.shaaera-content.d-flex.flex-column.justify-content-around.pl-5.pr-4
-										a(href="#")
-											h2.shaaera-title.font-weight-bold.text-uppercase.text-black.h2.pr-4.mb-3 shaaer al-hajj
-											p.shaaera-description.text-black.font-weight-light printing and typesetting industry lorem Ipsum has been the indus try's standard dummy text ever since printer 
-											a.shaaera-showMore.text-white.btn.btn-gradient-primary.btn-sm.btn-fw.font-weight-bold.text-uppercase(href="#", type="button") more
-										
-								
-			<!-- End Shaaer Section -->
-			
-			<!-- Join-Us section -->
-			section#join-us
-				.container
-					.row.d-flex.flex-column.justify-content-center.align-items-center
-						h1#join-us-title.h1.text-white.text-uppercase.font-weight-bold.text-center
-							| tourism company?
-							br 
-							| join us
-						h2#join-us-description.h2.text-white.font-weight-light.text-center.mt-5 Join the more than 40,000 Companies which fill seats and manage travel with us.
-						a#join-us-showMore.mt-5.text-white.btn.btn-gradient-primary.btn-lg.btn-fw.font-weight-bold.text-uppercase(href="#") Learn more
-			<!-- End Join-Us section -->
-
-			<!-- Footer -->
-			footer#footer
-				.container
-					.row
-						#footer-big.mb-5.col.row
-							.col.d-flex.flex-column.justify-content-between.align-items-start
-								h3#footer-big-about.h3.text-uppercase.font-weight-normal.text-black about
-								p#footer-big-description.text-black.font-weight-light.mt-4 Text of the printing and typesetting industry. Lorem Ipsum has been the indus try's standard dummy text ever  when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-								ul#footer-big-social.d-flex.flex-row.justify-content-between.align-items-start.mt-4
-									li
-										a(href="#") 
-											i.fab.fa-facebook-f.fa-2x
-									li
-										a(href="#") 
-											i.fab.fa-google-plus-g.fa-2x
-									li
-										a(href="#") 
-											i.fab.fa-twitter.fa-2x
-							.col.row.ml-4
-								.col
-									h5.h6.text-uppercase.text-black.font-weight-bold services
-									ul.mt-4
-										li.mb-3
-											a(href="#") Hajj
-										li.mb-3
-											a(href="#") Umrah
-										li.mb-3
-											a(href="#") shaaer al-umrah
-										li.mb-3
-											a(href="#") shaaer al-hajj
-										li.mb-3
-											a(href="#") traveling 
-								.col
-									h5.h6.text-uppercase.text-black.font-weight-bold linkes
-									ul.mt-4
-										li.mb-3
-											a(href="#") about us
-										li.mb-3
-											a(href="#") companies
-										li.mb-3
-											a(href="#") shaaer al-umrah
-										li.mb-3
-											a(href="#") shaaer al-hajj
-										li.mb-3
-											a(href="#") contact us
-
-								
-						div.w-100
-
-						
-						#footer-small.mt-5.col.row
-							.col-7
-								ul.d-flex.flex-row.justify-content-between
-									li
-										a.font-weight-bold(href="/") home
-									li
+				<!-- Nav bar -->
+				nav.fixed-top#navbar
+					.container
+						.row.border.border-secoundary.border-top-0.border-left-0.border-right-0
+							.pt-2.pb-2#navbar-top
+								if !company
+									.col-4#navbar-top-company
+										a.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/company/register") for companies
+									.col-4.text-center#navbar-top-logo
+										a#navbar-top-logo-img(href="/")
+											img(src="/img/logo-sm-black.png")
+									.col-4#navbar-top-regester
+										a.btn.btn-gradient-primary.text-white.btn-fw.text-uppercase.font-weight-bold(href="/company/login") sign in
+										a.ml-2.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/company/register") sign up
+								else
+									.col-4#navbar-top-company
+										a.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/company/dashboard") my dashboard
+									.col-4.text-center#navbar-top-logo
+										a#navbar-top-logo-img(href="index.html")
+											img(src="/img/logo-sm-black.png")
+									.col-4#navbar-top-regester
+										a.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/logout") logout
+						.row
+							.pt-4.pb-4.w-100#navbar-bottom
+								ul.d-flex.justify-content-center.m-0
+									li.text-uppercase.pr-3
+										a.font-weight-bold(href="/") Home
+									li.text-uppercase.pr-3
 										a.font-weight-bold(href="#") about
-									li
+									li.text-uppercase.pr-3
 										a.font-weight-bold(href="#") services
-									li
+									li.text-uppercase.pr-3
 										a.font-weight-bold(href="#") blog
-									li
+									li.text-uppercase.pr-3
 										a.font-weight-bold(href="#") terms
-									li
+									li.text-uppercase.pr-3
 										a.font-weight-bold(href="#") contact us
-							.col-5.d-flex.flex-row.align-items-start.justify-content-end
-								p.text-center.text-black.text-uppercase all rights reserved to 
-									u.font-weight-bold kaʿbah
+									//- li.text-uppercase.text-black
+									//- 	a(href="#")
+				<!-- End Nav bar -->
+				
+				<!-- Big Section -->
+				section#big-section
+					.container
+						.row
+							#big-section-content
+								img.wow.tracking-in-expand-fwd(src="/img/logo-big-white.png", data-wow-duration="1.5s")
+								h1.h1.mt-4.text-white.font-weight-bold.text-uppercase.wow.tracking-in-expand-fwd(data-wow-duration="1.5s") kaʿbah
+								p.mt-5.wow.text-focus-in(data-wow-duration="0.75s")
+									| al-musharrafah, is a building at the center of Islam's most sacred mosque, that is Al-Masjid Al-Ḥarām, in Mecca, Hejaz, Saudi Arabia. It is the most sacred site in Islam. It is considered by Muslims to be the bayt Allāh, the "House of God".
+								a.mt-4.text-white.btn.btn-gradient-primary.btn-lg.btn-fw.font-weight-bold.text-uppercase(href="#") learn more
+
+				<!-- End Big Section -->
+				
+				<!-- Companies Section -->
+				section#companies
+					.container
+						.row
+							h1.col-12.text-uppercase.font-weight-bold.text-center#companies-title featured best rated companies
+							.companies.col-sm-12.mt-5
+								.row
+									include mixins/_company.pug
+									//- company(name, date, desc, link, imgName)
+									if companies
+										each company in companies
+											+company(`${company.name}`, `${company.created}`, `${company.description}`, `${company.slug}`, `${company.photo}`)
+							.col-12.text-center.mt-5
+								a#companies-more.text-uppercase.font-weight-bold(href="/companies") view more
+								
+				<!-- End Companies Section -->
+
+
+
+				<!-- Shaaer Section -->
+				section#shaaer
+					.container
+						.row
+							h1.col-12.text-uppercase.font-weight-bold.text-center#shaaer-title shaaer for hajj & umrah
+							.shaaers.col-sm-12.mt-5
+								.row.d-flex.flex-row.justify-content-between
+									.shaaera.col-lg-6.col-sm-12.d-flex.flex-row.wow.scale-up-hor-center(data-wow-offset="10", data-wow-duration="1s")
+										.col-sm-4.p-0
+											img.img-fluid.shaaera-image(src="/img/shaaera-1.png" title="shaaer al umrah")
+										.col-sm-8.shaaera-content.d-flex.flex-column.justify-content-around.pl-5.pr-4
+											a(href="#")
+												h2.shaaera-title.font-weight-bold.text-uppercase.text-black.h2.pr-4.mb-3 shaaer al-umrah
+												p.shaaera-description.text-black.font-weight-light printing and typesetting industry lorem Ipsum has been the indus try's standard dummy text ever since printer 
+												a.shaaera-showMore.text-white.btn.btn-gradient-primary.btn-sm.btn-fw.font-weight-bold.text-uppercase(href="#", type="button") more
+									.shaaera.col-lg-6.col-sm-12.d-flex.flex-row.wow.scale-up-hor-center(data-wow-offset="10", data-wow-duration="1s")
+										.col-sm-4.p-0
+											img.img-fluid.shaaera-image(src="/img/shaaera-2.png" title="shaaer al umrah")
+										.col-sm-8.shaaera-content.d-flex.flex-column.justify-content-around.pl-5.pr-4
+											a(href="#")
+												h2.shaaera-title.font-weight-bold.text-uppercase.text-black.h2.pr-4.mb-3 shaaer al-hajj
+												p.shaaera-description.text-black.font-weight-light printing and typesetting industry lorem Ipsum has been the indus try's standard dummy text ever since printer 
+												a.shaaera-showMore.text-white.btn.btn-gradient-primary.btn-sm.btn-fw.font-weight-bold.text-uppercase(href="#", type="button") more
+											
+									
+				<!-- End Shaaer Section -->
+				
+				<!-- Join-Us section -->
+				section#join-us
+					.container
+						.row.d-flex.flex-column.justify-content-center.align-items-center
+							h1#join-us-title.h1.text-white.text-uppercase.font-weight-bold.text-center
+								| tourism company?
+								br 
+								| join us
+							h2#join-us-description.h2.text-white.font-weight-light.text-center.mt-5 Join the more than 40,000 Companies which fill seats and manage travel with us.
+							a#join-us-showMore.mt-5.text-white.btn.btn-gradient-primary.btn-lg.btn-fw.font-weight-bold.text-uppercase(href="/company/register") Learn more
+				<!-- End Join-Us section -->
+
+				<!-- Footer -->
+				footer#footer
+					.container
+						.row
+							#footer-big.mb-5.col.row
+								.col.d-flex.flex-column.justify-content-between.align-items-start
+									h3#footer-big-about.h3.text-uppercase.font-weight-normal.text-black about
+									p#footer-big-description.text-black.font-weight-light.mt-4 Text of the printing and typesetting industry. Lorem Ipsum has been the indus try's standard dummy text ever  when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+									ul#footer-big-social.d-flex.flex-row.justify-content-between.align-items-start.mt-4
+										li
+											a(href="#") 
+												i.fab.fa-facebook-f.fa-2x
+										li
+											a(href="#") 
+												i.fab.fa-google-plus-g.fa-2x
+										li
+											a(href="#") 
+												i.fab.fa-twitter.fa-2x
+								.col.row.ml-4
+									.col
+										h5.h6.text-uppercase.text-black.font-weight-bold services
+										ul.mt-4
+											li.mb-3
+												a(href="#") Hajj
+											li.mb-3
+												a(href="#") Umrah
+											li.mb-3
+												a(href="#") shaaer al-umrah
+											li.mb-3
+												a(href="#") shaaer al-hajj
+											li.mb-3
+												a(href="#") traveling 
+									.col
+										h5.h6.text-uppercase.text-black.font-weight-bold linkes
+										ul.mt-4
+											li.mb-3
+												a(href="#") about us
+											li.mb-3
+												a(href="#") companies
+											li.mb-3
+												a(href="#") shaaer al-umrah
+											li.mb-3
+												a(href="#") shaaer al-hajj
+											li.mb-3
+												a(href="#") contact us
+
+									
+							div.w-100
+
 							
-							
-			<!-- End Footer --> 
+							#footer-small.mt-5.col.row
+								.col-7
+									ul.d-flex.flex-row.justify-content-between
+										li
+											a.font-weight-bold(href="/") home
+										li
+											a.font-weight-bold(href="#") about
+										li
+											a.font-weight-bold(href="#") services
+										li
+											a.font-weight-bold(href="#") blog
+										li
+											a.font-weight-bold(href="#") terms
+										li
+											a.font-weight-bold(href="#") contact us
+								.col-5.d-flex.flex-row.align-items-start.justify-content-end
+									p.text-center.text-black.text-uppercase all rights reserved to 
+										u.font-weight-bold kaʿbah
+								
+								
+				<!-- End Footer --> 
 
 		include partials/footer.pug
 		script.

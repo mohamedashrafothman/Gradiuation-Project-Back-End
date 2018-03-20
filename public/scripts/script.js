@@ -42,5 +42,63 @@ $(document).ready(function () {
 	});
 
 	new WOW().init();
+
+	// initial multi select
+	(function(){
+		var items = [
+			{ value: 1, text: 'الحج' },
+			{ value: 2, text: 'العمرة' },
+			{ value: 3, text: 'الشعائر' },
+			{ value: 4, text: 'فطار' },
+			{ value: 5, text: 'غداء' },
+			{ value: 6, text: 'سبا' },
+			{ value: 7, text: 'خدمة الغرف' },
+			{ value: 8, text: 'انترنت' },
+			{ value: 9, text: 'حمامات سباحة' },
+			{ value: 10, text: 'مطعم' }
+		];
+		var select = $('[data-paraia-multi-select="true"]').paraia_multi_select({
+			multi_select: true,
+			items: items,
+			defaults: [],
+			rtl: true
+		});
+
+		$('.dropdown .items .item').each(function(){
+			$(this).click(function(){
+				var Items = select.paraia_multi_select('get_items');
+				var arr = [];
+				$(items).each(function(){
+					var ts = this;
+					$(Items).each(function(){
+						if (Number(this) === ts.value){
+							arr.push(ts.text);
+							$('#selecteInclude').val(arr);
+							console.log(arr);
+						}
+					})
+				});
+			});
+		});
+	})();
+
+	// init datepicker
+	(function(){
+		$(".datepicker").datepicker({
+			dateFormat: "dd-mm-yy",
+			minDate: new Date()
+		});
+	})();
 	
+	// (function(){
+	// 	var alert = $('.alert');
+	// 	if(alert){
+	// 		alert.each(function(i){
+	// 			$(this).fadeOut(1000*i, "linear", function () {
+	// 				console.log('done');
+	// 			});
+	// 		})
+	// 	}
+	// })();
+
 });

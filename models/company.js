@@ -7,6 +7,7 @@ mongoose.Promise      		= global.Promise;
 const slug                  = require('slugs');
 const validator             = require('validator');
 const md5                   = require('md5');
+const Trip					= require('./trip');
 const mongoodbErrorHandler  = require('mongoose-mongodb-errors');
 const passportLocalMongoose = require('passport-local-mongoose');
 const bcrypt = require('bcryptjs');
@@ -67,6 +68,10 @@ const companySchema = new Schema({
 	password: {
 		type: String
 	},
+	trips: [{
+		type: mongoose.Schema.ObjectId,
+		ref: 'Trip'
+	}],
 	resetPasswordTaken: String,
 	resetPasswordExpires: Date
 

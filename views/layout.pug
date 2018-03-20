@@ -135,17 +135,17 @@ html
 						nav#sidebar.sidebar.sidebar-offcanvas
 							ul.nav
 								li(class=(title=="Home Page" ? "nav-item active" : "nav-item"))
-									a.nav-link(href='/dashboard')
+									a.nav-link(href='/company/dashboard')
 										span.menu-title Dashboard
 										i.fa.fa-home
-								//- li(class=(title==`Edit Profile` ? "nav-item active" : "nav-item"))
-								//- 	a.nav-link(href=`/company/account/edit`)
-								//- 		span.menu-title Edit Profile
+								//- li(class=(title==`Add Trip` ? "nav-item active" : "nav-item"))
+								//- 	a.nav-link(href=`/company/trip/add`)
+								//- 		span.menu-title Add Trip
 								//- 		i.fa.fa-cog
-								//- li(class=(title==`Profile` ? "nav-item active" : "nav-item"))
-								//- 	a.nav-link(href=`/company/profile/${company.slug}`)
-								//- 		span.menu-title Profile
-								//- 		i.fa.fa-user
+								li(class=(title==`Trips` ? "nav-item active" : "nav-item"))
+									a.nav-link(href=`/company/trips`)
+										span.menu-title Trips
+										i.fa.fa-user
 
 
 						block messages
@@ -183,4 +183,4 @@ html
 								i.mdi.mdi-heart.text-danger
 
 
-					include partials/footer.pug
+			include partials/footer.pug

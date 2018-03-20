@@ -55,6 +55,14 @@ router.get('/forgot', companiesController.getForgot);
 router.post('/forgot', catchErrors(authController.forgot));
 router.get('/account/reset/:token', catchErrors(authController.reset));
 router.post('/account/reset/:token', authController.confirmPassword, catchErrors(authController.update));
-
+router.get('/dashboard', authController.ensureAuthenticated, indexController.getDashboard);
 router.get('/profile/:companyName', authController.ensureAuthenticated, catchErrors(companiesController.getProfile));
+
+// trip routes
+router.get('/trips/add', authController.ensureAuthenticated, catchErrors(companiesController.getTrip));
+router.post('/trips/add', authController.ensureAuthenticated, catchErrors(companiesController.addTrip));
+router.get('/trips', authController.ensureAuthenticated, catchErrors(companiesController.getTrips));
+router.post('/trip/update/:id', authController.ensureAuthenticated, catchErrors(companiesController.updateTrip));
+router.get('/trips/delete/:id', authController.ensureAuthenticated, catchErrors(companiesController.deleteTrip));
+
 module.exports = router;

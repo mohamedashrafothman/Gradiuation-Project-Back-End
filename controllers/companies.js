@@ -1,5 +1,6 @@
 //*************************** Requiring Dependencies ***************************//
 const Company = require('../models/company');
+const Trip = require('../models/trip');
 const multer = require('multer'); // allawing us to upload a photo to the server
 const jimp = require('jimp'); // for resizing image
 const uuid = require('uuid'); // unique idenifier package
@@ -58,7 +59,7 @@ module.exports.register = async (req, res, next)=> {
 	res.redirect('/company/login');
 };
 module.exports.login = (req, res)=> {
-	res.redirect('/dashboard');
+	res.redirect('/company/dashboard');
 };
 //*************************** End of regesteration functions ***************************//
 
@@ -109,9 +110,72 @@ module.exports.updateCompany = async (req, res, next)=> {
 	req.body.location.type = 'point';
 	const company = await Company.findOneAndUpdate({ _id: req.user.id }, req.body, { new: true, runValidator: true});
 	req.flash('success', `Successfully update ${company.name}'s company.`);
-	res.redirect('/dashboard');
+	res.redirect('/company/dashboard');
 };
 //*************************** End of Edit Comapny functions ***************************//
+
+//*************************** Trip functions ***************************//
+// this function for check if specific store belongis to logedin user or not allowing to edit single trip
+const confirmStoreOwner = (trip, company)=> {
+	if(!trip.author.equals(company._id)){
+		throw Error('You must own a company in order to edit a trip');
+	}
+};
+
+module.exports.getTrip = async (req, res, next) => {
+	res.render('addTrip', {
+		title: "Add Trip"
+	});
+};
+
+module.exports.addTrip = async (req, res, next)=> {
+	console.log(req.body);
+	// validate body
+	req.checkBody('type', 'You must supply a Trip type!').notEmpty();
+	req.checkBody('include', 'You must apply what trip will inlcude').notEmpty();
+	req.checkBody('duration[from]', 'You must apply a trip start date').notEmpty();
+	req.checkBody('duration[to]', 'You must apply a trip end date').notEmpty();
+
+	// add trip
+	const errors = req.validationErrors();
+	if (errors) {
+		req.flash('danger', errors.map(err => err.msg));
+		res.render('trips', { title: 'Trips', body: req.body, flashes: req.flash() });
+		return;
+	} else {
+		req.body.author = req.user.id;
+		const trip = await  (new Trip(req.body).save());		
+		Company.findOneAndUpdate({_id: req.user._id}, {$push:{ trips : trip._id}}, {upsert:true}, (err)=> {
+			if(err){
+				console.log(err);
+			} else {
+				req.flash('success', 'You added new trip');
+				res.redirect('/company/trips');
+			}
+		});
+	}
+};
+
+module.exports.getTrips = async (req, res, next)=> {
+	const trips = await Trip.find().populate('author');
+	res.render('trips', {
+		title: "Trips",
+		trips
+	});
+};
+module.exports.deleteTrip = async (req, res, next)=> {
+	const trip = await Trip.findByIdAndRemove({ _id: req.params.id });
+	req.flash('success', `Successfully deleted ${trip.code}.`);
+	res.redirect('/company/trips');
+};
+
+module.exports.updateTrip = async (req, res, next)=> {
+	const trip = await Trip.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, runValidator: true });
+	req.flash('success', `Successfully update trip number ${trip.code}.`);
+	res.redirect('/company/trips');
+};
+
+//*************************** End Trip functions ***************************//
 
 
 
