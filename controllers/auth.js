@@ -11,7 +11,7 @@ const Company    = require('../models/company.js');
 // const mail       = require('../handlers/mail');
 
 module.exports.login = passport.authenticate('local',{ 
-	successRedirect: '/dashboard', 
+	successRedirect: '/company/dashboard', 
 	failureRedirect: '/company/login', 
 	failureFlash: 'Invaled User', 
 	successFlash: 'Welcome Back!' 

@@ -58,7 +58,7 @@ module.exports.register = async (req, res, next)=> {
 	req.flash('success', 'You are registered and can login!');
 	res.redirect('/company/login');
 };
-module.exports.login = (req, res)=> {
+module.exports.login = (req, res, next)=> {
 	res.redirect('/company/dashboard');
 };
 //*************************** End of regesteration functions ***************************//

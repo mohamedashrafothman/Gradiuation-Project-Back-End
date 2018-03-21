@@ -20,6 +20,7 @@ mongoose.Promise	   = global.Promise;
 
 /**
  * .env file
+ * DATABASE=mongodb://localhost/hajjAndUmrahManagementSystem
  * DATABASE=mongodb://hajj-umrah-management-system:12345678910@ds111608.mlab.com:11608/hajj-umrah-management-system
  */
 require('dotenv').config({ path: 'variables.env' });
