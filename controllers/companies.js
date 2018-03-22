@@ -129,13 +129,12 @@ module.exports.getTrip = async (req, res, next) => {
 };
 
 module.exports.addTrip = async (req, res, next)=> {
-	console.log(req.body);
 	// validate body
 	req.checkBody('type', 'You must supply a Trip type!').notEmpty();
 	req.checkBody('include', 'You must apply what trip will inlcude').notEmpty();
 	req.checkBody('duration[from]', 'You must apply a trip start date').notEmpty();
 	req.checkBody('duration[to]', 'You must apply a trip end date').notEmpty();
-
+	
 	// add trip
 	const errors = req.validationErrors();
 	if (errors) {
@@ -143,7 +142,10 @@ module.exports.addTrip = async (req, res, next)=> {
 		res.render('trips', { title: 'Trips', body: req.body, flashes: req.flash() });
 		return;
 	} else {
+		req.body.include = req.body.include.split(',');
+		
 		req.body.author = req.user.id;
+		console.log(req.body);
 		const trip = await  (new Trip(req.body).save());		
 		Company.findOneAndUpdate({_id: req.user._id}, {$push:{ trips : trip._id}}, {upsert:true}, (err)=> {
 			if(err){
@@ -157,10 +159,11 @@ module.exports.addTrip = async (req, res, next)=> {
 };
 
 module.exports.getTrips = async (req, res, next)=> {
-	const trips = await Trip.find().populate('author');
+	const trips = await Trip.find({author: req.user._id}).populate('author');
 	res.render('trips', {
 		title: "Trips",
-		trips
+		trips,
+		company: req.user
 	});
 };
 module.exports.deleteTrip = async (req, res, next)=> {
@@ -170,7 +173,11 @@ module.exports.deleteTrip = async (req, res, next)=> {
 };
 
 module.exports.updateTrip = async (req, res, next)=> {
+	req.body.include = req.body.include.split(',');
+	req.body.updated = new Date();
+	console.log(req.body);
 	const trip = await Trip.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, runValidator: true });
+	console.log(trip);
 	req.flash('success', `Successfully update trip number ${trip.code}.`);
 	res.redirect('/company/trips');
 };

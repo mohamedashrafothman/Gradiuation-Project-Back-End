@@ -113,3 +113,15 @@
 
 @import "./_homepage.scss";
 @import "./components/_paraia-multi-select.scss";
+
+
+.m-select-d-box[data-msdb-name="a"] {
+  width: 315px !important;
+  left: 950px !important;
+}
+.m-select-d-box[data-msdb-name="b"] {
+  left: 48% !important;
+  transform: translateX(-50%);
+  z-index: 10000000;
+
+}

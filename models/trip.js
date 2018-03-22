@@ -11,7 +11,7 @@ const tripSchema = new Schema({
 		required: 'You must apply an author'
 	},
 	type: String,
-	include: String,
+	include: [String],
 	duration: {
 		from: String,
 		to: String
@@ -20,7 +20,8 @@ const tripSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-	code: String
+	code: String,
+	updated: Date
 });
 
 
