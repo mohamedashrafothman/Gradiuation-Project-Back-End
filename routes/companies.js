@@ -47,15 +47,15 @@ passport.deserializeUser(function(id, done){
 
 router.post('/account/edit', authController.ensureAuthenticated,companiesController.upload,catchErrors(companiesController.resize),catchErrors(companiesController.updateCompany));
 router.get('/account/edit', authController.ensureAuthenticated, catchErrors(companiesController.editCompany));
-router.get('/login', companiesController.getLogin);
-router.get('/register', companiesController.getRegister);
+router.get('/login', catchErrors(companiesController.getLogin));
+router.get('/register', catchErrors(companiesController.getRegister));
 router.post('/register', companiesController.validateRegister, catchErrors(companiesController.register));
-router.post('/login', authController.login, companiesController.login);
-router.get('/forgot', companiesController.getForgot);
+router.post('/login', authController.login, catchErrors(companiesController.login));
+router.get('/forgot', catchErrors(companiesController.getForgot));
 router.post('/forgot', catchErrors(authController.forgot));
 router.get('/account/reset/:token', catchErrors(authController.reset));
 router.post('/account/reset/:token', authController.confirmPassword, catchErrors(authController.update));
-router.get('/dashboard', authController.ensureAuthenticated, indexController.getDashboard);
+router.get('/dashboard', authController.ensureAuthenticated, catchErrors(indexController.getDashboard));
 router.get('/profile/:companyName', authController.ensureAuthenticated, catchErrors(companiesController.getProfile));
 
 // trip routes

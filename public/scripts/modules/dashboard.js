@@ -1,4 +1,6 @@
-(function() {
+export default function dashboard() {
+	
+'use strict'
 	if ($('#sales-chart').length) {
 		var ctx = document.getElementById('sales-chart').getContext('2d');
 
@@ -144,4 +146,4 @@
 			}
 		});
 	}
-})();
+}
