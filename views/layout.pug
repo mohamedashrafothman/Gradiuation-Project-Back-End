@@ -18,10 +18,10 @@ html
 				nav.navbar.col-lg-12.col-12.p-0.fixed-top.d-flex.flex-row
 					.text-center.navbar-brand-wrapper.d-flex.align-items-center.justify-content-center
 						a.navbar-brand.brand-logo.pt-4.pb-4.pl-5(href='/')
-							img.image-fluid(src='/build/images/logo-sm-black.png', alt='logo', style="width: auto !important; margin: 0px !important;")
+							img.image-fluid(src='/img/logo-sm-black.png', alt='logo', style="width: auto !important; margin: 0px !important;")
 							p.h3.font-weight-bold.text-uppercase.text-black.mt-1.mb-0.ml-1 kaʿbah
 						a.navbar-brand.brand-logo-mini(href='/')
-							img.image-fluid(src='/build/images/logo-sm-black.png', alt='logo')
+							img.image-fluid(src='/img/logo-sm-black.png', alt='logo')
 					.navbar-menu-wrapper.d-flex.align-items-stretch
 						//- .search-field.ml-4.d-none.d-md-block
 						//- 	form.d-flex.align-items-stretch.h-100(action='#')
@@ -52,7 +52,7 @@ html
 									.dropdown-divider
 									a.dropdown-item.preview-item
 										.preview-thumbnail
-											img.profile-pic(src='/build/images/faces/face4.jpg', alt='image')
+											img.profile-pic(src='/img/faces/face4.jpg', alt='image')
 										.preview-item-content.d-flex.align-items-start.flex-column.justify-content-center
 											h6.preview-subject.ellipsis.mb-1.font-weight-normal Mark send you a message
 											p.text-gray.mb-0
@@ -60,7 +60,7 @@ html
 									.dropdown-divider
 									a.dropdown-item.preview-item
 										.preview-thumbnail
-											img.profile-pic(src='/build/images/faces/face2.jpg', alt='image')
+											img.profile-pic(src='/img/faces/face2.jpg', alt='image')
 										.preview-item-content.d-flex.align-items-start.flex-column.justify-content-center
 											h6.preview-subject.ellipsis.mb-1.font-weight-normal Cregh send you a message
 											p.text-gray.mb-0
@@ -68,7 +68,7 @@ html
 									.dropdown-divider
 									a.dropdown-item.preview-item
 										.preview-thumbnail
-											img.profile-pic(src='/build/images/faces/face3.jpg', alt='image')
+											img.profile-pic(src='/img/faces/face3.jpg', alt='image')
 										.preview-item-content.d-flex.align-items-start.flex-column.justify-content-center
 											h6.preview-subject.ellipsis.mb-1.font-weight-normal Profile picture updated
 											p.text-gray.mb-0
@@ -113,7 +113,7 @@ html
 							if(company)
 								li.nav-item.dropdown
 									a#profileDropdown.nav-link.dropdown-toggle.nav-profile(href='/company/account/edit', data-toggle='dropdown', aria-expanded='false')
-										img(src=(!company.photo? '/build/images/faces-clipart/pic-1.png' : `/build/images/uploads/${company.photo}`), alt='image')
+										img(src=(!company.photo? '/img/faces-clipart/pic-1.png' : `/img/uploads/${company.photo}`), alt='image')
 										span.d-none.d-lg-inline= `${company.name}`
 									.dropdown-menu.navbar-dropdown.w-100(aria-labelledby='profileDropdown')
 										a.dropdown-item(href=`/company/profile/${company.slug}`)
