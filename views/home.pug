@@ -37,18 +37,18 @@ html(lang="en")
 					.container
 						.row.border.border-secoundary.border-top-0.border-left-0.border-right-0
 							.pt-2.pb-2#navbar-top
-								if !company
+								if !user
 									.col-4#navbar-top-company
-										a.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/company/register") for companies
+										a.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/admin/register") for companies
 									.col-4.text-center#navbar-top-logo
 										a#navbar-top-logo-img(href="/")
 											img(src="/img/logo-sm-black.png")
 									.col-4#navbar-top-regester
-										a.btn.btn-gradient-primary.text-white.btn-fw.text-uppercase.font-weight-bold(href="/company/login") sign in
-										a.ml-2.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/company/register") sign up
+										a.btn.btn-gradient-primary.text-white.btn-fw.text-uppercase.font-weight-bold(href="/login") sign in
+										a.ml-2.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/user/register") sign up
 								else
 									.col-4#navbar-top-company
-										a.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/company/dashboard") my dashboard
+										a.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/dashboard") my dashboard
 									.col-4.text-center#navbar-top-logo
 										a#navbar-top-logo-img(href="index.html")
 											img(src="/img/logo-sm-black.png")
@@ -97,7 +97,7 @@ html(lang="en")
 									//- company(name, date, desc, link, imgName)
 									if companies
 										each company in companies
-											+company(`${company.name}`, `${company.created}`, `${company.description}`, `${company.slug}`, `${company.photo}`)
+											+company(company)
 							.col-12.text-center.mt-5
 								a#companies-more.text-uppercase.font-weight-bold(href="/companies") view more
 								

@@ -28,7 +28,7 @@ html
 						.card.col-md-8.mx-auto
 							.card-body.px-4.py-4
 								h3.card-title.text-left.mb-3 Register
-								form.row.mt-5(action="/company/register", method="POST")
+								form.row.mt-5(action="/admin/register", method="POST")
 									.col-6
 										.form-group
 											label.font-weight-bold Company Name
@@ -46,15 +46,6 @@ html
 												|Company Email
 												span.text-danger *
 											input.form-control.p_input.form-control-lg(type='email' name="contacts[email]" placeholder="Type Your Company E-mail.")
-									//- .col-6
-									//- 	.form-group.row
-									//- 		label.col-sm-3.col-form-label Membership
-									//- 		.col-6
-									//- 			.form-radio
-									//- 				label.form-check-label
-									//- 					input#membershipRadios1.form-check-input(type='radio', name='company', value='true', checked='true')
-									//- 					|Company
-
 									.col-6
 										.form-group
 											label.font-weight-bold 
@@ -106,7 +97,7 @@ html
 													button.btn.btn-gradient-primary.text-white.btn-fw.text-uppercase.font-weight-bold.btn-block.enter-btn(type='submit') Register
 												p.sign-up.text-center
 													| Already have an Account?
-													a(href='/company/login')  Login
+													a(href='/login')  Login
 												p.terms
 													| By creating an account you are accepting our
 													a(href='#')  Terms & Conditions

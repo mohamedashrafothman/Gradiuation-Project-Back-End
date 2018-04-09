@@ -1,18 +1,10 @@
-const Company = require('../models/company');
+const User = require('../models/user');
 
 module.exports.getHome = async (req, res, next)=> {
-	const companies = await Company.find().limit(4).populate('trips').exec();
-	res.render('home', { company: req.user, companies});
+	const companies = await User.find({role:"admin"}).limit(4).populate('trips').exec();
+	res.render('home', {companies});
 };
-
-module.exports.getDashboard = (req, res, next)=> {
-	res.render('index', {
-		title: 'Home Page',
-		company: req.user
-	});
-};
-
 module.exports.getCompanies = async (req, res, next) => {
-	const companies = await Company.find();
-	res.render('companies', { company: req.user, companies });
+	const companies = await User.find({role:"admin"}).populate('trips').exec();
+	res.render('companies', { user: req.user, companies });
 };

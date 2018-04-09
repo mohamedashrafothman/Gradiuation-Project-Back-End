@@ -12,15 +12,17 @@ const flash			   = require('connect-flash');
 const expressValidator = require('express-validator');
 const helpers		   = require('./helpers');
 const indexRoute       = require('./routes/index');
-const apiRoute 		   = require('./routes/api');
-const companiesRouter  = require('./routes/companies');
+const dashboardRoute   = require('./routes/dashboard');
+
+// const apiRoute 		   = require('./routes/api');
+// const usersRoute	   = require('./routes/users');
 const errorHandlers    = require('./handlers/errorHandlers');
 const PORT             = process.env.PORT || 8000;
 mongoose.Promise	   = global.Promise;
 
 /**
  * .env file
- * DATABASE=mongodb://localhost/hajjAndUmrahManagementSystem
+ * DATABASE=mongodb://localhost/GP
  * DATABASE=mongodb://hajj-umrah-management-system:12345678910@ds111608.mlab.com:11608/hajj-umrah-management-system
  */
 require('dotenv').config({ path: 'variables.env' });
@@ -108,8 +110,9 @@ app.use((req, res, next) => {
 });
 
 app.use('/', indexRoute);
-app.use('/api/v1', apiRoute);
-app.use('/company', companiesRouter);
+app.use('/dashboard', dashboardRoute);
+// app.use('/api/v1', apiRoute);
+// app.use('/company', usersRoute);
 
 
 

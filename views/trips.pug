@@ -10,26 +10,26 @@ block content
 						h4.card-title.text-uppercase all trips
 						.table-responsive
 							table.table
-								thead
-									tr
-										th
-											| #
-										th
-											| Trip Code
-										th
-											| Company Name
-										th
-											| Trip Include
-										th
-											| Start Date
-										th
-											| Due Date
-										th 
-											| Edit
-										th 
-											| Delete
-								tbody
-									if (trips)
+								if (trips)
+									thead
+										tr
+											th
+												| #
+											th
+												| Trip Code
+											th
+												| Company Name
+											th
+												| Trip Include
+											th
+												| Start Date
+											th
+												| Due Date
+											th 
+												| Edit
+											th 
+												| Delete
+									tbody
 										each trip, index in trips
 											tr
 												td= index+1
@@ -63,7 +63,7 @@ block content
 															p.text-capitalize.font-italic this can't be undo!
 														.modal-footer.border-0
 															button.btn.btn-success(type='button', data-dismiss='modal') Close
-															a.btn.btn-danger(href=`/company/trips/delete/${trip._id}`) Delete
+															a.btn.btn-danger(href=`/dashboard/trips/delete/${trip._id}`) Delete
 								
 
 											//- Edit Trip Modal
@@ -75,7 +75,7 @@ block content
 															button.close(type='button', data-dismiss='modal', aria-label='Close')
 																span(aria-hidden='true') ×
 														.modal-body.text-center
-															form.form-sample(action=`/company/trip/update/${trip._id}`, method="POST")
+															form.form-sample(action=`/dashboard/trip/update/${trip._id}`, method="POST")
 																.row
 																	.col-md-12
 																		.form-group.row
@@ -188,4 +188,4 @@ block content
 										//- End Edit Trip Modal
 
 
-						a.mt-5.float-right.btn.btn-gradient-secondary.text-white.text-capitalize(href="/company/trips/add") Add new Trip
+						a.mt-5.float-right.btn.btn-gradient-secondary.text-white.text-capitalize(href="/dashboard/trips/add") Add new Trip

@@ -13,7 +13,7 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const bcrypt = require('bcryptjs');
 
 // Company Schema
-const companySchema = new Schema({
+const userSchema = new Schema({
 	name: {
 		type: String,
 		required: 'please enter a company name',
@@ -21,6 +21,7 @@ const companySchema = new Schema({
 	},
 	username: String,
 	slug: String,
+	role: String,
 	description: {
 		type: String,
 		trim: true
@@ -78,41 +79,38 @@ const companySchema = new Schema({
 });
 
 // before saving make slug property
-companySchema.pre('save', async function(next) {
+userSchema.pre('save', async function(next) {
 	if(!this.isModified('name')){
 		next(); // skip it
 		return ; // stop this function from running
 	}
 	this.slug = slug(this.name); // assign slug name to slug property
-
-	// create a unique company name
 	const slugRegEx = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, 'i');
-	const companyWithSlug = await this.constructor.find({slug: slugRegEx});
-	if(companyWithSlug.length){
-		this.slug = `${this.slug}-${companyWithSlug.length + 1}`;
+	const userWithSlug = await this.constructor.find({slug: slugRegEx});
+	if(userWithSlug.length){
+		this.slug = `${this.slug}-${userWithSlug.length + 1}`;
 	}
-
 	next(); // go to next function
 });
 
 
 
-var Company = module.exports = mongoose.model('Company', companySchema);
+var User = module.exports = mongoose.model('User', userSchema);
 
-module.exports.createCompany = (newCompany, callback)=> {
+module.exports.createUser = (newUser, callback)=> {
 	bcrypt.genSalt(10, function(err, salt){
-		bcrypt.hash(newCompany.password, salt, function(err, hash){
-			newCompany.password = hash;
-			newCompany.save(callback);
-			console.log(newCompany);
+		bcrypt.hash(newUser.password, salt, function(err, hash){
+			newUser.password = hash;
+			newUser.save(callback);
+			console.log(newUser);
 		})
 	});
 };
-module.exports.getCompaniesByUsername = (username, callback)=> {
-	Company.findOne({username: username}, callback);
+module.exports.getUsersByUsername = (username, callback)=> {
+	User.findOne({username: username}, callback);
 };
-module.exports.getCompanyById = (id, callback) => {
-	Company.findById(id, callback);
+module.exports.getUserById = (id, callback) => {
+	User.findById(id, callback);
 };
 module.exports.comparePassword = (candidatePassword, hash, callback)=>{
 	bcrypt.compare(candidatePassword, hash, function(err, isMatch) {

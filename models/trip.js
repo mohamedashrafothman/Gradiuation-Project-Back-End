@@ -1,31 +1,31 @@
-const mongoose = require('mongoose');
-const Company = require('./company');
-const Schema = mongoose.Schema;
-mongoose.Promise = global.Promise;
+const mongoose         = require('mongoose');
+const User             = require('./user');
+const Schema           = mongoose.Schema;
+      mongoose.Promise = global.Promise;
 
 
 const tripSchema = new Schema({
 	author: {
-		type: mongoose.Schema.ObjectId,
-		ref: 'Company',
+		type    : mongoose.Schema.ObjectId,
+		ref     : 'User',
 		required: 'You must apply an author'
 	},
-	type: String,
-	include: [String],
+	type    : String,
+	include : [String],
 	duration: {
 		from: String,
-		to: String
+		to  : String
 	},
 	created: {
-		type: Date,
+		type   : Date,
 		default: Date.now
 	},
-	code: String,
+	code   : String,
 	updated: Date
 });
 
 
-tripSchema.pre('save', async function(next){
+tripSchema.pre('save', async function (next) {
 	function s4() {
 		return Math.floor((1 + Math.random()) * 0x10000)
 			.toString(16)

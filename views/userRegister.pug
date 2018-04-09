@@ -1,0 +1,131 @@
+doctype html
+html
+	include partials/header.pug
+	body
+		block messages
+			if locals.flashes
+				- const categories = Object.keys(locals.flashes)
+					each category in categories
+						.messages
+						each message, i in flashes[category]
+							.col-xs-11.col-sm-4.alert.alert-with-icon.animated.fadeInDown(class=`alert-${category}`, data-notify='container', role='alert', data-notify-position='top-right', style=`display: block; margin: 20px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 1031; top: ${i*60+30}px; right: 20px;`)
+								if message.msg						
+										button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1033;', onClick="this.parentElement.remove()") &times;
+										span(data-notify='title')
+										span(data-notify='message')= message.msg
+										a(href='#', target='_blank', data-notify='url')
+
+								else 
+										button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1033;', onClick="this.parentElement.remove()") &times;
+										span(data-notify='title')
+										span(data-notify='message')= message
+										a(href='#', target='_blank', data-notify='url')
+
+		.container-scroller
+			.container-fluid.page-body-wrapper
+				.row
+					.content-wrapper.full-page-wrapper.d-flex.align-items-center.auth-pages
+						.card.col-md-8.mx-auto
+							.card-body.px-4.py-4
+								h3.card-title.text-left.mb-3 Register
+								form.row.mt-5(action="/user/register", method="POST")
+									.col-6
+										.form-group
+											label.font-weight-bold Name
+											input.form-control.p_input.form-control-lg(type='text' name="name" placeholder="Type Your Name.")
+									.col-6
+										.form-group
+											label.font-weight-bold 
+												|Username
+												span.text-danger *
+											input.form-control.p_input.form-control-lg(type='text' name="username" placeholder="Type Your Name.")
+
+									.col-6
+										.form-group
+											label.font-weight-bold 
+												|Email
+												span.text-danger *
+											input.form-control.p_input.form-control-lg(type='email' name="contacts[email]" placeholder="Type Your E-mail.")
+									.col-6
+										.form-group
+											label.font-weight-bold 
+												|Address
+												span.text-danger *
+											input#autocomplete.form-control.p_input.form-control-lg(type='text' name="location[address]" placeholder="where are you live?")
+									.col-6
+										.form-group
+											label.font-weight-bold 
+												|Address lng
+												span.text-danger *
+											input#lng.form-control.p_input.form-control-lg(type='text' name="location[coordinates][0]" placeholder="Where are you live?")
+									.col-6
+										.form-group
+											label.font-weight-bold 
+												|Address lat
+												span.text-danger *
+											input#lat.form-control.p_input.form-control-lg(type='text' name="location[coordinates][1]" placeholder="Type Your Country Name.")
+									.col-6
+										.form-group
+											label.font-weight-bold 
+												|Country
+												span.text-danger *
+											input#country.form-control.p_input.form-control-lg(type='text' name="location[country]" placeholder="Type Your Country Name.")
+									.col-6
+										.form-group
+											label.font-weight-bold 
+												|City
+												span.text-danger *
+											input#city.form-control.p_input.form-control-lg(type='text' name="location[city]" placeholder="Type Your State Name.")
+									.w-100
+									.col-6
+										.form-group
+											label.font-weight-bold 
+												|Password
+												span.text-danger *
+											input.form-control.p_input.form-control-lg(type='password', name="password", placeholder="Type Your Password.")
+									.col-6
+										.form-group
+											label.font-weight-bold 
+												|Confirm Password
+												span.text-danger *
+											input.form-control.p_input.form-control-lg(type='password', name="password-confirm", placeholder="Retype Your Password.")
+									.w-100
+									.col-12
+										.row.justify-content-center
+											.col-6
+												.text-center
+													button.btn.btn-gradient-primary.text-white.btn-fw.text-uppercase.font-weight-bold.btn-block.enter-btn(type='submit') Register
+												p.sign-up.text-center
+													| Already have an Account?
+													a(href='/login')  Login
+												p.terms
+													| By creating an account you are accepting our
+													a(href='#')  Terms & Conditions
+
+		script.
+			(function(){
+				var autocomplete;
+				function initAutocomplete () {
+					if(!document.getElementById('autocomplete')) return ;
+					autocomplete = new google.maps.places.Autocomplete(
+						/* @type {!HTMLInputElement} */(document.getElementById('autocomplete')), {
+							types: ['geocode']
+						});
+
+					autocomplete.addListener('place_changed', function () {
+						var place = autocomplete.getPlace();
+						var addressComponentsLength = place.address_components.length;
+						document.getElementById('lng').value = place.geometry.location.lng();
+						document.getElementById('lat').value = place.geometry.location.lat();
+						document.getElementById('country').value = place.address_components[addressComponentsLength - 1].long_name;
+						document.getElementById('city').value = place.address_components[addressComponentsLength - 2].long_name;
+					});
+
+
+					document.getElementById('autocomplete').addEventListener('keydown', function (e) {
+						if (e.keyCode === 13) e.preventDefault();
+					});
+				}
+			})();
+			
+		include partials/footer.pug

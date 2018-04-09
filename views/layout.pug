@@ -110,22 +110,22 @@ html
 												| New admin wow!
 									.dropdown-divider
 									h6.p-3.mb-0.text-center See all notifications
-							if(company)
+							if user
 								li.nav-item.dropdown
-									a#profileDropdown.nav-link.dropdown-toggle.nav-profile(href='/company/account/edit', data-toggle='dropdown', aria-expanded='false')
-										img(src=(!company.photo? '/img/faces-clipart/pic-1.png' : `/img/uploads/${company.photo}`), alt='image')
-										span.d-none.d-lg-inline= `${company.name}`
+									a#profileDropdown.nav-link.dropdown-toggle.nav-profile(href=`/dashboard/profile/${user.slug}`, data-toggle='dropdown', aria-expanded='false')
+										img(src=(!user.photo? '/img/faces-clipart/pic-1.png' : `/img/uploads/${user.photo}`), alt='image')
+										span.d-none.d-lg-inline= `${user.name}`
 									.dropdown-menu.navbar-dropdown.w-100(aria-labelledby='profileDropdown')
-										a.dropdown-item(href=`/company/profile/${company.slug}`)
+										a.dropdown-item(href=`/dashboard/profile/${user.slug}`)
 											i.mdi.mdi-cached.mr-2.text-success
 											| Profile
 										.dropdown-divider
 										a.dropdown-item(href='/logout')
 											i.mdi.mdi-logout.mr-2.text-primary
 											| Signout
-							//- li.nav-item.nav-logout.d-none.d-lg-block
-							//- 	a.nav-link(href='/logout')
-							//- 		i.mdi.mdi-power
+							li.nav-item.nav-logout.d-none.d-lg-block
+								a.nav-link(href='/logout')
+									i.mdi.mdi-power
 						button.navbar-toggler.navbar-toggler-right.d-lg-none.align-self-center(type='button', data-toggle='offcanvas')
 							span.mdi.mdi-menu
 
@@ -134,16 +134,12 @@ html
 					block sidebar
 						nav#sidebar.sidebar.sidebar-offcanvas
 							ul.nav
-								li(class=(title=="Home Page" ? "nav-item active" : "nav-item"))
-									a.nav-link(href='/company/dashboard')
+								li(class=((title=="Dashboard") ? "nav-item active" : "nav-item"))
+									a.nav-link(href='/dashboard')
 										span.menu-title Dashboard
 										i.fa.fa-home
-								//- li(class=(title==`Add Trip` ? "nav-item active" : "nav-item"))
-								//- 	a.nav-link(href=`/company/trip/add`)
-								//- 		span.menu-title Add Trip
-								//- 		i.fa.fa-cog
-								li(class=(title==`Trips` ? "nav-item active" : "nav-item"))
-									a.nav-link(href=`/company/trips`)
+								li(class=((title=="Trips") ? "nav-item active" : "nav-item"))
+									a.nav-link(href=`/dashboard/trips`)
 										span.menu-title Trips
 										i.fa.fa-plane
 
@@ -175,11 +171,11 @@ html
 					footer.footer
 						.d-sm-flex.justify-content-center.justify-content-sm-between
 							span.text-muted.text-center.text-sm-left.d-block.d-sm-inline-block
-								| Copyright © 2017 
+								| Copyright © 2018
 								a(href='/', target='_blank') Hajj & Umrah Management System
 								| . All rights reserved.
 							span.float-none.float-sm-right.d-block.mt-1.mt-sm-0.text-center
-								| Hand-crafted & made with 
+								| Hand-crafted & made by Mohamed ashraf with 
 								i.mdi.mdi-heart.text-danger
 
 
