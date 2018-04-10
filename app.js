@@ -7,6 +7,7 @@ const cookieParser 	   = require('cookie-parser');
 const bodyParser       = require('body-parser');
 const logger           = require('morgan');
 const passport 		   = require('passport');
+const csrf			   = require('csurf');
 const promisify        = require('es6-promisify');
 const flash			   = require('connect-flash');
 const expressValidator = require('express-validator');
@@ -75,7 +76,8 @@ app.use(expressValidator({
 
 // populates req.cookies with any cookies that came along with the request
 app.use(cookieParser());
-
+// csrf middleware function goes right after cookie parser
+app.use(csrf({ cookie: true }));
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in and allows us to send flash messages
 app.use(session({
@@ -99,6 +101,7 @@ app.use(flash());
 app.use((req, res, next)=> {
 	res.locals.h = helpers;
 	res.locals.flashes = req.flash();
+	res.locals.csrfToken = req.csrfToken;	
 	res.locals.user = req.user || null;
 	next();
 });
@@ -115,6 +118,7 @@ app.use('/dashboard', dashboardRoute);
 // app.use('/company', usersRoute);
 
 
+app.use(errorHandlers.invalidCsrfToken);
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);

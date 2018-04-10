@@ -7,7 +7,8 @@ block content
 				h3.card-title.mb-1= title
 				h5.card-description.text-muted.mb-5
 					| Edit Your information.
-				form.forms-sample.row(action=`/dashboard/profile/${user.slug}/edit`, method="POST", enctype="multipart/form-data")
+				form.forms-sample.row(action=`/dashboard/profile/${user.slug}/edit?_csrf=${csrfToken()}`, method="POST", enctype="multipart/form-data")
+					input(type="hidden", name="_csrf", value=`${csrfToken()}`)
 					.form-group.col-md-4
 						label(for='name') Name
 						input#name.form-control.form-control-lg(type='text', placeholder='Name', value=(user != undefined ? user.name : '') , name="name" required)

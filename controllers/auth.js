@@ -52,7 +52,7 @@ module.exports.getAdminRegister = (req, res, next) => {
 	res.render('adminRegister');
 };
 module.exports.getUserRegister = (req, res, next) => {
-	res.render('userRegister');	
+	res.render('userRegister');
 };
 module.exports.adminValidateRegister = (req, res, next) => {
 	req.sanitizeBody('name'); // validate the name

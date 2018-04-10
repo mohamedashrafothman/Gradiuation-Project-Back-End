@@ -1,3 +1,11 @@
+exports.invalidCsrfToken = (err, req, res, next) => {
+	if (err.code !== 'EBADCSRFTOKEN') return next(err);
+	// handle CSRF token errors here
+	res.status(403);
+	res.send(`form tampered with`);
+};
+
+
 /*==========================================================================================================
   Catch Errors Handler
 ------------------------
@@ -6,7 +14,7 @@
   catchErrors(), catch any errors they throw, and pass it along to our express middleware with next()
 ==========================================================================================================*/
 exports.catchErrors = (fn) => {
-	return function(req, res, next) {
+	return function (req, res, next) {
 		return fn(req, res, next).catch(next);
 	};
 };

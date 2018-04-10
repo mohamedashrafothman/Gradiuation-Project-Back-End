@@ -8,6 +8,7 @@ block content
 				h5.card-description.text-muted.mb-5
 					| Add new Trip.
 				form.form-sample(action='/dashboard/trips/add', method="POST")
+					input(type="hidden", name="_csrf", value=`${csrfToken()}`)
 					.row
 						.col-md-6
 							.form-group.row

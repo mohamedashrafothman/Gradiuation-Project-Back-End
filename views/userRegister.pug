@@ -29,6 +29,7 @@ html
 							.card-body.px-4.py-4
 								h3.card-title.text-left.mb-3 Register
 								form.row.mt-5(action="/user/register", method="POST")
+									input(type="hidden", name="_csrf", value=`${csrfToken()}`)
 									.col-6
 										.form-group
 											label.font-weight-bold Name
@@ -39,7 +40,6 @@ html
 												|Username
 												span.text-danger *
 											input.form-control.p_input.form-control-lg(type='text' name="username" placeholder="Type Your Name.")
-
 									.col-6
 										.form-group
 											label.font-weight-bold 

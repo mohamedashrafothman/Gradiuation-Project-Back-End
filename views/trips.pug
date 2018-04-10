@@ -76,6 +76,7 @@ block content
 																span(aria-hidden='true') ×
 														.modal-body.text-center
 															form.form-sample(action=`/dashboard/trip/update/${trip._id}`, method="POST")
+																input(type="hidden", name="_csrf", value=`${csrfToken()}`)
 																.row
 																	.col-md-12
 																		.form-group.row

@@ -61,10 +61,11 @@ module.exports.updateUser = async (req, res, next) => {
 
 module.exports.getTrips = async (req, res, next) => {
 	const trips = await Trip.find({ author: req.user._id }).populate('author').exec();
+	const user = req.user;
 	res.render('trips', {
 		title: "Trips",
 		trips,
-		user: req.user
+		user
 	});
 };
 

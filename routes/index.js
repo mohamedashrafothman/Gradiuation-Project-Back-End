@@ -12,7 +12,7 @@ router.get('/user/register', authController.getUserRegister);
 router.post('/admin/register', authController.adminValidateRegister, catchErrors(authController.adminRegister));
 router.post('/user/register', authController.userValidateRegister, catchErrors(authController.userRegister));
 router.get('/login', catchErrors(authController.getLogin));
-router.post('/login', authController.login);
+router.post('/login',authController.login);
 router.get('/logout', authController.ensureAuthenticated, authController.logout);
 router.get('/forgot', catchErrors(authController.getForgot));
 router.post('/forgot', catchErrors(authController.forgot));
