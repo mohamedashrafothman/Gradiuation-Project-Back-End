@@ -20,6 +20,6 @@ $(document).ready(function () {
 	barRatingInit();
 	datePickerInit();
 	wowJsInit();
-	
-	
+
+
 });
