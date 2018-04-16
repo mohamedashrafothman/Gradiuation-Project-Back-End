@@ -1,0 +1,27 @@
+extends home-layout.pug
+
+block content
+	section#contactUs.pb-5
+		.container
+			.row
+				h1.col-12.text-center.text-white.text-uppercase.font-weight-bold contact us
+				form.mx-auto.w-75(action="#", method="post")
+					input(type="hidden", name="_csrf", value=`${csrfToken()}`)
+					.row.mt-4
+						.form-group.col
+							label.text-capitalize.text-white(for="contact-name") name
+							input.form-control.bg-transparent(type="text", name="name", id="contact-name", placeholder="Type your name")
+						.form-group.col
+							label.text-capitalize.text-white(for="contact-email") E-mail
+							input.form-control.bg-transparent(type="email", name="email", id="contact-email", placeholder="Type your e-mail")
+						.form-group.col
+							label.text-capitalize.text-white(form="contact-phone") Phone number
+							input.form-control.bg-transparent(type="text", name="phone", id="contact-phone", placeholder="Type your phone number")
+			
+					.row.mt-4
+						.col
+							label.text-capitalize.text-white(for="contact-message") Message
+							textarea.form-control.bg-transparent(name="message", id="contact-message", placeholder="Type your message", rows="10")
+					.row.mt-4.text-center
+						.col
+							button.mx-auto.btn.btn-gradient-primary.text-white.text-uppercase.font-weight-bold(type="submit") send

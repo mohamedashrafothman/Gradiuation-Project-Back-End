@@ -7,6 +7,9 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 router.get('/', indexController.getHome);
 router.get('/companies', indexController.getCompanies);
+router.get('/contact-us', indexController.getContactUs);
+router.get('/shaaer/hajj', indexController.getHajj);
+router.get('/shaaer/umrah', indexController.getUmrah);
 router.get('/admin/register', authController.getAdminRegister);
 router.get('/user/register', authController.getUserRegister);
 router.post('/admin/register', authController.adminValidateRegister, catchErrors(authController.adminRegister));
