@@ -1,4 +1,4 @@
-extends layout.pug
+extends ../../layouts/layout.pug
 
 block content
 	.container
@@ -13,42 +13,42 @@ block content
 								if (trips)
 									thead
 										tr
-											th
+											th.border-0
 												| #
-											th
+											th.border-0
 												| Trip Code
-											th
-												| Company Name
-											th
-												| Trip Include
-											th
+											th.border-0
+												| Hotel Name
+											th.border-0
+												| Hotel Include
+											th.border-0
 												| Start Date
-											th
+											th.border-0
 												| Due Date
-											th 
-												| Edit
-											th 
-												| Delete
+											th.border-0
+												| duration
+											th.border-0 
+												| Edit / Delete
 									tbody
 										each trip, index in trips
 											tr
 												td= index+1
 												td= trip.code
-												td= trip.author.name
+												td= trip.hotel.name
 												td.d-flex.flex-row.justify-content-start
-													if trip.include.length <= 2
-														each badge in trip.include
+													if trip.hotel.include.split(',').length <= 2
+														each badge in trip.hotel.include.split(',')
 															.badge.mr-1.badge-success= badge
 													else 
-														.badge.mr-1.badge-success= trip.include[0]
-														.badge.mr-1.badge-success= trip.include[1]
-														.badge.mr-1.bg-white.text-success= `+${trip.include.length - 2}`
+														.badge.mr-1.badge-success= trip.hotel.include.split(',')[0]
+														.badge.mr-1.badge-success= trip.hotel.include.split(',')[1]
+														.badge.mr-1.bg-white.text-success= `+${trip.hotel.include.split(',').length - 2}`
 												td= trip.duration.from
 												td= trip.duration.to
+												td= `${trip.durationInDays} Days`
 												td
 													a(href="#", data-toggle="modal", data-target=`#update-${trip.code}`)
 														i.fa.fa-edit.text-primary.mr-5
-												td
 													a(href="#", data-toggle="modal", data-target=`#delete-${trip.code}`)
 														i.fa.fa-trash.text-danger
 											.modal.fade(id=`delete-${trip.code}` tabindex='-1', role='dialog', aria-labelledby=`delete-${trip.code}Label`, aria-hidden='true')

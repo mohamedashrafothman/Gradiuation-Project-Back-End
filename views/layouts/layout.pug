@@ -1,6 +1,6 @@
 doctype html
 html
-	include partials/header.pug
+	include ../partials/header.pug
 	body
 
 		.loader-wrapper.d-block
@@ -33,7 +33,7 @@ html
 									.input-group-addon.bg-transparent.border-0.py-0.search-button
 										button.btn.btn-sm.bg-transparent.px-0(type='submit')
 											i.mdi.mdi-magnify
-									.dropdown-menu.dropdown-menu-right.d-block.w-100
+									.dropdown-menu.dropdown-menu-right.d-none.w-100
 										a.dropdown-item(href='#') Today
 										a.dropdown-item(href='#') This week
 										a.dropdown-item(href='#') This month
@@ -149,15 +149,15 @@ html
 									each category in categories
 										.messages
 										each message, i in flashes[category]
-											.col-xs-11.col-sm-4.alert.alert-with-icon.animated.fadeInDown(class=`alert-${category}`, data-notify='container', role='alert', data-notify-position='top-right', style=`display: block; margin: 20px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 1031; top: ${i*60+30}px; right: 20px;`)
+											.col-xs-11.col-sm-4.alert.alert-with-icon.animated.fadeInDown(class=`alert-${category}`, data-notify='container', role='alert', data-notify-position='top-right', style=`display: block; margin: 20px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index:1; top: ${i*60+30}px; right: 20px;`)
 												if message.msg						
-														button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1033;', onClick="this.parentElement.remove()") &times;
+														button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1;', onClick="this.parentElement.remove()") &times;
 														span(data-notify='title')
 														span(data-notify='message')= message.msg
 														a(href='#', target='_blank', data-notify='url')
 
 												else 
-														button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1033;', onClick="this.parentElement.remove()") &times;
+														button.close(type='button', aria-hidden='true', data-notify='dismiss', style='position: absolute; right: 10px; top: 50%; margin-top: -13px; z-index: 1;', onClick="this.parentElement.remove()") &times;
 														span(data-notify='title')
 														span(data-notify='message')= message
 														a(href='#', target='_blank', data-notify='url')
@@ -178,4 +178,4 @@ html
 								i.mdi.mdi-heart.text-danger
 
 
-		include partials/footer.pug
+		include ../partials/footer.pug

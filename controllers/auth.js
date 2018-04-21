@@ -49,10 +49,10 @@ passport.deserializeUser(function (id, done) {
  * 
  */
 module.exports.getAdminRegister = (req, res, next) => {
-	res.render('adminRegister');
+	res.render('auth/register/adminRegister');
 };
 module.exports.getUserRegister = (req, res, next) => {
-	res.render('userRegister');
+	res.render('auth/register/userRegister');
 };
 module.exports.adminValidateRegister = (req, res, next) => {
 	req.sanitizeBody('name'); // validate the name
@@ -75,7 +75,7 @@ module.exports.adminValidateRegister = (req, res, next) => {
 	const errors = req.validationErrors();
 	if (errors) {
 		req.flash('danger', errors.map(err => err.msg));
-		res.render('adminRegister', {
+		res.render('auth/register/adminRegister', {
 			title: 'register',
 			body: req.body,
 			flashes: req.flash()
@@ -105,7 +105,7 @@ module.exports.userValidateRegister = (req, res, next) => {
 	const errors = req.validationErrors();
 	if (errors) {
 		req.flash('danger', errors.map(err => err.msg));
-		res.render('userRegister', {
+		res.render('auth/register/userRegister', {
 			title: 'register',
 			body: req.body,
 			flashes: req.flash()
@@ -138,11 +138,11 @@ module.exports.userRegister = async (req, res, next) => {
  * 		2- setting up passport middleware that get user by user name and compare it's password with body password;
  */
 module.exports.getLogin = (req, res, next) => {
-	res.render('login');
+	res.render('auth/login/login');
 };
 module.exports.login = passport.authenticate('local', {
 	successRedirect: '/',
-	failureRedirect: '/login',
+	failureRedirect: 'auth/login/login',
 	failureFlash: 'Invaled User',
 	successFlash: 'Welcome Back!'
 });
@@ -152,7 +152,7 @@ module.exports.logout = (req, res) => {
 	res.redirect('/');
 };
 module.exports.getForgot = (req, res, next) => {
-	res.render('forgotPassword');
+	res.render('auth/reset/forgotPassword');
 };
 module.exports.ensureAuthenticated = (req, res, next) => {
 	if (req.isAuthenticated()) {
@@ -192,7 +192,7 @@ module.exports.forgot = async function (req, res, next) {
 	});
 	// turn pug to html 
 	let generateHTML = (filename, options = {}) => {
-		let html = pug.renderFile(`${__dirname}/../views/${filename}.pug`, options);
+		let html = pug.renderFile(`${__dirname}/../views/auth/reset/${filename}.pug`, options);
 		let inlined = juice(html);
 		return inlined;
 	};
@@ -226,7 +226,7 @@ module.exports.reset = async (req, res, next) => {
 		req.flash('danger', 'Password reset is invalid or has expired.');
 		return res.redirect('/login');
 	}
-	res.render('resetPassword');
+	res.render('auth/reset/resetPassword');
 };
 module.exports.confirmPassword = (req, res, next) => {
 	if (req.body.password === req.body['password-confirm']) {

@@ -128,3 +128,19 @@
 .m-select-d-box__control_type_spec{
   border:1px solid #e6ecf5 !important;
 }
+
+.fixed-top{
+  z-index: 2 !important;
+}
+
+.input-helper{
+  &::before{
+    left: 20px !important;
+  }
+  &::after{
+    left: 26px !important;
+  }
+}
+.sidebar{
+  z-index: 1 !important;
+}

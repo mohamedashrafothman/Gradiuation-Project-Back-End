@@ -1,6 +1,6 @@
 doctype html
 html
-	include partials/header.pug
+	include ../../partials/header.pug
 	body
 		block messages
 			if locals.flashes
@@ -28,36 +28,37 @@ html
 						.card.col-md-8.mx-auto
 							.card-body.px-4.py-4
 								h3.card-title.text-left.mb-3 Register
-								form.row.mt-5(action="/user/register", method="POST")
+								form.row.mt-5(action="/admin/register", method="POST")
 									input(type="hidden", name="_csrf", value=`${csrfToken()}`)
 									.col-6
 										.form-group
-											label.font-weight-bold Name
-											input.form-control.p_input.form-control-lg(type='text' name="name" placeholder="Type Your Name.")
+											label.font-weight-bold Company Name
+											input.form-control.p_input.form-control-lg(type='text' name="name" placeholder="Type Your Company Name.")
 									.col-6
 										.form-group
 											label.font-weight-bold 
 												|Username
 												span.text-danger *
-											input.form-control.p_input.form-control-lg(type='text' name="username" placeholder="Type Your Name.")
+											input.form-control.p_input.form-control-lg(type='text' name="username" placeholder="Type Your Company Name.")
+
 									.col-6
 										.form-group
 											label.font-weight-bold 
-												|Email
+												|Company Email
 												span.text-danger *
-											input.form-control.p_input.form-control-lg(type='email' name="contacts[email]" placeholder="Type Your E-mail.")
+											input.form-control.p_input.form-control-lg(type='email' name="contacts[email]" placeholder="Type Your Company E-mail.")
 									.col-6
 										.form-group
 											label.font-weight-bold 
 												|Address
 												span.text-danger *
-											input#autocomplete.form-control.p_input.form-control-lg(type='text' name="location[address]" placeholder="where are you live?")
+											input#autocomplete.form-control.p_input.form-control-lg(type='text' name="location[address]" placeholder="Where is your company?")
 									.col-6
 										.form-group
 											label.font-weight-bold 
 												|Address lng
 												span.text-danger *
-											input#lng.form-control.p_input.form-control-lg(type='text' name="location[coordinates][0]" placeholder="Where are you live?")
+											input#lng.form-control.p_input.form-control-lg(type='text' name="location[coordinates][0]" placeholder="Where is your company?")
 									.col-6
 										.form-group
 											label.font-weight-bold 
@@ -128,4 +129,4 @@ html
 				}
 			})();
 			
-		include partials/footer.pug
+		include ../../partials/footer.pug

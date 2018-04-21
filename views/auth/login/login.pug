@@ -1,6 +1,6 @@
 doctype html
 html
-	include partials/header.pug
+	include ../../partials/header.pug
 	body
 		block messages
 			if locals.flashes
@@ -27,19 +27,37 @@ html
 					.content-wrapper.full-page-wrapper.d-flex.align-items-center.auth-pages
 						.card.col-md-6.mx-auto
 							.card-body.px-4.py-4
-								h3.card-title.text-left.mb-3 I Forgot My Password 
-								form.row.mt-5(action="/forgot", method="POST")
+								h3.card-title.text-left.mb-3 Login 
+								form.row.mt-5(action="/login", method="POST")
 									input(type="hidden", name="_csrf", value=`${csrfToken()}`)
 									.col-12
 										.form-group
-											label.font-weight-bold Email
-											input.form-control.p_input.form-control-lg(type='email' name="contacts[email]" placeholder="Type Your Email." required)
+											label.font-weight-bold Username
+											input.form-control.p_input.form-control-lg(type='text' name="username" placeholder="Type Your Username.", required)
+									.w-100
+									.col-12
+										.form-group
+											label.font-weight-bold Password
+											input.form-control.p_input.form-control-lg(type='password', name="password", placeholder="Type Your Password.", required)
 									.w-100
 									.col-12
 										.row.justify-content-center
 											.col-6
 												.text-center
-													button.btn.btn-primary.btn-block.enter-btn(type='submit') Send a Reset
-												
-												
-												
+													button.btn.btn-gradient-primary.text-white.btn-fw.text-uppercase.font-weight-bold.btn-block.enter-btn(type='submit') Login
+												//- .d-flex
+												//- 	button.btn.btn-facebook.col.mr-2
+												//- 		i.mdi.mdi-facebook
+												//- 		|  Facebook
+												//- 	button.btn.btn-google.col
+												//- 		i.mdi.mdi-google-plus
+												//- 		|  Google plus
+												p.sign-up.text-center
+													| You don't have an Account?
+													a(href='/admin/register')  Sign Up
+												p.forgot-pass.text-center
+													a(href="/forgot") Forgot Password
+													
+												//- p.terms
+												//- 	| By creating an account you are accepting our
+												//- 	a(href='#')  Terms & Conditions

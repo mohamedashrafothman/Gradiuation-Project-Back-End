@@ -9,6 +9,7 @@ import loader from './modules/loader.js';
 import barRatingInit from './modules/barRatingInit.js';
 import datePickerInit from './modules/datePickerInit.js';
 import wowJsInit from './modules/wowJsInit.js';
+import mapAutoComplete from './modules/mapAutoComplete.js';
 
 $(document).ready(function () {
 
@@ -20,6 +21,7 @@ $(document).ready(function () {
 	barRatingInit();
 	datePickerInit();
 	wowJsInit();
+	mapAutoComplete();
 
 
 });
