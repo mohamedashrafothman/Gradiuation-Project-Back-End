@@ -1,14 +1,13 @@
 /* Auth */
-
 .auth-pages {
-	background: url("../img/islamgreatreligion.net_.jpg") no-repeat center center;
+	background-image: url("../img/big-sec-image.jpg") !important;
+	background-position: center;
+	background-repeat: no-repeat;
 	background-size: cover;
-
 	.forgot-pass {
 		font-size: $default-font-size;
 		text-align: right;
 	}
-
 	button {
 		font-size: $default-font-size;
 		&.enter-btn {
@@ -16,7 +15,6 @@
 			margin-bottom: 28px;
 		}
 	}
-
 	.sign-up {
 		font-size: $default-font-size;
 		text-align: center;

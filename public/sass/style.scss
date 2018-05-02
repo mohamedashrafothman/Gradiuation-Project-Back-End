@@ -110,10 +110,11 @@
 /*-------------------------------------------------------------------*/
 @import "./fontawesome-starts.scss";
 @import "./components/_loader.scss";
-
+@import "./_floating-labels.scss";
 @import "./_homepage.scss";
 @import "./components/_paraia-multi-select.scss";
 @import "./_shaaer.scss";
+@import "./_single-company.scss";
 
 
 .m-select-d-box[data-msdb-name="a"] {
@@ -130,7 +131,7 @@
 }
 
 .fixed-top{
-  z-index: 2 !important;
+  z-index: 10 !important;
 }
 
 .input-helper{
@@ -155,4 +156,11 @@
     width: 18%;
   }
 
+}
+
+.mt-120{
+  margin-top: 120px;
+}
+.pt-100{
+  padding-top: 100px;
 }

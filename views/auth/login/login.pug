@@ -31,14 +31,14 @@ html
 								form.row.mt-5(action="/login", method="POST")
 									input(type="hidden", name="_csrf", value=`${csrfToken()}`)
 									.col-12
-										.form-group
+										.form-label-group
+											input.form-control.form-control-lg(type='text' name="username" placeholder="Type Your Username.", required)
 											label.font-weight-bold Username
-											input.form-control.p_input.form-control-lg(type='text' name="username" placeholder="Type Your Username.", required)
 									.w-100
 									.col-12
-										.form-group
+										.form-label-group
+											input.form-control.form-control-lg(type='password', name="password", placeholder="Type Your Password.", required)
 											label.font-weight-bold Password
-											input.form-control.p_input.form-control-lg(type='password', name="password", placeholder="Type Your Password.", required)
 									.w-100
 									.col-12
 										.row.justify-content-center

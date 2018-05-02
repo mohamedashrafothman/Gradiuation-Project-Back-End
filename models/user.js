@@ -38,6 +38,12 @@ const userSchema = new Schema({
 			lowercase: true,
 			trim: true,
 			validate: [validator.isEmail, 'Invalid Email Address']
+		},
+		website:{
+			type: String,
+			unique: true,
+			lowercase: true,
+			trim: true
 		}
 	},
 	location: {

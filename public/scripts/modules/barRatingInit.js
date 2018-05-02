@@ -1,6 +1,6 @@
 export default function barRatingInit(){
 	// jquery bar rating plugin configuration
-	$('#viewRating').barrating({
+	$('#viewRating, .reviewsRating').barrating({
 		theme: 'fontawesome-stars',
 		readonly: true,
 		showValues: true

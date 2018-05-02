@@ -1,0 +1,190 @@
+extends ./layouts/home-layout.pug
+
+block content
+	#single-company.bg-white
+		#single-company-header.pt-100
+			.bg-blure(style=`background-image: url('/img/uploads/${company.photo}')`)
+			.container
+				.row
+					#single-company-header-container.mx-auto
+						img.h-100.w-100(src=`/img/uploads/${company.photo}`)
+		main#single-company-content.bg-white.pb-5
+			.container
+				.row
+					.col-12.col-lg-7.mr-3
+						.card.w-100#single-company-content-main
+							.card-body.py-2
+								#single-company-content-main-nav
+									ul.nav.nav-tabs
+										li.nav-item
+											a.nav-link.active.text-black.text-capitalize(href="#single-company-content-main-overview") overview
+										li.nav-item
+											a.nav-link.text-black.text-capitalize(href="#single-company-content-main-papers") reqired papers
+										li.nav-item
+											a.nav-link.text-black.text-capitalize(href="#single-company-content-main-reviews") reviews
+								#single-company-content-main-overview
+									if user && user._id.equals(company._id)
+										a.h6.font-weight-light.text-primary.ml-1.float-right(href=`/dashboard/profile/${user.slug}/edit`) Edit profile
+									h3.card-title.display-2.text-dark.m-0.py-4= `${company.name}`
+
+									#single-company-content-main-overview-rating.py-2.d-flex.flex-row.justify-content-start.align-items-center
+										.d-flex
+											.br-wrapper.br-theme-fontawesome-stars
+												.text-muted.ml-0
+													select#viewRating(disabled="disabled")
+														option(value="1")
+														option(value="2" selected)
+														option(value="3")
+														option(value="4")
+														option(value="5")
+										div.ml-3
+											h6.m-2.text-dark
+												i.far.fa-comment.mr-2
+												| 5 Reviews
+									#single-company-content-main-overview-description.py-2
+										p.text-justify.text-dark.short-desc= `${company.description}`
+										if company.description.length > 200
+											a.show-more-desc.text-primary.text-capitalize(href="#") Show more description
+											script.
+												(function(){
+													var desc = $('#single-company-content-main-overview-description p');
+													var button = $('.show-more-desc');
+													button.on('click', function(e){
+														e.preventDefault();
+														if(desc.hasClass('short-desc')){
+															desc.animate({height: "200px"}, 500, ()=> {
+																desc.removeClass('short-desc');
+																button.text('Show Less Description');
+															});
+														} else {
+															desc.animate({height: "65px"}, 500, ()=>{
+																desc.addClass('short-desc');
+																button.text('Show More Description');
+															});
+														}
+													})
+												})();
+									#single-company-content-main-overview-about.py-2
+										.row
+											.col.d-flex.flex-column.justify-content-start.align-items-start
+												.d-flex.flex-column.justify-content-start.align-items-start.my-2
+													div
+														i.fas.fa-phone.fa-sm.text-dark.mr-2
+														p.d-inline-block.text-dark.text-capitalize.font-weight-bold.m-0 phone Number
+													div
+														if !company.contacts.mobileNumber
+															p.text-dark.mb-0.ml-4 There is no Mobile Number Provided.
+														p.text-dark.mb-0.ml-4= `${company.contacts.mobileNumber}`
+												.d-flex.flex-column.justify-content-start.align-items-start.my-2
+													div
+														i.far.fa-envelope.fa-sm.text-dark.mr-2
+														p.d-inline-block.text-dark.text-capitali.font-weight-bold.m-0 E-mail
+													div
+														p.text-dark.mb-0.ml-4= `${company.contacts.email}`
+												.d-flex.flex-column.justify-content-start.align-items-start.my-2
+													div
+														i.far.fa-clock.fa-sm.text-dark.mr-2
+														p.d-inline-block.text-dark.text-capitalize.font-weight-bold.m-0 Hours of operation
+													div
+														//- hard coded text, don't forget to change it later
+														p.text-dark.mb-0.ml-4 Monday – Sunday: 12:00 – 22:00
+												.d-flex.flex-column.justify-content-start.align-items-start.my-2
+													div
+														i.fas.fa-share-square.fa-sm.text-dark.mr-2
+														p.d-inline-block.text-dark.text-capitalize.font-weight-bold.m-0 Website
+													div
+														p.text-dark.mb-0.ml-4 
+															a.text-primary(href=`${company.contacts.website}`, target="_black")= `${company.contacts.website}`
+											.col.d-flex.flex-column.justify-content-start.align-items-start
+												div
+													img.w-100(src=h.staticMapSmall([company.location.coordinates[0], company.location.coordinates[1]]))
+												.d-flex.flex-column.justify-content-start.align-items-start.my-2
+													div
+														i.fas.fa-location-arrow.fa-sm.text-dark.mr-2
+														p.d-inline-block.text-dark.text-capitalize.font-weight-bold.m-0 Address
+													div
+														p.text-dark.mb-0.ml-4 
+															a.text-primary(href=`//www.google.com/maps/search/?api=1&amp;query=${company.location.coordinates[0]}%${company.location.coordinates[1]}`, target="_black")= `${company.location.address}`
+												.d-flex.flex-column.justify-content-start.align-items-start.my-2
+													div
+														i.fas.fa-building.fa-sm.text-dark.mr-2
+														p.d-inline-block.text-dark.text-capitalize.font-weight-bold.m-0 Neighborhood
+													div
+														p.text-dark.mb-0.ml-4= `${company.location.city}`
+								#single-company-content-main-papers
+									h2.m-0.text-dark.text-capitalize.py-4 Required papers
+									#single-company-content-main-papers-content
+										ul.list-group
+											li.list-group-item.list-group-item-action.flex-column.align-items-start.border-0.px-2
+												.d-flex.w-100.justify-content-between
+													h4.mb-1.text-capitalize List group item heading
+													small.badge.badge-dark.d-flex.align-items-center Important
+												p.mb-1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, accusantium voluptas. Temporibus nemo accusamus exercitationem recusandae, doloremque autem, unde consequatur in tempora blanditiis porro dignissimos omnis maxime voluptates dicta expedita?
+											li.list-group-item.list-group-item-action.flex-column.align-items-start.border-0.px-2
+												.d-flex.w-100.justify-content-between
+													h4.mb-1.text-capitalize List group item heading
+													small.badge.badge-dark.d-flex.align-items-center Important
+												p.mb-1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, accusantium voluptas. Temporibus nemo accusamus exercitationem recusandae, doloremque autem, unde consequatur in tempora blanditiis porro dignissimos omnis maxime voluptates dicta expedita?
+											li.list-group-item.list-group-item-action.flex-column.align-items-start.border-0.px-2
+												.d-flex.w-100.justify-content-between
+													h4.mb-1.text-capitalize List group item heading
+													small.badge.badge-dark.d-flex.align-items-center Important
+												p.mb-1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, accusantium voluptas. Temporibus nemo accusamus exercitationem recusandae, doloremque autem, unde consequatur in tempora blanditiis porro dignissimos omnis maxime voluptates dicta expedita?
+								#single-company-content-main-reviews
+									h2.m-0.text-dark.text-capitalize.py-4 Reviews
+									#single-company-content-main-reviews-content
+										.review.d-flex.flex-column.justify-content-between
+											.reivew-head.mt-3.d-flex.flex-row.justify-content-start.align-items-start
+												img(src="/img/faces/face4.jpg" alt="user image" class="rounded-circle")
+												.d-flex.flex-column.justify-content-between.align-items-start.ml-3
+													h5.text-dark.text-capitalize.my-1 Mohamed Ashraf Othman
+													.d-flex
+														.br-wrapper.br-theme-fontawesome-stars
+															.text-muted.ml-0
+																select.reviewsRating(disabled="disabled")
+																	option(value="1")
+																	option(value="2")
+																	option(value="3")
+																	option(value="4" selected)
+																	option(value="5")
+													.review-content
+														p Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora quos consequuntur ad ut non voluptate labore fugit optio. Vitae reprehenderit quia assumenda suscipit obcaecati dolores consequuntur temporibus aliquid quisquam eius.
+										.review.d-flex.flex-column.justify-content-between
+											.reivew-head.mt-3.d-flex.flex-row.justify-content-start.align-items-start
+												img(src="/img/faces/face1.jpg" alt="user image" class="rounded-circle")
+												.d-flex.flex-column.justify-content-between.align-items-start.ml-3
+													h5.text-dark.text-capitalize.my-1 Mohamed Ashraf Othman
+													.d-flex
+														.br-wrapper.br-theme-fontawesome-stars
+															.text-muted.ml-0
+																select.reviewsRating(disabled="disabled")
+																	option(value="1")
+																	option(value="2")
+																	option(value="3")
+																	option(value="4" selected)
+																	option(value="5")
+													.review-content
+														p Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora quos consequuntur ad ut non voluptate labore fugit optio. Vitae reprehenderit quia assumenda suscipit obcaecati dolores consequuntur temporibus aliquid quisquam eius.
+										.review.d-flex.flex-column.justify-content-between
+											.reivew-head.mt-3.d-flex.flex-row.justify-content-start.align-items-start
+												img(src="/img/faces/face3.jpg" alt="user image" class="rounded-circle")
+												.d-flex.flex-column.justify-content-between.align-items-start.ml-3
+													h5.text-dark.text-capitalize.my-1 Mohamed Ashraf Othman
+													.d-flex
+														.br-wrapper.br-theme-fontawesome-stars
+															.text-muted.ml-0
+																select.reviewsRating(disabled="disabled")
+																	option(value="1")
+																	option(value="2")
+																	option(value="3")
+																	option(value="4" selected)
+																	option(value="5")
+													.review-content
+														p Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora quos consequuntur ad ut non voluptate labore fugit optio. Vitae reprehenderit quia assumenda suscipit obcaecati dolores consequuntur temporibus aliquid quisquam eius.
+					
+					
+					.col-12.col-lg-4
+						.card.w-100.position-sticky#single-company-content-side
+							.card-body
+								h1.card-title.text-dark Side card
+						

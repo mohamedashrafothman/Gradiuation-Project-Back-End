@@ -9,18 +9,21 @@ block content
 					| Edit Your information.
 				form.forms-sample.row(action=`/dashboard/profile/${user.slug}/edit?_csrf=${csrfToken()}`, method="POST", enctype="multipart/form-data")
 					input(type="hidden", name="_csrf", value=`${csrfToken()}`)
-					.form-group.col-md-4
-						label(for='name') Name
+					.form-label-group.col-md-4
 						input#name.form-control.form-control-lg(type='text', placeholder='Name', value=(user != undefined ? user.name : '') , name="name" required)
-					.form-group.col-md-4
-						label(for='email') Email address
+						label.ml-3(for='name') Name
+					.form-label-group.col-md-4
 						input#email.form-control.form-control-lg(type='email', placeholder='Email', name="contacts[email]", value=(user.contacts != undefined ? user.contacts.email : ''))
-					.form-group.col-md-4
-						label(for='mobileNumber') Mobile Number
+						label.ml-3(for='email') Email address
+					.form-label-group.col-md-4
 						input#mobileNumber.form-control.form-control-lg(type='text', name="contacts[mobileNumber]", value=(user.contacts != undefined ? user.contacts.mobileNumber : ''), placeholder='Mobile number')
+						label.ml-3(for='mobileNumber') Mobile Number
+					.form-label-group.col-md-4
+						input#website.form-control.form-control-lg(type='text', name="contacts[website]", value=(user.contacts != undefined ? user.contacts.website : ''), placeholder='Website')
+						label.ml-3(for='website') Website
 					.form-group.col-md-12
-						label Image
 						input.file-upload-default(type='file', name='photo', id="photo", accept="image/gif, image/png, image/jpeg")
+						label Image
 						.input-group.col-xs-12
 							input.form-control.file-upload-info.form-control-lg(type='file', name='photo', id="photo", accept="image/gif, image/png, image/jpeg", placeholder="Upload image")
 							span.input-group-btn
@@ -29,21 +32,21 @@ block content
 						.form-group.col-md-12.text-center
 							img.mb-2.mw-50.w-50.rounded(src=`/img/uploads/${user.photo}`, alt=`${user.photo}`)
 
-					.form-group.col-md-12
-						label(for='address') Address
+					.form-label-group.col-md-12
 						input#autocomplete.form-control.form-control-lg(type='text', placeholder='Address', name="location[address]", value=(user.location && user.location.address) required)
-					.form-group.col-md-6
-						label(for='lng') Address Lng
+						label.ml-3(for='address') Address
+					.form-label-group.col-md-6
 						input#lng.form-control.form-control-lg(type='text', placeholder='Lng', name="location[coordinates][0]", value=(user.location && user.location.coordinates[0]) required readonly)
-					.form-group.col-md-6
-						label(for='lat') Address Lat
+						label.ml-3(for='lng') Address Lng
+					.form-label-group.col-md-6
 						input#lat.form-control.form-control-lg(type='text', placeholder='Lat', name="location[coordinates][1]", value=(user.location && user.location.coordinates[1]) required readonly)
-					.form-group.col-md-6
-						label(for='city') Address City
+						label.ml-3(for='lat') Address Lat
+					.form-label-group.col-md-6
 						input#city.form-control.form-control-lg(type='text', placeholder='City', name="location[city]", value=(user.location && user.location.city) required)
-					.form-group.col-md-6
-						label(for='country') Address Country
+						label.ml-3(for='city') Address City
+					.form-label-group.col-md-6
 						input#country.form-control.form-control-lg(type='text', placeholder='Country', name="location[country]", value=(user.location && user.location.country) required)
+						label.ml-3(for='country') Address Country
 
 					.form-group.col-md-12
 						label(for='description') Description

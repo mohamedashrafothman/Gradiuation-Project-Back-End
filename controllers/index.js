@@ -19,3 +19,12 @@ module.exports.getHajj = (req, res, next)=> {
 module.exports.getUmrah = (req, res, next) => {
 	res.render('umrah-shaaer', { title: "Shaaer Al-Umrah" });
 };
+
+module.exports.getSingleCompany = async (req, res, next)=> {
+	const company = await User.findOne({ slug: req.params.company }).populate('trips').exec();
+	res.render('single-company', {
+		title: `${company.name} Company`,
+		company: company,
+		user: req.user
+	});
+};

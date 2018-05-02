@@ -31,65 +31,65 @@ html
 								form.row.mt-5(action="/admin/register", method="POST")
 									input(type="hidden", name="_csrf", value=`${csrfToken()}`)
 									.col-6
-										.form-group
-											label.font-weight-bold Company Name
+										.form-label-group
 											input.form-control.p_input.form-control-lg(type='text' name="name" placeholder="Type Your Company Name.")
+											label.font-weight-bold Company Name
 									.col-6
-										.form-group
+										.form-label-group
+											input.form-control.p_input.form-control-lg(type='text' name="username" placeholder="Type Your Company Name.")
 											label.font-weight-bold 
 												|Username
 												span.text-danger *
-											input.form-control.p_input.form-control-lg(type='text' name="username" placeholder="Type Your Company Name.")
 
 									.col-6
-										.form-group
+										.form-label-group
+											input.form-control.p_input.form-control-lg(type='email' name="contacts[email]" placeholder="Type Your Company E-mail.")
 											label.font-weight-bold 
 												|Company Email
 												span.text-danger *
-											input.form-control.p_input.form-control-lg(type='email' name="contacts[email]" placeholder="Type Your Company E-mail.")
 									.col-6
-										.form-group
+										.form-label-group
+											input#autocomplete.form-control.p_input.form-control-lg(type='text' name="location[address]" placeholder="Where is your company?")
 											label.font-weight-bold 
 												|Address
 												span.text-danger *
-											input#autocomplete.form-control.p_input.form-control-lg(type='text' name="location[address]" placeholder="Where is your company?")
 									.col-6
-										.form-group
+										.form-label-group
+											input#lng.form-control.p_input.form-control-lg(type='text' name="location[coordinates][0]" placeholder="Where is your company?" readonly)
 											label.font-weight-bold 
 												|Address lng
 												span.text-danger *
-											input#lng.form-control.p_input.form-control-lg(type='text' name="location[coordinates][0]" placeholder="Where is your company?" readonly)
 									.col-6
-										.form-group
+										.form-label-group
+											input#lat.form-control.p_input.form-control-lg(type='text' name="location[coordinates][1]" placeholder="Type Your Country Name." readonly)
 											label.font-weight-bold 
 												|Address lat
 												span.text-danger *
-											input#lat.form-control.p_input.form-control-lg(type='text' name="location[coordinates][1]" placeholder="Type Your Country Name." readonly)
 									.col-6
-										.form-group
+										.form-label-group
+											input#country.form-control.p_input.form-control-lg(type='text' name="location[country]" placeholder="Type Your Country Name.")
 											label.font-weight-bold 
 												|Country
 												span.text-danger *
-											input#country.form-control.p_input.form-control-lg(type='text' name="location[country]" placeholder="Type Your Country Name.")
 									.col-6
-										.form-group
+										.form-label-group
+											input#city.form-control.p_input.form-control-lg(type='text' name="location[city]" placeholder="Type Your State Name.")
 											label.font-weight-bold 
 												|City
 												span.text-danger *
-											input#city.form-control.p_input.form-control-lg(type='text' name="location[city]" placeholder="Type Your State Name.")
 									.w-100
 									.col-6
-										.form-group
+										.form-label-group
+											input.form-control.p_input.form-control-lg(type='password', name="password", placeholder="Type Your Password.")
 											label.font-weight-bold 
 												|Password
 												span.text-danger *
-											input.form-control.p_input.form-control-lg(type='password', name="password", placeholder="Type Your Password.")
 									.col-6
-										.form-group
+										.form-label-group
+											input.form-control.p_input.form-control-lg(type='password', name="password-confirm", placeholder="Retype Your Password.")
 											label.font-weight-bold 
 												|Confirm Password
 												span.text-danger *
-											input.form-control.p_input.form-control-lg(type='password', name="password-confirm", placeholder="Retype Your Password.")
 									.w-100
 									.col-12
 										.row.justify-content-center

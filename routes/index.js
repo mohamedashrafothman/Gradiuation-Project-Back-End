@@ -21,6 +21,6 @@ router.get('/forgot', catchErrors(authController.getForgot));
 router.post('/forgot', catchErrors(authController.forgot));
 router.get('/user/account/reset/:token', catchErrors(authController.reset));
 router.post('/user/account/reset/:token', authController.confirmPassword, catchErrors(authController.update));
-
+router.get('/company/:company', indexController.getSingleCompany);
 
 module.exports = router;

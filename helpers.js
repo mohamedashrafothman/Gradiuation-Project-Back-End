@@ -18,6 +18,7 @@ const isEmpty = (obj)=> {
 
 // Making a static map is really long - this is a handy helper function to make one
 const staticMap = ([lng, lat]) => `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=14&size=800x150&key=${process.env.MAP_KEY}&markers=${lat},${lng}&scale=2`;
+const staticMapSmall = ([lng, lat]) => `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=14&size=150x75&key=${process.env.MAP_KEY}&markers=${lat},${lng}&scale=2`;
 
 const siteName = 'Hajj and Umrah Management System';
 
@@ -32,6 +33,7 @@ module.exports = {
 	moment,
 	dump,
 	staticMap,
+	staticMapSmall,	
 	siteName,
 	isEmpty,
 	dateInDays
