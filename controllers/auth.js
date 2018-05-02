@@ -89,6 +89,7 @@ module.exports.userValidateRegister = (req, res, next) => {
 	req.checkBody('name', 'You must supply a name!').notEmpty();
 	req.checkBody('username', 'You must supply a username!').notEmpty();
 	req.checkBody('contacts[email]', 'You must supply an email!').notEmpty();
+	req.checkBody('gender', 'You must supply your gender').notEmpty();
 	req.checkBody('contacts[email]', 'That Email is not Valid!').isEmail();
 	req.sanitizeBody('contacts[email]').normalizeEmail({
 		remove_dots: false,

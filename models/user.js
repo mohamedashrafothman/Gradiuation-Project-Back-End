@@ -73,9 +73,10 @@ const userSchema = new Schema({
 		type: mongoose.Schema.ObjectId,
 		ref: 'Trip'
 	}],
+	gender: String,
+	profileCompleted: String,
 	resetPasswordTaken: String,
 	resetPasswordExpires: Date
-
 });
 
 // before saving make slug property

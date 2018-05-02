@@ -34,10 +34,10 @@ block content
 						input#autocomplete.form-control.form-control-lg(type='text', placeholder='Address', name="location[address]", value=(user.location && user.location.address) required)
 					.form-group.col-md-6
 						label(for='lng') Address Lng
-						input#lng.form-control.form-control-lg(type='text', placeholder='Lng', name="location[coordinates][0]", value=(user.location && user.location.coordinates[0]) required)
+						input#lng.form-control.form-control-lg(type='text', placeholder='Lng', name="location[coordinates][0]", value=(user.location && user.location.coordinates[0]) required readonly)
 					.form-group.col-md-6
 						label(for='lat') Address Lat
-						input#lat.form-control.form-control-lg(type='text', placeholder='Lat', name="location[coordinates][1]", value=(user.location && user.location.coordinates[1]) required)
+						input#lat.form-control.form-control-lg(type='text', placeholder='Lat', name="location[coordinates][1]", value=(user.location && user.location.coordinates[1]) required readonly)
 					.form-group.col-md-6
 						label(for='city') Address City
 						input#city.form-control.form-control-lg(type='text', placeholder='City', name="location[city]", value=(user.location && user.location.city) required)

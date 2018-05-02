@@ -137,11 +137,17 @@ html
 								a.nav-link(href='/dashboard')
 									span.menu-title Dashboard
 									i.fa.fa-home
-							li(class=`nav-item ${title==="Trips" ? "active" : ""}`)
-								a.nav-link(href=`/dashboard/trips`)
+							li.nav-item
+								a.nav-link(class=`${title === "Trips" ? "active" : ""}` data-toggle="collapse" href="#trips" aria-expanded="true" aria-controls="trips")
 									span.menu-title Trips
+									i.menu-arrow.mr-3
 									i.fa.fa-plane
-
+								.collapse#trips
+									ul.nav.flex-column.sub-menu
+										li.nav-item
+											a.nav-link.text-capitalize(href=`/dashboard/trips`) List of Trips
+										li.nav-item
+											a.nav-link.text-capitalize(href=`/dashboard/trips/add`) Add new trip
 
 						block messages
 							if locals.flashes

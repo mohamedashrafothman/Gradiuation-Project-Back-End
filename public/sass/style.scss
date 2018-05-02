@@ -144,3 +144,15 @@
 .sidebar{
   z-index: 1 !important;
 }
+.nav-pills .nav-link.active{
+  background-color: #008fa6 !important;
+}
+
+.sidebar{
+  min-height: 100vh !important;
+  .nav{
+    position: fixed;
+    width: 18%;
+  }
+
+}
