@@ -1,6 +1,6 @@
 'use strict'
 
-import Chart from '../../node_modules/chart.js/dist/Chart.min.js';
+import chart from '../../node_modules/chart.js/dist/Chart.min.js';
 import initChartJs from './modules/chart.js';
 import misc from './modules/misc.js';
 import offCanvas from './modules/off-canvas.js';
@@ -10,6 +10,7 @@ import barRatingInit from './modules/barRatingInit.js';
 import datePickerInit from './modules/datePickerInit.js';
 import wowJsInit from './modules/wowJsInit.js';
 import mapAutoComplete from './modules/mapAutoComplete.js';
+import scrollSmothy from './modules/scroll-smothy';
 
 $(document).ready(function () {
 
@@ -22,6 +23,6 @@ $(document).ready(function () {
 	datePickerInit();
 	wowJsInit();
 	mapAutoComplete();
-
+	scrollSmothy();
 
 });

@@ -11,30 +11,39 @@ block content
 					input(type="hidden", name="_csrf", value=`${csrfToken()}`)
 					.row
 						.col
-							h3.card-title.my-3 Trip Information							
+							h3.card-title.my-3 Trip Information	
+							.row
+								label.col-12.font-weight-bold.col-form-label Trip Name
+								.form-group.col-12
+									input.form-control.form-control-lg(type="text" name="name" placeholder="Trip Name" required)
 							.row
 								label.font-weight-bold.col-12.col-form-label Type							
-								.form-radio.col-6
-									label.form-check-label
-										input.form-check-input(type='radio', name='type', value='umrah', checked='')
-										| Umrah
-										i.input-helper
-								.form-radio.col-6
-									label.form-check-label
-										input.form-check-input(type='radio', name='type', value='hajj')
-										| Hajj
-										i.input-helper
+								.pl-5.w-100.row
+									.form-radio.col-4
+										label.form-check-label
+											input.form-check-input(type='radio', name='type', value='umrah', checked='')
+											| Umrah
+											i.input-helper
+									.form-radio.col-4
+										label.form-check-label
+											input.form-check-input(type='radio', name='type', value='hajj')
+											| Hajj
+											i.input-helper
 							.row
 								label.font-weight-bold.col-12.col-form-label Duration
 								.form-group.col-12
 									label.col-12.col-form-label From
 									.col-12
-										input.form-control(type="text", name="duration[from]", class="datepicker", id="addDatePicker-from", placeholder='dd/mm/yyyy')
+										input.form-control.form-control-lg(type="text", name="duration[from]", class="datepicker", id="addDatePicker-from", placeholder='dd/mm/yyyy')
 								.form-group.col-12
 									labe.col-12.col-form-label To
 									.col-12
-										input.form-control(type="text", name="duration[to]", class="datepicker", id="addDatePicker-to", placeholder='dd/mm/yyyy')
-					
+										input.form-control.form-control-lg(type="text", name="duration[to]", class="datepicker", id="addDatePicker-to", placeholder='dd/mm/yyyy')
+							.row
+								label.col-12.font-weight-bold.col-form-label Description
+								.form-group.col-12
+									.col-12
+										textarea.form-control.form-control-lg#description(name="description", cols="30", rows="10", placeholder="Enter Some Description.")
 						.col
 							h3.card-title.my-3 Hotel Information
 							.row
@@ -69,28 +78,28 @@ block content
 								.form-group.col-12.m-0
 									label.col-12.col-form-label Hotel Include
 									.col-12
-										input.form-control.m-0.selecteInclude(type='text', placeholder="what this trip include")
+										input.form-control.form-control-lg.m-0.selecteInclude(type='text', placeholder="what this trip include")
 										input.invisible.w-122(type="hidden", name="hotel[include]", value="", id="includeInput")
 								.form-group.col-12
 									label.col-12.col-form-label Hotel Name
 									.col-12
-										input.form-control(type="text", id="hotelName" ,name="hotel[name]", placeholder="Hotel Name")
+										input.form-control.form-control-lg(type="text", id="hotelName" ,name="hotel[name]", placeholder="Hotel Name")
 								.form-group.col-12
 									label.col-12.col-form-label Hotel Address
 									.col-12
-										input.form-control(type="text", id="hotelAddress" ,name="hotel[location][address]", placeholder="Hotel Address")
+										input.form-control.form-control-lg(type="text", id="hotelAddress" ,name="hotel[location][address]", placeholder="Hotel Address")
 								.form-group.col-12
 									label.col-12.col-form-label hotel Phone Number
 									.col-12
-										input.form-control(type="text", id="hotelPhoneNumber" ,name="hotel[international_phone_number]", placeholder="Hotel phone number")
+										input.form-control.form-control-lg(type="text", id="hotelPhoneNumber" ,name="hotel[international_phone_number]", placeholder="Hotel phone number")
 								.form-group.col-12
 									label.col-12.col-form-label Hotel lng
 									.col-12
-										input#hotelLng.form-control(type='text' name="hotel[location][coordinates][0]" placeholder="Where is your company?")
+										input#hotelLng.form-control.form-control-lg(type='text' name="hotel[location][coordinates][0]" placeholder="Where is your company?")
 								.form-group.col-12
 									label.col-12.col-form-label Hotel lat
 									.col-12
-										input#hotelLat.form-control(type='text' name="hotel[location][coordinates][1]" placeholder="Type Your Country Name.")
+										input#hotelLat.form-control.form-control-lg(type='text' name="hotel[location][coordinates][1]" placeholder="Type Your Country Name.")
 								.form-group.col-12
 									label.col-12.col-form-label Stars
 									.col-12

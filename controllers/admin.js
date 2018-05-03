@@ -87,7 +87,9 @@ module.exports.getTrip = async (req, res, next) => {
 
 module.exports.addTrip = async (req, res, next) => {
 	// validate body
+	req.checkBody('name', 'You must enter an trip name!').notEmpty();
 	req.checkBody('type', 'You must supply a Trip type!').notEmpty();
+	req.checkBody('name', 'You must enter a description!').notEmpty();		
 	req.checkBody('hotel[include]', 'You must apply what Hotel will inlcude').notEmpty();
 	req.checkBody('duration[from]', 'You must apply a trip start date').notEmpty();
 	req.checkBody('duration[to]', 'You must apply a trip end date').notEmpty();
@@ -124,6 +126,7 @@ module.exports.deleteTrip = async (req, res, next) => {
 };
 
 module.exports.updateTrip = async (req, res, next) => {
+	// req.body.hotel.location.type = 'point';
 	req.body.hotel.include = req.body.hotel.include.split(',');
 	req.body.updated = new Date();
 	req.body.durationInDays = h.dateInDays(req.body.duration.from, req.body.duration.to);

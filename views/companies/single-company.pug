@@ -1,4 +1,4 @@
-extends ./layouts/home-layout.pug
+extends ../layouts/home-layout.pug
 
 block content
 	#single-company.bg-white
@@ -11,8 +11,8 @@ block content
 		main#single-company-content.bg-white.pb-5
 			.container
 				.row
-					.col-12.col-lg-7.mr-3
-						.card.w-100#single-company-content-main
+					.col-12.col-lg-8
+						.card.w-100.border#single-company-content-main
 							.card-body.py-2
 								#single-company-content-main-nav
 									ul.nav.nav-tabs
@@ -24,7 +24,7 @@ block content
 											a.nav-link.text-black.text-capitalize(href="#single-company-content-main-reviews") reviews
 								#single-company-content-main-overview
 									if user && user._id.equals(company._id)
-										a.h6.font-weight-light.text-primary.ml-1.float-right(href=`/dashboard/profile/${user.slug}/edit`) Edit profile
+										a.h6.font-weight-light.text-primary.ml-1.float-right.mt-3(href=`/dashboard/profile/${user.slug}/edit`) Edit profile
 									h3.card-title.display-2.text-dark.m-0.py-4= `${company.name}`
 
 									#single-company-content-main-overview-rating.py-2.d-flex.flex-row.justify-content-start.align-items-center
@@ -184,7 +184,21 @@ block content
 					
 					
 					.col-12.col-lg-4
-						.card.w-100.position-sticky#single-company-content-side
-							.card-body
-								h1.card-title.text-dark Side card
-						
+						.card.w-100.border#single-company-content-side
+							.card-body.p-2
+								h4.m-0.text-dark.text-capitalize.text-center.py-2.card-title.display-5 Most viewed trips
+								#single-company-content-side-trips
+									each trip in company.trips
+										.media.text-muted.py-2.company-trip
+											i.fas.fa-plane.fa-3x.text-dark.mr-2
+											div.media-body.mb-0.small.lh-125.d-flex.flex-column
+												strong.d-block.text-gray-dark= `${trip.name}`
+												.br-wrapper.br-theme-fontawesome-stars
+													.text-muted.ml-0
+														select.reviewsRating(disabled="disabled")
+															option(value="1")
+															option(value="2")
+															option(value="3")
+															option(value="4" selected)
+															option(value="5")
+												p.m-0= `${trip.description.slice(0, 150)}...`

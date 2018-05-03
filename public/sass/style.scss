@@ -134,14 +134,6 @@
   z-index: 10 !important;
 }
 
-.input-helper{
-  &::before{
-    left: 20px !important;
-  }
-  &::after{
-    left: 26px !important;
-  }
-}
 .sidebar{
   z-index: 1 !important;
 }
@@ -150,7 +142,7 @@
 }
 
 .sidebar{
-  min-height: 100vh !important;
+  background: #6a008a !important;
   .nav{
     position: fixed;
     width: 18%;

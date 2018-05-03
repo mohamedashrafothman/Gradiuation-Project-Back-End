@@ -1,41 +1,44 @@
-#single-company{
-	&-header{
+#single-company {
+	&-header {
 		position: relative;
 		min-height: 300px;
 		overflow: hidden;
-		.bg-blure{
-			position:absolute;
-			left:-30px;
-			right:-30px;
-			top:-30px;
-			bottom:-30px;
-			background-size:cover;
-			z-index:2;
+		.bg-blure {
+			position: absolute;
+			left: -30px;
+			right: -30px;
+			top: -30px;
+			bottom: -30px;
+			background-size: cover;
+			z-index: 2;
 			-webkit-filter: blur(20px);
 			-moz-filter: blur(20px);
 			-o-filter: blur(20px);
 			-ms-filter: blur(20px);
 			filter: blur(20px);
 		}
-		&-container{
-			position:relative;
-			z-index:3;
+		&-container {
+			position: relative;
+			z-index: 3;
 			min-height: 325px;
 			max-width: 25vw;
 			width: auto;
 		}
-	
 	}
-	&-content{
-		&-main, &-side{
+	&-content {
+		&-main,
+		&-side {
 			z-index: 5;
 			margin-top: -50px;
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 0px;
 		}
-		&-main{
-			&-nav{
-				.nav-tabs{
-					.nav-link{
-						&:hover, &:focus{
+		&-main {
+			&-nav {
+				.nav-tabs {
+					.nav-link {
+						&:hover,
+						&:focus {
 							// border-color:transparent !important;
 							border-top-color: transparent;
 							border-left-color: transparent;
@@ -44,7 +47,7 @@
 							color: #3a3f51;
 						}
 					}
-					.nav-link.active{
+					.nav-link.active {
 						border-top-color: transparent;
 						border-left-color: transparent;
 						border-right-color: transparent;
@@ -54,26 +57,44 @@
 				}
 			}
 			&-overview {
-				.card-title{
+				.card-title {
 					border-bottom: 1px solid #ddd;
 				}
-				&-description{
-					.short-desc{
+				&-description {
+					.short-desc {
 						height: 65px;
 						overflow: hidden;
 					}
 				}
 			}
-			&-papers, &-reviews{
-				h2{
+			&-papers,
+			&-reviews {
+				h2 {
 					border-bottom: 1px solid #ddd;
 				}
 			}
-			&-reviews{
-				&-content{
-					.review{
+			&-reviews {
+				&-content {
+					.review {
 						img.rounded-circle {
 							width: 70px;
+						}
+					}
+				}
+			}
+		}
+		&-side {
+			.card-title {
+				border-bottom: 1px solid #ddd;
+			}
+			&-trips {
+				.company-trip {
+					i{
+						transform: rotate(-45deg);
+					}
+					&:not(:last-child) {
+						p {
+							border-bottom: 1px solid #ddd;
 						}
 					}
 				}

@@ -6,7 +6,7 @@ module.exports.getHome = async (req, res, next)=> {
 };
 module.exports.getCompanies = async (req, res, next) => {
 	const companies = await User.find({role:"admin"}).populate('trips').exec();
-	res.render('companies', { user: req.user, companies });
+	res.render('companies/companies', { user: req.user, companies });
 };
 module.exports.getContactUs = (req, res, next) => {
 	res.render('contact-us', {title: "Contact Us"});
@@ -22,7 +22,7 @@ module.exports.getUmrah = (req, res, next) => {
 
 module.exports.getSingleCompany = async (req, res, next)=> {
 	const company = await User.findOne({ slug: req.params.company }).populate('trips').exec();
-	res.render('single-company', {
+	res.render('companies/single-company', {
 		title: `${company.name} Company`,
 		company: company,
 		user: req.user

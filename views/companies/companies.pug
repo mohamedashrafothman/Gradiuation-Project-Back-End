@@ -1,0 +1,12 @@
+extends ../layouts/home-layout.pug
+
+block content
+	section#companies.mt-5.bg-secondary
+		.container
+			.row.mt-5
+				h1.col-12.text-uppercase.font-weight-bold.text-left.mt-5 Companies
+				.companies.col-sm-12.mt-5
+					.row
+						include ../mixins/_company.pug
+						each company in companies
+							+company(company)
