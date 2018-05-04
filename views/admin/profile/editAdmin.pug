@@ -22,9 +22,13 @@ block content
 						input#website.form-control.form-control-lg(type='text', name="contacts[website]", value=(user.contacts != undefined ? user.contacts.website : ''), placeholder='Website')
 						label.ml-3(for='website') Website
 					.form-group.col-md-12
+						label(for="required-papers") Required Papers
+						input.form-control.form-control-lg.selectePapers(type='text', placeholder="Required Papers.")
+						input.invisible.w-122(type="hidden", name="required_papers", value="", id="required-papers")
+					.form-group.col-md-12
 						input.file-upload-default(type='file', name='photo', id="photo", accept="image/gif, image/png, image/jpeg")
 						label Image
-						.input-group.col-xs-12
+						.input-group.col-xs-12(style="z-index:0;")
 							input.form-control.file-upload-info.form-control-lg(type='file', name='photo', id="photo", accept="image/gif, image/png, image/jpeg", placeholder="Upload image")
 							span.input-group-btn
 								button.file-upload-browse.btn.btn-info(type='button') Upload
@@ -53,3 +57,33 @@ block content
 						textarea#description.form-control.form-control-lg(rows='5', name="description" required)=user.description 
 					.form-group.col-md-4
 						button.btn.btn-success.btn-lg.mr-2(type='submit') Submit
+				script.
+					(function(){
+						var eventLog = function (ctx, e) {
+							var html = [
+								"name: " + ctx.get("name"),
+								"event.type: " + e.type,
+								"val: " + ctx[0]
+							];
+							// $(".events-plate").html(html.join("<br />"));
+							// console.log(html.join());
+						};
+						var valuesArr = [];
+						$(".selectePapers").mSelectDBox({
+							"list": ['البطاقة الشخصية للمتقدم سارية', 'عدد 6 صور شخصية للمتقدم', 'جواز سفر ممغنط ساري لمدة عام علي الأقل', 'النساء أقل من عمر 45 لابد من اصطحاب معها محرم من احد الأقارب ومن تجاوز 45 عاماً بأمكانهن السفر بمفردهن', 'الشهادة الصحية قبل الذهاب إلي العمرة', 'أصل شهادة الميلاد','الموقف من التجنيد لمن هم دون سن التجنيد'],
+							"multiple": true,
+							"autoComplete": true,
+							"width": "100%",
+							"name": "a",
+							"onInit": function (ctx) {
+								new $.fn.mSelectDBox.MyCustomAppear1(ctx);
+							},
+							"input:empty": eventLog,
+							"onselect": function (msdbContext) {
+								var values = msdbContext._props.target.attributes['data-msdb-value'].value;
+								valuesArr = $(".selectePapers").mSelectDBox().getSelectedValues();
+								var input = $('#required-papers');
+								$(input).val(valuesArr);
+							}
+						});
+					})();

@@ -20,7 +20,7 @@
 		&-container {
 			position: relative;
 			z-index: 3;
-			min-height: 325px;
+			min-height: auto;
 			max-width: 25vw;
 			width: auto;
 		}
@@ -78,6 +78,15 @@
 					.review {
 						img.rounded-circle {
 							width: 70px;
+						}
+					}
+				}
+			}
+			&-papers{
+				&-content{
+					li{
+						h4, small{
+							font-family: $font-cairo;
 						}
 					}
 				}

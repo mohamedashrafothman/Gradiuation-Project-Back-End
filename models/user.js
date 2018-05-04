@@ -72,6 +72,7 @@ const userSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
+	required_papers: String,
 	password: {
 		type: String
 	},

@@ -7,7 +7,7 @@ block content
 				.card
 					nav#profileTabs.nav.nav-pills.nav-justified.border.border-secondary.border-top-0.border-left-0.border-right-0(role="tablist")
 						a.nav-item.nav-link.text-capitalize.rounded-0.active(id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true") overview
-						a.nav-item.nav-link.text-capitalize.rounded-0(id="#reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false") Reviews
+						a.nav-item.nav-link.text-capitalize.rounded-0(id="#reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false") Comments
 						a.nav-item.nav-link.text-capitalize.rounded-0(id="#photos-tab" data-toggle="tab" href="#photos" role="tab" aria-controls="photos" aria-selected="false") photos
 
 					.card-body
@@ -53,7 +53,24 @@ block content
 
 
 							.tab-pane.fade#reviews(role="tabPanel" arial-labelledby="reviews-tab")
-								h1 reviews goes here
+								.review.d-flex.flex-column.justify-content-between
+									.reivew-head.mt-3.d-flex.flex-row.justify-content-start.align-items-start
+										img(src="/img/faces/face4.jpg" alt="user image" class="rounded-circle" style="width:60px;")
+										.d-flex.flex-column.justify-content-between.align-items-start.ml-3
+											h5.text-dark.text-capitalize.my-1.w-100 Mohamed Ashraf Othman
+												i.fas.fa-trash-alt.float-right
+											.d-flex
+												.br-wrapper.br-theme-fontawesome-stars
+													.text-muted.ml-0
+														select.reviewsRating(disabled="disabled")
+															option(value="1")
+															option(value="2")
+															option(value="3" selected)
+															option(value="4")
+															option(value="5")
+											.review-content
+												p Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora quos consequuntur ad ut non voluptate labore fugit optio. Vitae reprehenderit quia assumenda suscipit obcaecati dolores consequuntur temporibus aliquid quisquam eius.
+
 
 
 							.tab-pane.fade#photos(role="tabPanel" arial-labelledby="photos-tab")
