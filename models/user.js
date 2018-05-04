@@ -3,14 +3,14 @@
  */
 const mongoose              = require('mongoose');
 const Schema                = mongoose.Schema;
-mongoose.Promise      		= global.Promise;
-const slug                  = require('slugs');
+      mongoose.Promise      = global.Promise;
+const slug                  = require('speakingurl');
 const validator             = require('validator');
 const md5                   = require('md5');
-const Trip					= require('./trip');
+const Trip                  = require('./trip');
 const mongoodbErrorHandler  = require('mongoose-mongodb-errors');
 const passportLocalMongoose = require('passport-local-mongoose');
-const bcrypt = require('bcryptjs');
+const bcrypt                = require('bcryptjs');
 
 // Company Schema
 const userSchema = new Schema({

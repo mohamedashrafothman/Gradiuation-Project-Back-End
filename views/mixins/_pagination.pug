@@ -1,0 +1,11 @@
+mixin pagination(page, pages)
+	nav(aria-label='Page navigation example')
+		ul.pagination.justify-content-end.my-3
+			li(class=(page == 1 ? "disabled page-item" : "page-item"))
+				a.page-link(href=`/trips/${page - 1}`, tabindex='-1') Previous
+			- for(var i = 1 ; i <= pages ; i++){
+				li(class=(page==i ? "active page-item" : "page-item"))
+					a.page-link(href=`/trips/${i}`)= `${i}`
+			- } 
+			li(class=(page == pages ? "disabled page-item" : "page-item"))
+				a.page-link(href=`/trips/${page++}`) Next

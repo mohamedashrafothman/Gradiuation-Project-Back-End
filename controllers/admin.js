@@ -7,9 +7,12 @@ const h	   = require('../helpers');
 
 
 module.exports.getDashboard = async (req, res, next) => {
+	const trips = await Trip.find().where('author', req.user._id).and({removed: false}).limit(10).exec();
+	console.log(trips);
 	res.render('admin/dashboard', {
 		title: 'Dashboard',
-		user: req.user
+		user: req.user,
+		trips
 	});
 };
 
@@ -72,10 +75,8 @@ module.exports.updateUser = async (req, res, next) => {
 
 
 module.exports.getTrips = async (req, res, next) => {
-	const trips = await Trip.find({author: req.user._id}).populate('author').exec();
+	const trips = await Trip.find({author: req.user._id}).$where('this.removed == false').populate('author').exec();
 	const user = req.user;
-	console.log(trips);
-	console.log(user);
 	res.render('admin/trips/trips', {title: "Trips",trips,user});
 };
 
@@ -99,7 +100,7 @@ module.exports.addTrip = async (req, res, next) => {
 	const errors = req.validationErrors();
 	if (errors) {
 		req.flash('danger', errors.map(err => err.msg));
-		res.render('admin/trips/trips', {title: 'Trips',body: req.body,flashes: req.flash()});
+		res.render('admin/trips/addTrip', {title: 'Trips',body: req.body,flashes: req.flash()});
 		return;
 	}
 	req.body.author = req.user.id;
@@ -118,11 +119,9 @@ module.exports.addTrip = async (req, res, next) => {
 };
 
 module.exports.deleteTrip = async (req, res, next) => {
-	const trip = await Trip.findByIdAndRemove({
-		_id: req.params.id
-	}).exec();
+	const trip = await Trip.findOneAndUpdate({_id: req.params.id}, {$set: {removed: true}}, {new: true}).exec();
 	req.flash('success', `Successfully deleted ${trip.code}.`);
-	res.redirect('/dashboard/trips');
+	res.redirect('back');
 };
 
 module.exports.updateTrip = async (req, res, next) => {

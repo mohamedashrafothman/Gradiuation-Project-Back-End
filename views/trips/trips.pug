@@ -1,0 +1,64 @@
+extends ../layouts/home-layout.pug
+
+block content
+	#list-trips.bg-white
+		#list-trips-header.pt-100
+			.bg-blure(style=`background-image: url('/img/masjid.jpg')`)
+			.container.d-flex.flex-row.align-items-center.justify-content-start(style="min-height: 250px;")
+				.row
+					#list-trips-header-container
+						h3.display-1.text-white.text-uppercase.text-left trips
+		main#list-trips-content.bg-white.pb-5
+			.container
+				.row
+					.col-12.col-lg-3
+						.card.w-100#list-trips-content-filter
+							.card-body.py-2
+								#list-trips-content-filter-nav
+									h4.m-0.text-dark.text-capitalize.py-2.card-title.display-5 Filter
+					.col-12.col-lg-9
+						.card.w-100#list-trips-content-main
+							.card-body.py-2
+								h4.m-0.text-dark.text-capitalize.py-2.card-title.display-5 Trips
+									small.text-muted.m-0.ml-3.d-inline-block= `${trips.length} trips are available`
+								#list-trips-content-main-trips.border-bottom
+									if trips.length
+										each trip in trips				
+											.trip.d-flex.flex-row.justify-content-start.align-items-start.py-2
+												div.border.p-2.rounded
+													i.trip-icon.fas.fa-plane.text-dark.fa-3x
+												.trip-body.d-flex.flex-column.align-items-start.justify-content-between.w-100.ml-2.pb-3
+													h3.w-100.d-flex.flex-row.justify-content-between.align-items-center
+														a.text-dark.text-capitalize.font-weight-bold.text-left.display-3.d-inline.m-0(href="#" style="text-decoration: none;")= `${trip.name}`
+														if trip.author._id.equals(user._id)
+															a.float-right.mt-3(href=`/dashboard/trips/delete/${trip._id}`)
+																i.fas.fa-trash.text-dark.fa-xs
+													p.w-100.text-success.m-0= `From ${trip.duration.from} To ${trip.duration.to}`
+														span.text-primary.float-right.font-weight-bold.text-center.h4.m-0 50 LE
+													a(href="#" style="text-decoration: none;")
+														p.w-100.text-muted.m-0= `${trip.description.slice(0, 150)}...`
+													.d-flex.flex-row.justify-content-start.mt-3
+														p.font-weight-bold.mr-3.mb-0 Hotel Include: 
+														if trip.hotel.include.split(',').length <= 2
+															each badge in trip.hotel.include.split(',')
+																.badge.mr-1.badge-success= badge
+														else 
+															.badge.mr-1.badge-success= trip.hotel.include.split(',')[0]
+															.badge.mr-1.badge-success= trip.hotel.include.split(',')[1]
+															.badge.mr-1.bg-white.text-success= `+${trip.hotel.include.split(',').length - 2}`
+									else 
+										h1.my-5.text-center.display-2.text-capitalize there is no trips available
+								if (trips.length != 0)
+									#list-trips-content-main-pagenation
+										nav(aria-label='Page navigation example')
+											ul.pagination.justify-content-end.my-3
+												li(class=(page == 1 ? "disabled page-item" : "page-item"))
+													a.page-link(href=`/trips/${page - 1}`, tabindex='-1') 
+														i.fas.fa-arrow-left
+												- for(var i = 1 ; i <= pages ; i++){
+													li(class=(page==i ? "active page-item" : "page-item"))
+														a.page-link(href=`/trips/${i}`)= `${i}`
+												- } 
+												li(class=(page == pages ? "disabled page-item" : "page-item"))
+													a.page-link(href=`/trips/${page++}`) 
+														i.fas.fa-arrow-right

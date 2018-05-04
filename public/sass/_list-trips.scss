@@ -1,0 +1,55 @@
+#list-trips{
+	&-header {
+		position: relative;
+		min-height: 350px;
+		overflow: hidden;
+		.bg-blure {
+			position: absolute;
+			left: -30px;
+			right: -30px;
+			top: -30px;
+			bottom: -30px;
+			background-size: cover;
+			z-index: 2;
+			-webkit-filter: blur(20px);
+			-moz-filter: blur(20px);
+			-o-filter: blur(20px);
+			-ms-filter: blur(20px);
+			filter: blur(20px);
+		}
+		&-container {
+			position: relative;
+			z-index: 3;
+			min-height: auto;
+			max-width: 25vw;
+			width: auto;
+		}
+	}
+	&-content{
+		&-main,
+		&-filter {
+			z-index: 5;
+			margin-top: -50px;
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 0px;
+			h4{
+				border-bottom: 1px solid #ddd;
+			}
+		}
+		&-main{
+			&-trips{
+				min-height: 28.125rem;
+				.trip{
+					&:not(:last-child){
+						.trip-body{
+							border-bottom: 1px solid #ddd;
+						}
+					}
+					&-icon{
+						transform: rotate(-135deg);
+					}
+				}
+			}
+		}
+	}
+}
