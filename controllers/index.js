@@ -1,5 +1,8 @@
 const User = require('../models/user');
 const Trip = require('../models/trip');
+const Review = require('../models/review');
+const h = require('../helpers');
+
 
 module.exports.getHome = async (req, res, next)=> {
 	const companies = await User.find({role:"admin"}).limit(4).populate('trips').exec();
@@ -22,13 +25,28 @@ module.exports.getUmrah = (req, res, next) => {
 };
 
 module.exports.getSingleCompany = async (req, res, next)=> {
-	const company = await User.findOne({ slug: req.params.company }).populate('trips').exec();
-	const trips = await Trip.find().where('author', company._id).and({removed: false}).limit(10).exec();
+	const company = await User.findOne({ slug: req.params.company }).populate('reviews').populate('trips').exec();
+	const trips   = await Trip.find().where('author', company._id).and({removed: false}).limit(10).exec();
+	const reviews = await Review.find().where('company', company._id).and({removed: false}).limit(10).populate('company').populate('user').exec();
+
+	const oneStar = await Review.find().where('company', company._id).and({rating: 1}).count().exec();
+	const twoStar = await Review.find().where('company', company._id).and({rating: 2}).count().exec();
+	const threeStar = await Review.find().where('company', company._id).and({rating: 3}).count().exec();
+	const fourStar = await Review.find().where('company', company._id).and({rating: 4}).count().exec();
+	const fiveStar = await Review.find().where('company', company._id).and({rating: 5}).count().exec();
+
+	const rating = Math.ceil(h.starRating(oneStar, twoStar, threeStar, fourStar, fiveStar));
+
+
+
+
 	res.render('companies/single-company', {
 		title: `${company.name} Company`,
 		company: company,
 		user: req.user,
-		trips
+		trips,
+		reviews,
+		rating
 	});
 };
 
@@ -48,9 +66,38 @@ module.exports.getTrips = async (req, res, next)=> {
 
 	res.render('trips/trips', {
 		title: `Trips`,
+		user: req.user, 
 		trips,
 		page, 
 		pages, 
 		count: tripsCount
 	});
 }
+
+module.exports.addReview = async (req, res, next)=> {
+	req.body.user = req.user._id;
+	req.body.company = req.params.id;
+	const newReview = new Review(req.body)
+	await newReview.save();
+	await User.findOneAndUpdate({_id: req.body.company}, {$push: {reviews: newReview._id}}, {upsert: true}, (err)=> {
+		if(err) {console.log(err);}
+		else {
+			req.flash('success', 'New Review Added!');
+			res.redirect('back');
+		}
+	});
+
+	
+};
+
+module.exports.deleteReview = async (req, res, next) => {
+	const review = await Review.findOneAndUpdate({_id: req.params.id}, {$set: {	removed: true}}, {new: true}).exec();
+	req.flash('success', `Successfully deleted trip, Users can't see it now.`);
+	res.redirect('back');
+};
+
+module.exports.showReview = async (req, res, next)=> {
+	const review = await Review.findOneAndUpdate({_id: req.params.id}, {$set: {	removed: false}}, {new: true}).exec();
+	req.flash('success', `User can see this review now!`);
+	res.redirect('back');
+};

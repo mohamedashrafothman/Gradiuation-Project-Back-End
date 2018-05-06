@@ -11,6 +11,7 @@ import datePickerInit from './modules/datePickerInit.js';
 import wowJsInit from './modules/wowJsInit.js';
 import mapAutoComplete from './modules/mapAutoComplete.js';
 import scrollSmothy from './modules/scroll-smothy';
+import tooltips from './modules/tooltips';
 
 $(document).ready(function () {
 
@@ -24,5 +25,6 @@ $(document).ready(function () {
 	wowJsInit();
 	mapAutoComplete();
 	scrollSmothy();
-
+	tooltips();
+	
 });

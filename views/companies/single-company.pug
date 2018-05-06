@@ -1,4 +1,6 @@
 extends ../layouts/home-layout.pug
+include ../mixins/_reviewForm.pug
+include ../mixins/_singleReview.pug
 
 block content
 	#single-company.bg-white
@@ -23,7 +25,7 @@ block content
 										li.nav-item
 											a.nav-link.text-black.text-capitalize(href="#single-company-content-main-reviews") reviews
 								#single-company-content-main-overview
-									if user && user._id.equals(company._id)
+									if (user && user._id.equals(company._id))
 										a.h6.font-weight-light.text-primary.ml-1.float-right.mt-3(href=`/dashboard/profile/${user.slug}/edit`) Edit profile
 									h3.card-title.display-2.text-dark.m-0.py-4= `${company.name}`
 
@@ -31,39 +33,53 @@ block content
 										.d-flex
 											.br-wrapper.br-theme-fontawesome-stars
 												.text-muted.ml-0
-													select#viewRating(disabled="disabled")
-														option(value="1")
-														option(value="2" selected)
-														option(value="3")
-														option(value="4")
-														option(value="5")
+													select#singleCompanyRating(disabled="disabled")
+														- for(var i = 1 ; i <= 5 ; i++){
+															if (i == rating)
+																option(value=`${i}` select)
+															else 
+																option(value=`${i}`)
+														- }
+										script.
+											$(document).ready(function(){
+												var ratingNum = "#{rating}";
+												ratingNum = parseInt(ratingNum);
+												$(`#singleCompanyRating`).barrating({
+													readonly: true,
+													showSelectedRating: true,
+													initialRating: `${ratingNum}`
+												});
+											});
 										div.ml-3
 											h6.m-2.text-dark
 												i.far.fa-comment.mr-2
-												| 5 Reviews
+												= `${reviews.length} Review`
 									#single-company-content-main-overview-description.py-2
-										p.text-justify.text-dark.short-desc= `${company.description}`
-										if company.description.length > 200
-											a.show-more-desc.text-primary.text-capitalize(href="#") Show more description
-											script.
-												(function(){
-													var desc = $('#single-company-content-main-overview-description p');
-													var button = $('.show-more-desc');
-													button.on('click', function(e){
-														e.preventDefault();
-														if(desc.hasClass('short-desc')){
-															desc.animate({height: "200px"}, 500, ()=> {
-																desc.removeClass('short-desc');
-																button.text('Show Less Description');
-															});
-														} else {
-															desc.animate({height: "65px"}, 500, ()=>{
-																desc.addClass('short-desc');
-																button.text('Show More Description');
-															});
-														}
-													})
-												})();
+										if company.description
+											p.text-justify.text-dark.short-desc= `${company.description}`
+											if company.description.length > 200
+												a.show-more-desc.text-primary.text-capitalize(href="#") Show more description
+												script.
+													(function(){
+														var desc = $('#single-company-content-main-overview-description p');
+														var button = $('.show-more-desc');
+														button.on('click', function(e){
+															e.preventDefault();
+															if(desc.hasClass('short-desc')){
+																desc.animate({height: "200px"}, 500, ()=> {
+																	desc.removeClass('short-desc');
+																	button.text('Show Less Description');
+																});
+															} else {
+																desc.animate({height: "65px"}, 500, ()=>{
+																	desc.addClass('short-desc');
+																	button.text('Show More Description');
+																});
+															}
+														})
+													})();
+										else 
+											h1.text-capitalize.text-muted.text-center.py-2.display-5 there is no description for this company
 									#single-company-content-main-overview-about.py-2
 										.row
 											.col.d-flex.flex-column.justify-content-start.align-items-start
@@ -114,64 +130,27 @@ block content
 								#single-company-content-main-papers
 									h2.m-0.text-dark.text-capitalize.py-4 Required papers
 									#single-company-content-main-papers-content(dir="rtl")
-										- var requiredPapers = company.required_papers.split(',');
-										ul.list-group
-										each paper in requiredPapers
-											li.list-group-item.list-group-item-action.flex-column.align-items-start.border-0.px-2.text-right
-												.d-flex.w-100.justify-content-between
-													h4.py-0.ml-2.m-0.text-capitalize= paper
-													small.badge.badge-dark.d-flex.align-items-center Important
+										if company.required_papers
+											- var requiredPapers = company.required_papers.split(',');
+											ul.list-group
+											each paper in requiredPapers
+												li.list-group-item.list-group-item-action.flex-column.align-items-start.border-0.px-2.text-right
+													.d-flex.w-100.justify-content-between
+														h4.py-0.ml-2.m-0.text-capitalize= paper
+														small.badge.badge-dark.d-flex.align-items-center Important
+										else
+											h1.text-capitalize.text-muted.text-center.py-2.display-5 there is no required papers for this company
 								#single-company-content-main-reviews
 									h2.m-0.text-dark.text-capitalize.py-4 Reviews
+									if (user && !company._id.equals(user._id))
+										#single-company-content-main-reviews-adding.mb-3
+											+reviewForm(company)
 									#single-company-content-main-reviews-content
-										.review.d-flex.flex-column.justify-content-between
-											.reivew-head.mt-3.d-flex.flex-row.justify-content-start.align-items-start
-												img(src="/img/faces/face4.jpg" alt="user image" class="rounded-circle")
-												.d-flex.flex-column.justify-content-between.align-items-start.ml-3
-													h5.text-dark.text-capitalize.my-1 Mohamed Ashraf Othman
-													.d-flex
-														.br-wrapper.br-theme-fontawesome-stars
-															.text-muted.ml-0
-																select.reviewsRating(disabled="disabled")
-																	option(value="1")
-																	option(value="2")
-																	option(value="3")
-																	option(value="4" selected)
-																	option(value="5")
-													.review-content
-														p Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora quos consequuntur ad ut non voluptate labore fugit optio. Vitae reprehenderit quia assumenda suscipit obcaecati dolores consequuntur temporibus aliquid quisquam eius.
-										.review.d-flex.flex-column.justify-content-between
-											.reivew-head.mt-3.d-flex.flex-row.justify-content-start.align-items-start
-												img(src="/img/faces/face1.jpg" alt="user image" class="rounded-circle")
-												.d-flex.flex-column.justify-content-between.align-items-start.ml-3
-													h5.text-dark.text-capitalize.my-1 Mohamed Ashraf Othman
-													.d-flex
-														.br-wrapper.br-theme-fontawesome-stars
-															.text-muted.ml-0
-																select.reviewsRating(disabled="disabled")
-																	option(value="1")
-																	option(value="2")
-																	option(value="3")
-																	option(value="4" selected)
-																	option(value="5")
-													.review-content
-														p Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora quos consequuntur ad ut non voluptate labore fugit optio. Vitae reprehenderit quia assumenda suscipit obcaecati dolores consequuntur temporibus aliquid quisquam eius.
-										.review.d-flex.flex-column.justify-content-between
-											.reivew-head.mt-3.d-flex.flex-row.justify-content-start.align-items-start
-												img(src="/img/faces/face3.jpg" alt="user image" class="rounded-circle")
-												.d-flex.flex-column.justify-content-between.align-items-start.ml-3
-													h5.text-dark.text-capitalize.my-1 Mohamed Ashraf Othman
-													.d-flex
-														.br-wrapper.br-theme-fontawesome-stars
-															.text-muted.ml-0
-																select.reviewsRating(disabled="disabled")
-																	option(value="1")
-																	option(value="2")
-																	option(value="3")
-																	option(value="4" selected)
-																	option(value="5")
-													.review-content
-														p Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora quos consequuntur ad ut non voluptate labore fugit optio. Vitae reprehenderit quia assumenda suscipit obcaecati dolores consequuntur temporibus aliquid quisquam eius.
+										if (reviews && reviews.length > 0)
+											each review, index in reviews
+												+singleReview(review, company, index)
+										else
+											h1.text-capitalize.text-muted.text-center.py-5.display-6 there is no reviews for this company
 					
 					
 					.col-12.col-lg-4
@@ -179,13 +158,13 @@ block content
 							.card-body.p-2
 								h4.m-0.text-dark.text-capitalize.text-center.py-2.card-title.display-5 Most viewed trips
 								#single-company-content-side-trips
-									if trips
-									each trip in trips
-										.media.py-2.company-trip
-											i.fas.fa-plane.fa-3x.text-dark.mr-2
-											div.media-body.mb-0.small.lh-125.d-flex.flex-column
-												strong.d-block.text-dark= `${trip.name}`
-												span.font-italic.text-primary= `from ${trip.duration.from} to ${trip.duration.to}`
-												p.text-muted.m-0= `${trip.description.slice(0, 150)}...`
+									if ( trips && trips.length > 0)
+										each trip in trips
+											.media.py-2.company-trip
+												i.fas.fa-plane.fa-3x.text-dark.mr-2
+												div.media-body.mb-0.small.lh-125.d-flex.flex-column
+													strong.d-block.text-dark= `${trip.name}`
+													span.font-italic.text-primary= `from ${trip.duration.from} to ${trip.duration.to}`
+													p.text-muted.m-0= `${trip.description.slice(0, 150)}...`
 									else
 										p.lead.my-3.text-center.text-dark There is no trips for this company.

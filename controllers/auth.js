@@ -117,6 +117,7 @@ module.exports.userValidateRegister = (req, res, next) => {
 };
 module.exports.adminRegister = async (req, res, next) => {
 	req.body.role = "admin";
+	console.log(req.body);
 	var newUser = await new User(req.body);
 	User.createUser(newUser, function (err, user) {
 		if (err) throw err;
@@ -143,7 +144,7 @@ module.exports.getLogin = (req, res, next) => {
 };
 module.exports.login = passport.authenticate('local', {
 	successRedirect: '/',
-	failureRedirect: 'auth/login/login',
+	failureRedirect: '/login',
 	failureFlash: 'Invaled User',
 	successFlash: 'Welcome Back!'
 });

@@ -5,6 +5,11 @@ export default function barRatingInit(){
 		readonly: true,
 		showValues: true
 	});
+	$('#companyRating').barrating({
+		theme: 'fontawesome-stars',
+		readonly: false,		
+		showValues: true
+	});
 	$('#addTrip').barrating({
 		theme: 'fontawesome-stars',
 		showValues: true,

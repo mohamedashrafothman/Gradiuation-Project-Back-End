@@ -1,0 +1,15 @@
+mixin reviewForm(company)
+	form(action=`/reviews/${company._id}` method="POST")
+		input(type="hidden", name="_csrf", value=`${csrfToken()}`)
+		.form-group.col-12.p-0.pt-3.m-0
+			label.font-weight-bold.text-capitalize.text-dark(for="#reviewInput") Add Review
+			textarea.form-control.rounded-0#reviewInput(rows="10" name="text", placeholder="Did you try to travel with this company? Have something to say? Leave a revie...")
+		.d-flex
+			.ml-0.w-100
+				select#companyRating(name="rating")
+					option(value="1" selected)
+					option(value="2")
+					option(value="3")
+					option(value="4")
+					option(value="5")
+			button.btn.btn-warning.btn-block.rounded-0(type="submit") Submit the review

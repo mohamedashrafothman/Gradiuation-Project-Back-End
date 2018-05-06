@@ -28,6 +28,9 @@ const dateInDays = (start, end)=> {
 	const days = to.diff(from, 'days');
 	return days;
 };
+const starRating = (one, two, three, four, five)=> {
+	return (1*one + 2*two + 3*three + 4*four + 5*five) / (one+two+three+four+five);
+};
 
 module.exports = {
 	moment,
@@ -36,5 +39,6 @@ module.exports = {
 	staticMapSmall,	
 	siteName,
 	isEmpty,
-	dateInDays
+	dateInDays,
+	starRating
 };

@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Trip = require('../models/trip');
+const Review = require('../models/review');
 const multer = require('multer'); // allawing us to upload a photo to the server
 const jimp = require('jimp'); // for resizing image
 const uuid = require('uuid'); // unique idenifier package
@@ -17,9 +18,25 @@ module.exports.getDashboard = async (req, res, next) => {
 };
 
 module.exports.getProfile = async (req, res) => {
+	const activeReviews = await Review.find({company: req.user._id, removed: false}).populate('user').populate('company').exec();
+	const removedReviews = await Review.find({company: req.user._id,removed: true }).populate('user').populate('company').exec();
+	
+		const oneStar = await Review.find().where('company', req.user._id).and({rating: 1}).and({removed:false}).count().exec();
+		const twoStar = await Review.find().where('company', req.user._id).and({rating: 2}).and({removed:false}).count().exec();
+		const threeStar = await Review.find().where('company', req.user._id).and({rating: 3}).and({removed:false}).count().exec();
+		const fourStar = await Review.find().where('company', req.user._id).and({rating: 4}).and({removed:false}).count().exec();
+		const fiveStar = await Review.find().where('company', req.user._id).and({rating: 5}).and({removed:false}).count().exec();
+
+		const rating = Math.ceil(h.starRating(oneStar, twoStar, threeStar, fourStar, fiveStar));
+
+
+
 	res.render('admin/profile/profile', {
 		title: 'Profile',
-		user: req.user
+		company: req.user,
+		activeReviews, 
+		removedReviews,
+		rating
 	});
 };
 

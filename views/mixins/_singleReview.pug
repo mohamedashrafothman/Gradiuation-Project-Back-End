@@ -1,0 +1,48 @@
+mixin singleReview(review, company, index)
+	.review.d-flex.flex-column.justify-content-between
+		.reivew-head.mt-3.d-flex.flex-row.justify-content-start.align-items-start
+			img(src=(review.user.photo ? `/img/faces/${review.user.photo}` : `/img/faces/face1.jpg`) alt="user image" class="rounded-circle" style="width: 70px;")
+			.d-flex.flex-column.justify-content-between.align-items-start.ml-3.w-100
+				h5.text-dark.text-capitalize.mt-2.mb-0.w-100
+					= review.user.name
+					if (user && user.role === "admin" && user._id.equals(company._id))
+						if (review.removed == false)
+							a.text-dark.float-right(href=`/reviews/delete/${review.id}`, id=`deleteReviewBtn-${index}`, data-toggle="tooltip" data-placement="top" title="Hide from users.")
+								i.far.fa-eye-slash
+						else
+							a.text-dark.float-right(href=`/reviews/show/${review.id}`, id=`showReviewBtn-${index}` data-toggle="tooltip" data-placement="top" title="Share with users.")
+								i.far.fa-eye
+									
+				p.text-muted.font-italic.mb-0= h.moment(review.created).fromNow()
+				.d-flex
+					.br-wrapper.br-theme-fontawesome-stars
+						.text-muted.ml-0
+							select(disabled="disabled" id=`companyRating-${index}`)
+								- for(var i = 1 ; i <= 5 ; i++){
+									if (i == review.rating)
+										option(value=`${i}` select)
+									else 
+										option(value=`${i}`)
+								- }
+				.review-content
+					p.text-muted= review.text
+		script.
+			$(document).ready(function(){
+				var $initialRate = "#{review.rating}";
+				var initialRatingNum = parseInt($initialRate);
+				$(`#companyRating-#{index}`).barrating({
+					readonly: true,
+					showSelectedRating: true,
+					initialRating: `${initialRatingNum}`
+				});
+				
+				$(`#deleteReviewBtn-#{index}, #showReviewsBtn-#{index}`).on('click', function(e){
+					e.preventDefault();
+					var redirectUrl = $(this).attr('href');
+					var $deleteRev = confirm('Are you sure you want to delete this Trip? ');
+					if ($deleteRev){
+						window.location.href = redirectUrl;
+					}
+				});
+				
+			});

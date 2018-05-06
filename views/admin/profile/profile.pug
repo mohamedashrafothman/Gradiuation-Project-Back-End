@@ -1,5 +1,7 @@
 extends ../../layouts/layout.pug
 
+include ../../mixins/_singleReview.pug
+
 block content
 	.container
 		.row
@@ -13,64 +15,72 @@ block content
 					.card-body
 						.tab-content
 							.tab-pane.fade.show.active#overview(role="tabpanel" arial-labelledby="overview-tab")
-								h1.card-title.mb-2= `${user.name}'s Profile`
-									a.h6.font-weight-light.text-primary.ml-1.float-right(href=`/dashboard/profile/${user.slug}/edit`) Edit profile
+								h1.card-title.mb-2= `${company.name}'s Profile`
+									a.h6.font-weight-light.text-primary.ml-1.float-right(href=`/dashboard/profile/${company.slug}/edit`) Edit profile
 								.d-flex
 									.br-wrapper.br-theme-fontawesome-stars
 										.text-muted.ml-0
-											select#viewRating(disabled="disabled")
-												option(value="1")
-												option(value="2" selected)
-												option(value="3")
-												option(value="4")
-												option(value="5")
+											select#singleCompanyRating(disabled="disabled")
+												- for(var i = 1 ; i <= 5 ; i++){
+													if (i == rating)
+														option(value=`${i}` select)
+													else 
+														option(value=`${i}`)
+												- }
+								script.
+									$(document).ready(function(){
+										var ratingNum = "#{rating}";
+										ratingNum = parseInt(ratingNum);
+										$(`#singleCompanyRating`).barrating({
+											readonly: true,
+											showSelectedRating: true,
+											initialRating: `${ratingNum}`
+										});
+									});
 								.d-flex
 									.d-flex.text-muted#createdAt
 										i.mdi.mdi-calendar-blank.icon-sm.mr-2
 										-
-											var now = h.moment(user.created);
+											var now = h.moment(company.created);
 											var diff = now.toNow();
 										span= `Created ${diff}`
 									.d-flex.text-muted.ml-5
 										i.fa.fa-phone.icon-sm.mr-2.pt-1
-										if !user.contacts.mobileNumber
+										if !company.contacts.mobileNumber
 											span 
 												| +01-xxx-xxxxxx Edit your profile to add phone number
-												a.font-weight-light.text-primary.ml-3(href=`/dashboard/profile/${user.slug}/edit`) Edit 												
+												a.font-weight-light.text-primary.ml-3(href=`/dashboard/profile/${company.slug}/edit`) Edit 												
 										else 
-											span= `${user.contacts.mobileNumber}`
+											span= `${company.contacts.mobileNumber}`
 								.row.mt-3
 									.col-12.pr-1
-										img.mb-2.mw-100.w-100.rounded(src=h.staticMap([`${user.location.coordinates[0]}`, `${user.location.coordinates[1]}`]), alt='image')
+										img.mb-2.mw-100.w-100.rounded(src=h.staticMap([`${company.location.coordinates[0]}`, `${company.location.coordinates[1]}`]), alt='image')
 								.d-flex.mt-3.align-items-top
 									.mb-0.flex-grow
-										if !user.description
+										if !company.description
 											p 
 												| Edit your profile to add description
-												a.font-weight-light.text-primary.ml-3(href=`/dashboard/profile/${user.slug}/edit`) Edit 
+												a.font-weight-light.text-primary.ml-3(href=`/dashboard/profile/${company.slug}/edit`) Edit 
 										else 
-											p= `${user.description}`
+											p= `${company.description}`
 
 
 							.tab-pane.fade#reviews(role="tabPanel" arial-labelledby="reviews-tab")
-								.review.d-flex.flex-column.justify-content-between
-									.reivew-head.mt-3.d-flex.flex-row.justify-content-start.align-items-start
-										img(src="/img/faces/face4.jpg" alt="user image" class="rounded-circle" style="width:60px;")
-										.d-flex.flex-column.justify-content-between.align-items-start.ml-3
-											h5.text-dark.text-capitalize.my-1.w-100 Mohamed Ashraf Othman
-												i.fas.fa-trash-alt.float-right
-											.d-flex
-												.br-wrapper.br-theme-fontawesome-stars
-													.text-muted.ml-0
-														select.reviewsRating(disabled="disabled")
-															option(value="1")
-															option(value="2")
-															option(value="3" selected)
-															option(value="4")
-															option(value="5")
-											.review-content
-												p Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora quos consequuntur ad ut non voluptate labore fugit optio. Vitae reprehenderit quia assumenda suscipit obcaecati dolores consequuntur temporibus aliquid quisquam eius.
-
+								h2.text-dark.mb-0 Active Reviews
+								if (activeReviews && activeReviews.length > 0)
+									each review in activeReviews
+										- var index = Math.floor((Math.random() * 100) + 1);
+										+singleReview(review, company, index)
+								else
+									h1.text-capitalize.text-muted.text-center.py-3.display-6 there is no actiev reviews for this company
+								hr
+								h2.text-dark.mb-0 Un-Active Reviews									
+								if (removedReviews && removedReviews.length > 0)
+									each review in removedReviews
+										- var index = Math.floor((Math.random() * 100) + 100);
+										+singleReview(review, company, index)
+								else
+									h1.text-capitalize.text-muted.text-center.py-3.display-6 there is no unactive reviews for this company
 
 
 							.tab-pane.fade#photos(role="tabPanel" arial-labelledby="photos-tab")

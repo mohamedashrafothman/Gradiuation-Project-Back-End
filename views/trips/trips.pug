@@ -22,19 +22,20 @@ block content
 								h4.m-0.text-dark.text-capitalize.py-2.card-title.display-5 Trips
 									small.text-muted.m-0.ml-3.d-inline-block= `${trips.length} trips are available`
 								#list-trips-content-main-trips.border-bottom
-									if trips.length
+									if (trips.length > 0)
 										each trip in trips				
 											.trip.d-flex.flex-row.justify-content-start.align-items-start.py-2
 												div.border.p-2.rounded
 													i.trip-icon.fas.fa-plane.text-dark.fa-3x
 												.trip-body.d-flex.flex-column.align-items-start.justify-content-between.w-100.ml-2.pb-3
-													h3.w-100.d-flex.flex-row.justify-content-between.align-items-center
+													h3.w-100.d-flex.flex-row.justify-content-between.align-items-center.mb-0
 														a.text-dark.text-capitalize.font-weight-bold.text-left.display-3.d-inline.m-0(href="#" style="text-decoration: none;")= `${trip.name}`
-														if trip.author._id.equals(user._id)
+														if (user && trip.author._id.equals(user._id))
 															a.float-right.mt-3(href=`/dashboard/trips/delete/${trip._id}`)
 																i.fas.fa-trash.text-dark.fa-xs
 													p.w-100.text-success.m-0= `From ${trip.duration.from} To ${trip.duration.to}`
-														span.text-primary.float-right.font-weight-bold.text-center.h4.m-0 50 LE
+														span.text-primary.float-right.font-weight-bold.text-center.h4.m-0 10,000 LE
+													a.text-dark(href=`/company/${trip.author._id}` style="text-decoration: none;")= trip.author.name
 													a(href="#" style="text-decoration: none;")
 														p.w-100.text-muted.m-0= `${trip.description.slice(0, 150)}...`
 													.d-flex.flex-row.justify-content-start.mt-3

@@ -8,6 +8,7 @@ const slug                  = require('speakingurl');
 const validator             = require('validator');
 const md5                   = require('md5');
 const Trip                  = require('./trip');
+const Review				= require('./review');
 const mongoodbErrorHandler  = require('mongoose-mongodb-errors');
 const passportLocalMongoose = require('passport-local-mongoose');
 const bcrypt                = require('bcryptjs');
@@ -39,11 +40,8 @@ const userSchema = new Schema({
 			trim: true,
 			validate: [validator.isEmail, 'Invalid Email Address']
 		},
-		website:{
-			type: String,
-			unique: true,
-			lowercase: true,
-			trim: true
+		website: {
+			type: String
 		}
 	},
 	location: {
@@ -79,6 +77,10 @@ const userSchema = new Schema({
 	trips: [{
 		type: mongoose.Schema.ObjectId,
 		ref: 'Trip'
+	}],
+	reviews: [{
+		type: mongoose.Schema.ObjectId,
+		ref: 'Review'
 	}],
 	gender: String,
 	profileCompleted: String,

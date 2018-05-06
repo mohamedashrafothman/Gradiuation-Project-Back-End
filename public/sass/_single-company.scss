@@ -74,10 +74,21 @@
 				}
 			}
 			&-reviews {
+				&-adding{
+					.br-wrapper.br-theme-fontawesome-stars {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						padding-top: 0.5rem;
+						border-bottom:1px solid #e6ecf5;
+						border-left:1px solid #e6ecf5;
+					}
+				}
 				&-content {
 					.review {
 						img.rounded-circle {
 							width: 70px;
+							height: 70px;
 						}
 					}
 				}

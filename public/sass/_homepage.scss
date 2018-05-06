@@ -491,9 +491,8 @@ ul li {
 			margin: 0 auto;
 		}
 		&-title {
-			text-transform: uppercase;
+			text-transform: capitalize;
 			font-weight: 600;
-			letter-spacing: 2px;
 			font-size: 18px;
 			&:hover {
 				text-decoration: none;
