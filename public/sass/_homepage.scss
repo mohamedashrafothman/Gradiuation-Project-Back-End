@@ -463,7 +463,6 @@ ul li {
 	}
 }
 
-.company,
 .shaaera {
 	&-showMore {
 		margin: 0px 20px 20px;
@@ -471,12 +470,12 @@ ul li {
 	}
 }
 
-.companies {
+.companies{
 	.company {
 		background-color: $color_white;
 		border-top-left-radius: 4px;
 		border-top-right-radius: 4px;
-		padding: 0px;
+		padding: 0px; 
 		max-width: 265px !important;
 		max-height: 450px;
 		height: 450px;
@@ -522,14 +521,13 @@ ul li {
 		}
 		&-showMore {
 			position: absolute;
+			margin: 0px 20px 20px;
 			bottom: 10px;
+			transition: all 0.5s ease-in-out;
 		}
 	}
-	.company:not(:last-child) {
-		// margin-right: 20px;
-	}
-}
 
+}
 #shaaer {
 	padding: 50px 0px;
 	background-color: $color_blue;

@@ -1,12 +1,41 @@
 extends ../layouts/home-layout.pug
+include ../mixins/_company.pug
 
 block content
-	section#companies.mt-5.bg-secondary
-		.container
-			.row.mt-5
-				h1.col-12.text-uppercase.font-weight-bold.text-left.mt-5 Companies
-				.companies.col-sm-12.mt-5
-					.row
-						include ../mixins/_company.pug
-						each company in companies
-							+company(company)
+	#list-companies.bg-white
+		#list-companies-header.pt-100
+			.bg-blure(style=`background-image: url('/img/masjid.jpg')`)
+			.container.d-flex.flex-row.align-items-center.justify-content-start(style="min-height: 250px;")
+				.row
+					#list-companies-header-container
+						h3.display-1.text-white.text-uppercase.text-left Companies
+		main#list-companies-content.bg-white.pb-5
+			.container
+				.row
+					.col-12.col-lg-3
+						.card.w-100#list-companies-content-filter
+							.card-body.py-2
+								#list-companies-content-filter-nav
+									h4.m-0.text-dark.text-capitalize.py-2.card-title.display-5 Filter
+					.col-12.col-lg-9
+						.card.w-100#list-companies-content-main
+							.card-body.py-2
+								h4.m-0.text-dark.text-capitalize.py-2.card-title.display-5 Companies
+									small.text-muted.m-0.ml-3.d-inline-block= `${companies.length} companies are available`
+								#list-companies-content-main-companies.row.border-bottom.py-4
+									each company in companies
+										+company(company)
+								if (companies.length != 0)
+									#list-companies-content-main-pagenation
+										nav(aria-label='Page navigation example')
+											ul.pagination.justify-content-end.my-3
+												li(class=(page == 1 ? "disabled page-item" : "page-item"))
+													a.page-link(href=`/companies/${page - 1}`, tabindex='-1') 
+														i.fas.fa-arrow-left
+												- for(var i = 1 ; i <= pages ; i++){
+													li(class=(page==i ? "active page-item" : "page-item"))
+														a.page-link(href=`/companies/${i}`)= `${i}`
+												- } 
+												li(class=(page == pages ? "disabled page-item" : "page-item"))
+													a.page-link(href=`/companies/${page++}`) 
+														i.fas.fa-arrow-right

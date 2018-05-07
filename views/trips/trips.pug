@@ -48,7 +48,7 @@ block content
 															.badge.mr-1.badge-success= trip.hotel.include.split(',')[1]
 															.badge.mr-1.bg-white.text-success= `+${trip.hotel.include.split(',').length - 2}`
 									else 
-										h1.my-5.text-center.display-2.text-capitalize there is no trips available
+										h1.my-5.text-center.display-2.text-capitalize.text-muted there is no trips available
 								if (trips.length != 0)
 									#list-trips-content-main-pagenation
 										nav(aria-label='Page navigation example')
