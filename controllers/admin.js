@@ -92,9 +92,11 @@ module.exports.updateUser = async (req, res, next) => {
 
 
 module.exports.getTrips = async (req, res, next) => {
-	const trips = await Trip.find({author: req.user._id}).$where('this.removed == false').populate('author').exec();
+
+	const activeTrips = await Trip.find({author: req.user._id}).$where('this.removed === false').populate('author').exec();
+	const unActiveTrips = await Trip.find().where('author', req.user._id).and({removed: true}).populate('author').exec();
 	const user = req.user;
-	res.render('admin/trips/trips', {title: "Trips",trips,user});
+	res.render('admin/trips/trips', {title: "Trips",activeTrips,unActiveTrips,user});
 };
 
 module.exports.getTrip = async (req, res, next) => {
@@ -137,9 +139,16 @@ module.exports.addTrip = async (req, res, next) => {
 
 module.exports.deleteTrip = async (req, res, next) => {
 	const trip = await Trip.findOneAndUpdate({_id: req.params.id}, {$set: {removed: true}}, {new: true}).exec();
-	req.flash('success', `Successfully deleted ${trip.code}.`);
+	req.flash('success', `Successfully Deactivated ${trip.code}.`);
 	res.redirect('back');
 };
+
+module.exports.activateTrip = async (req, res, next) => {
+	const trip = await Trip.findOneAndUpdate({_id: req.params.id}, {$set: {removed: false}}, {new: true}).exec();
+	req.flash('success', `Successfully Activated ${trip.code}.`);
+	res.redirect('back');
+};
+
 
 module.exports.updateTrip = async (req, res, next) => {
 	// req.body.hotel.location.type = 'point';

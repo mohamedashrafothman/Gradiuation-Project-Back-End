@@ -15,6 +15,10 @@ const tripSchema = new Schema({
 	},
 	description: String,
 	type    : String,
+	price: {
+		type:Number,
+		required: "you must apply an price"
+	},
 	duration: {
 		from: String,
 		to  : String

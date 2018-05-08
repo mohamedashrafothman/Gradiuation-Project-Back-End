@@ -9,8 +9,27 @@ module.exports.getHome = async (req, res, next)=> {
 	res.render('home', {companies});
 };
 module.exports.getCompanies = async (req, res, next) => {
-	const companies = await User.find({role:"admin"}).populate('trips').exec();
-	res.render('companies/companies', { user: req.user, companies });
+
+	// for pagenation purpose
+	const page = req.params.page || 1;
+	const limit = 8;
+	const skip = (page * limit) - limit;
+	const companies = await User.find({role:"admin"}).skip(skip).limit(limit).sort({created: 'desc'}).populate('trips').exec();
+	const companiesCount = await User.find({role: "admin"}).count().exec();
+	const pages = Math.ceil(companiesCount / limit);
+
+	if (!companies.length && skip) {
+		res.redirect(`/companies/${pages}`);
+		return;
+	}
+
+	res.render('companies/companies', { 
+		user: req.user, 
+		companies,
+		pages,
+		count: companiesCount,
+		page
+	});
 };
 module.exports.getContactUs = (req, res, next) => {
 	res.render('contact-us', {title: "Contact Us"});
@@ -53,11 +72,22 @@ module.exports.getSingleCompany = async (req, res, next)=> {
 module.exports.getTrips = async (req, res, next)=> {
 
 	const page = req.params.page || 1;
-	const limit = 8;
+	const limit = 10;
 	const skip = (page * limit) - limit;
-	const trips = await Trip.find().where('removed', false).skip(skip).limit(limit).sort({created: 'desc'}).populate('author').exec();
-	const tripsCount = await Trip.count().exec();
+	const stars = req.query.stars || 1;
+	const type = req.query.type || "umrah";
+	const price_max = req.query.price_max || 50000;
+	const price_min = req.query.price_min || 1;
+	var trips;
+	if (Object.keys(req.query).length === 0) {
+		trips = await Trip.find({removed: false}).skip(skip).limit(limit).sort({created: 'desc'}).populate('author').exec();
+	} else {
+		trips = await Trip.find({removed: false, 'hotel.rating':stars, price: {$gte: price_min, $lte: price_max}, type: type}).skip(skip).limit(limit).sort({created: 'desc'}).populate('author').exec();
+	}
+
+	const tripsCount = await Trip.find({removed: false}).count().exec();
 	const pages = Math.ceil(tripsCount / limit);
+		
 
 	if(!trips.length && skip){
 		res.redirect(`/trips/${pages}`);
@@ -70,7 +100,11 @@ module.exports.getTrips = async (req, res, next)=> {
 		trips,
 		page, 
 		pages, 
-		count: tripsCount
+		count: tripsCount,
+		type,
+		stars,
+		price_max,
+		price_min
 	});
 }
 
@@ -92,7 +126,7 @@ module.exports.addReview = async (req, res, next)=> {
 
 module.exports.deleteReview = async (req, res, next) => {
 	const review = await Review.findOneAndUpdate({_id: req.params.id}, {$set: {	removed: true}}, {new: true}).exec();
-	req.flash('success', `Successfully deleted trip, Users can't see it now.`);
+	req.flash('success', `Successfully deactivated review, Users can't see it now. Go to Dashboard to active it.`);
 	res.redirect('back');
 };
 

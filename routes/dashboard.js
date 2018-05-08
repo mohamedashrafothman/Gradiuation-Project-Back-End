@@ -18,6 +18,6 @@ router.get('/trips/add', authController.ensureAuthenticated, requireRole("admin"
 router.post('/trips/add', authController.ensureAuthenticated, requireRole("admin"), catchErrors(adminController.addTrip));
 router.post('/trip/update/:id', authController.ensureAuthenticated, requireRole("admin"), catchErrors(adminController.updateTrip));
 router.get('/trips/delete/:id', authController.ensureAuthenticated, requireRole("admin"), catchErrors(adminController.deleteTrip));
-
+router.get('/trips/show/:id', authController.ensureAuthenticated, requireRole("admin"), catchErrors(adminController.activateTrip));
 
 module.exports = router;

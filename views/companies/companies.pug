@@ -21,11 +21,11 @@ block content
 						.card.w-100#list-companies-content-main
 							.card-body.py-2
 								h4.m-0.text-dark.text-capitalize.py-2.card-title.display-5 Companies
-									small.text-muted.m-0.ml-3.d-inline-block= `${companies.length} companies are available`
+									small.text-muted.m-0.ml-3.d-inline-block= `${count} companies are available`
 								#list-companies-content-main-companies.row.border-bottom.py-4
 									each company in companies
 										+company(company)
-								if (companies.length != 0)
+								if (count != 0)
 									#list-companies-content-main-pagenation
 										nav(aria-label='Page navigation example')
 											ul.pagination.justify-content-end.my-3
