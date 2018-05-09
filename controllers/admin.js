@@ -5,11 +5,11 @@ const multer = require('multer'); // allawing us to upload a photo to the server
 const jimp = require('jimp'); // for resizing image
 const uuid = require('uuid'); // unique idenifier package
 const h	   = require('../helpers');
+const slug = require('speakingurl');
 
 
 module.exports.getDashboard = async (req, res, next) => {
 	const trips = await Trip.find().where('author', req.user._id).and({removed: false}).limit(10).exec();
-	console.log(trips);
 	res.render('admin/dashboard', {
 		title: 'Dashboard',
 		user: req.user,
@@ -20,14 +20,14 @@ module.exports.getDashboard = async (req, res, next) => {
 module.exports.getProfile = async (req, res) => {
 	const activeReviews = await Review.find({company: req.user._id, removed: false}).populate('user').populate('company').exec();
 	const removedReviews = await Review.find({company: req.user._id,removed: true }).populate('user').populate('company').exec();
-	
-		const oneStar = await Review.find().where('company', req.user._id).and({rating: 1}).and({removed:false}).count().exec();
-		const twoStar = await Review.find().where('company', req.user._id).and({rating: 2}).and({removed:false}).count().exec();
-		const threeStar = await Review.find().where('company', req.user._id).and({rating: 3}).and({removed:false}).count().exec();
-		const fourStar = await Review.find().where('company', req.user._id).and({rating: 4}).and({removed:false}).count().exec();
-		const fiveStar = await Review.find().where('company', req.user._id).and({rating: 5}).and({removed:false}).count().exec();
 
-		const rating = Math.ceil(h.starRating(oneStar, twoStar, threeStar, fourStar, fiveStar));
+	const oneStar = await Review.find().where('company', req.user._id).and({rating: 1}).and({removed:false}).count().exec();
+	const twoStar = await Review.find().where('company', req.user._id).and({rating: 2}).and({removed:false}).count().exec();
+	const threeStar = await Review.find().where('company', req.user._id).and({rating: 3}).and({removed:false}).count().exec();
+	const fourStar = await Review.find().where('company', req.user._id).and({rating: 4}).and({removed:false}).count().exec();
+	const fiveStar = await Review.find().where('company', req.user._id).and({rating: 5}).and({removed:false}).count().exec();
+
+	const rating = Math.ceil(h.starRating(oneStar, twoStar, threeStar, fourStar, fiveStar));
 
 
 
@@ -80,6 +80,8 @@ module.exports.resize = async (req, res, next) => {
 };
 module.exports.updateUser = async (req, res, next) => {
 	req.body.location.type = 'point';
+	req.body.slug = slug(req.body.name);
+	// req.body.username = req.body.name.toLowerCase();
 	const user = await User.findOneAndUpdate({
 		_id: req.user.id
 	}, req.body, {

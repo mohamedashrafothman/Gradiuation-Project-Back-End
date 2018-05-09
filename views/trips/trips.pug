@@ -12,7 +12,7 @@ block content
 			.container
 				.row
 					.col-12.col-lg-3
-						.card.w-100#list-trips-content-filter
+						.card.w-100.border#list-trips-content-filter
 							.card-body.py-2
 								#list-trips-content-filter-nav
 									h4.m-0.text-dark.text-capitalize.py-2.card-title.display-5 Filter
@@ -46,6 +46,32 @@ block content
 														else 
 															input.form-check-input(type='radio',name="type", value='hajj')
 														| Hajj
+														i.input-helper
+											.form-group.col-12.mb-2#filter-travel-type
+												label.text-capitalize.text-dark.font-weight-bold.col-form-label(for="#filter-travel-type") Traveling Type
+												.form-radio.col-12.my-2
+													label.form-check-label
+														if (travel_type == "air")
+															input.form-check-input(type='radio',name="travel_type", value='air' checked="")
+														else 
+															input.form-check-input(type='radio',name="trvel_type", value='air')
+														| Air
+														i.input-helper
+												.form-radio.col-12.my-2
+													label.form-check-label
+														if (travel_type == "land")
+															input.form-check-input(type='radio',name="travel_type", value='land' checked="")
+														else 
+															input.form-check-input(type='radio',name="travel_type", value='land')
+														| Land
+														i.input-helper
+												.form-radio.col-12.my-2
+													label.form-check-label
+														if (travel_type == "sea")
+															input.form-check-input(type='radio',name="travel_type", value='sea' checked="")
+														else 
+															input.form-check-input(type='radio',name="travel_type", value='sea')
+														| sea
 														i.input-helper
 											.form-group.col-12.mb-2#filter-price
 												label.text-capitalize.text-dark.font-weight-bold.col-form-label(for="#filter-price") Price
@@ -85,7 +111,7 @@ block content
 												button.btn.btn-success.btn-block(type="submit" id="filter-submit") Search
 												
 					.col-12.col-lg-9
-						.card.w-100#list-trips-content-main
+						.card.w-100.border#list-trips-content-main
 							.card-body.py-2
 								h4.m-0.text-dark.text-capitalize.py-2.card-title.display-5 Trips
 									small.text-muted.m-0.ml-3.d-inline-block= `${trips.length} trips are available`
@@ -93,8 +119,13 @@ block content
 									if (trips.length > 0)
 										each trip in trips				
 											.trip.d-flex.flex-row.justify-content-start.align-items-start.py-2
-												div.border.p-2.rounded
-													i.trip-icon.fas.fa-plane.text-dark.fa-3x
+												div.border.p-4.rounded
+													if trip.travel_type == "air"
+														i.trip-icon.fas.fa-plane.text-dark.fa-3x
+													else if trip.travel_type == "land"
+														i.trip-icon.fas.fa-bus.text-dark.fa-3x
+													else 
+														i.trip-icon.fas.fa-ship.text-dark.fa-3x
 												.trip-body.d-flex.flex-column.align-items-start.justify-content-between.w-100.ml-2.pb-3
 													h3.w-100.d-flex.flex-row.justify-content-between.align-items-center.mb-0
 														a.text-dark.text-capitalize.font-weight-bold.text-left.display-3.d-inline.m-0(href="#" style="text-decoration: none;")= `${trip.name}`
@@ -167,10 +198,11 @@ block content
 						// geting values from inputs
 						var $stars = $('select#filter-stars').val();
 						var $type = $("#filter-type input[type='radio']:checked").val();
+						var $travelType = $("#filter-travel-type input[type='radio']:checked").val();
 						var $price_max = $("#filter-price input[type='radio']:checked").data('price-max');
 						var $price_min = $("#filter-price input[type='radio']:checked").data('price-min');
 						
-						window.location.href = `/trips/1?stars=${$stars}&price_max=${$price_max}&price_min=${$price_min}&type=${$type}`;
+						window.location.href = `/trips/1?stars=${$stars}&price_max=${$price_max}&price_min=${$price_min}&type=${$type}&travel_type=${$travelType}`;
 					});
 					
 				});

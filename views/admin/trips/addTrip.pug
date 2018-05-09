@@ -30,6 +30,24 @@ block content
 											| Hajj
 											i.input-helper
 							.row
+								label.font-weight-bold.col-12.col-form-label Traveling Type							
+								.pl-5.w-100.row
+									.form-radio.col-4
+										label.form-check-label
+											input.form-check-input(type='radio', name='travel_type', value='air')
+											| Air travel
+											i.input-helper
+									.form-radio.col-4
+										label.form-check-label
+											input.form-check-input(type='radio', name='travel_type', value='land')
+											| Land Travel
+											i.input-helper
+									.form-radio.col-4
+										label.form-check-label
+											input.form-check-input(type='radio', name='travel_type', value='sea')
+											| Sea Travel
+											i.input-helper
+							.row
 								label.font-weight-bold.col-12.col-form-label Duration
 								.form-group.col-12
 									label.col-12.col-form-label From
@@ -176,4 +194,10 @@ block content
 							}
 						});
 
+
+						$('#addTrip').barrating({
+							theme: 'fontawesome-stars',
+							showValues: true,
+							deselectable: false
+						});
 					});

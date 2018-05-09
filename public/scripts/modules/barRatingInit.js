@@ -10,10 +10,4 @@ export default function barRatingInit(){
 		readonly: false,		
 		showValues: true
 	});
-	$('#addTrip').barrating({
-		theme: 'fontawesome-stars',
-		showValues: true,
-		deselectable: false,
-		readonly: true
-	});
 };

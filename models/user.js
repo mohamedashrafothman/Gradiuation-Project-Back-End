@@ -1,6 +1,3 @@
-/**
- * Requiring Dependencies
- */
 const mongoose              = require('mongoose');
 const Schema                = mongoose.Schema;
       mongoose.Promise      = global.Promise;
@@ -8,7 +5,7 @@ const slug                  = require('speakingurl');
 const validator             = require('validator');
 const md5                   = require('md5');
 const Trip                  = require('./trip');
-const Review				= require('./review');
+const Review                = require('./review');
 const mongoodbErrorHandler  = require('mongoose-mongodb-errors');
 const passportLocalMongoose = require('passport-local-mongoose');
 const bcrypt                = require('bcryptjs');
@@ -16,29 +13,29 @@ const bcrypt                = require('bcryptjs');
 // Company Schema
 const userSchema = new Schema({
 	name: {
-		type: String,
+		type    : String,
 		required: 'please enter a company name',
-		trim: true
+		trim    : true
 	},
-	username: String,
-	slug: String,
-	role: String,
+	username   : String,
+	slug       : String,
+	role       : String,
 	description: {
 		type: String,
 		trim: true
 	},
 	photo: {
-		type: String,
+		type : String,
 		index: true
 	},
 	contacts: {
 		mobileNumber: String,
-		email: {
-			type: String,
-			unique: true,
+		email       : {
+			type     : String,
+			unique   : true,
 			lowercase: true,
-			trim: true,
-			validate: [validator.isEmail, 'Invalid Email Address']
+			trim     : true,
+			validate : [validator.isEmail, 'Invalid Email Address']
 		},
 		website: {
 			type: String
@@ -46,58 +43,60 @@ const userSchema = new Schema({
 	},
 	location: {
 		type: {
-			type: String,
+			type   : String,
 			default: 'point'
 		},
 		coordinates: [{
-			type: Number,
+			type    : Number,
 			required: 'You must supply coordinates'
 		}],
 		address: {
-			type: String,
+			type    : String,
 			required: 'You must supply an address!'
 		},
 		country: {
-			type: String,
+			type    : String,
 			required: 'You must supply an address!'
 		},
 		city: {
-			type: String,
+			type    : String,
 			required: 'You must supply an address!'
 		}
 	},
 	created: {
-		type: Date,
+		type   : Date,
 		default: Date.now
 	},
 	required_papers: String,
-	password: {
+	password       : {
 		type: String
 	},
 	trips: [{
 		type: mongoose.Schema.ObjectId,
-		ref: 'Trip'
+		ref : 'Trip'
 	}],
 	reviews: [{
 		type: mongoose.Schema.ObjectId,
-		ref: 'Review'
+		ref : 'Review'
 	}],
-	gender: String,
-	profileCompleted: String,
-	resetPasswordTaken: String,
+	gender              : String,
+	profileCompleted    : String,
+	resetPasswordTaken  : String,
 	resetPasswordExpires: Date
 });
 
 // before saving make slug property
-userSchema.pre('save', async function(next) {
-	if(!this.isModified('name')){
+userSchema.pre('save', async function (next) {
+	if (!this.isModified('name')) {
 		next(); // skip it
-		return ; // stop this function from running
+		return; // stop this function from running
 	}
-	this.slug = slug(this.name); // assign slug name to slug property
-	const slugRegEx = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, 'i');
-	const userWithSlug = await this.constructor.find({slug: slugRegEx});
-	if(userWithSlug.length){
+	      this.slug    = slug(this.name);                                   // assign slug name to slug property
+	const slugRegEx    = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, 'i');
+	const userWithSlug = await this.constructor.find({
+		slug: slugRegEx
+	});
+	if (userWithSlug.length) {
 		this.slug = `${this.slug}-${userWithSlug.length + 1}`;
 	}
 	next(); // go to next function
@@ -107,24 +106,26 @@ userSchema.pre('save', async function(next) {
 
 var User = module.exports = mongoose.model('User', userSchema);
 
-module.exports.createUser = (newUser, callback)=> {
-	bcrypt.genSalt(10, function(err, salt){
-		bcrypt.hash(newUser.password, salt, function(err, hash){
+module.exports.createUser = (newUser, callback) => {
+	bcrypt.genSalt(10, function (err, salt) {
+		bcrypt.hash(newUser.password, salt, function (err, hash) {
 			newUser.password = hash;
 			newUser.save(callback);
 			console.log(newUser);
 		})
 	});
 };
-module.exports.getUsersByUsername = (username, callback)=> {
-	User.findOne({username: username}, callback);
+module.exports.getUsersByUsername = (username, callback) => {
+	User.findOne({
+		username: username
+	}, callback);
 };
 module.exports.getUserById = (id, callback) => {
 	User.findById(id, callback);
 };
-module.exports.comparePassword = (candidatePassword, hash, callback)=>{
-	bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
-		if(err) throw err;
+module.exports.comparePassword = (candidatePassword, hash, callback) => {
+	bcrypt.compare(candidatePassword, hash, function (err, isMatch) {
+		if (err) throw err;
 		callback(null, isMatch);
 	});
 };

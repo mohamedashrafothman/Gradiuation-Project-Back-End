@@ -14,7 +14,14 @@ const tripSchema = new Schema({
 		required: 'You must apply an author'
 	},
 	description: String,
-	type    : String,
+	type    : {
+		type:String,
+		required: 'yo must apply an trip type'
+	},
+	travel_type: {
+		type: String,
+		required: 'You must apply an travel type'
+	},
 	price: {
 		type:Number,
 		required: "you must apply an price"

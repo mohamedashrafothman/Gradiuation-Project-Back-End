@@ -40,14 +40,19 @@
 			&-trips{
 				min-height: 28.125rem;
 				.trip{
-					&:not(:last-child){
+					&:not(:last-of-type){
 						.trip-body{
 							border-bottom: 1px solid #ddd;
 						}
 					}
-					&-icon{
-						transform: rotate(-135deg);
-					}
+				}
+			}
+			&-pagenation {
+				.page-item.active .page-link{
+					color: #fff !important;
+					background-color: #2ecc71 !important;
+					border-color: #2ecc71 !important;
+	
 				}
 			}
 		}

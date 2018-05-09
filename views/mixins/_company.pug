@@ -1,5 +1,5 @@
 mixin company(company={name:'lorem apsom', created:'sun, 2 july 2015', description:'Lorem ipsum, dolor sit amet consectetur', slug:'#',photo:'big-sec-image.jpg'})
-	.col-lg-4.col-md-6.col-xs-12
+	div(class=(title=="Home") ? "col-lg-3 col-md-6 col-xs-12" : "col-lg-4 col-md-6 col-xs-12")
 		.company
 			img.img-fluid.company-image(src=(company.photo !== undefined) ? ` /img/uploads/${company.photo} ` : `/img/makkah.jpg`, alt=`${company.name}'s image`)
 			a.company-title.mt-5(href=`/company/${company.slug}`)
