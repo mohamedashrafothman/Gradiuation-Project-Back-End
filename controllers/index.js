@@ -19,14 +19,9 @@ module.exports.getCompanies = async (req, res, next) => {
 	const page      = req.params.page || 1;
 	const limit     = 8;
 	const skip      = (page * limit) - limit;
-	const companies = await User.find({
-		role: "admin"
-	}).skip(skip).limit(limit).sort({
-		created: 'desc'
-	}).populate('trips').exec();
-	const companiesCount = await User.find({
-		role: "admin"
-	}).count().exec();
+
+	const companies = await User.find().where('role').equals('admin').skip(skip).limit(limit).sort({created: 'desc'}).populate('trips').exec();
+	const companiesCount = await User.find().where('role').equals('admin').count().exec()
 	const pages = Math.ceil(companiesCount / limit);
 
 	if (!companies.length && skip) {
@@ -35,6 +30,7 @@ module.exports.getCompanies = async (req, res, next) => {
 	}
 
 	res.render('companies/companies', {
+		title: 'Companies',
 		user: req.user,
 		companies,
 		pages,
@@ -64,28 +60,14 @@ module.exports.getSingleCompany = async (req, res, next) => {
 	const company = await User.findOne({
 		slug: req.params.company
 	}).populate('reviews').populate('trips').exec();
-	const trips = await Trip.find().where('author', company._id).and({
-		removed: false
-	}).limit(10).exec();
-	const reviews = await Review.find().where('company', company._id).and({
-		removed: false
-	}).limit(10).populate('company').populate('user').exec();
+	const trips = await Trip.find().where('author', company._id).and({removed: false}).limit(10).exec();
+	const reviews = await Review.find().where('company', company._id).and({removed: false}).limit(10).populate('company').populate('user').exec();
 
-	const oneStar = await Review.find().where('company', company._id).and({
-		rating: 1
-	}).count().exec();
-	const twoStar = await Review.find().where('company', company._id).and({
-		rating: 2
-	}).count().exec();
-	const threeStar = await Review.find().where('company', company._id).and({
-		rating: 3
-	}).count().exec();
-	const fourStar = await Review.find().where('company', company._id).and({
-		rating: 4
-	}).count().exec();
-	const fiveStar = await Review.find().where('company', company._id).and({
-		rating: 5
-	}).count().exec();
+	const oneStar = await Review.find().where('company', company._id).and({rating: 1}).count().exec();
+	const twoStar = await Review.find().where('company', company._id).and({rating: 2}).count().exec();
+	const threeStar = await Review.find().where('company', company._id).and({rating: 3}).count().exec();
+	const fourStar = await Review.find().where('company', company._id).and({rating: 4}).count().exec();
+	const fiveStar = await Review.find().where('company', company._id).and({rating: 5}).count().exec();
 
 	const rating = Math.ceil(h.starRating(oneStar, twoStar, threeStar, fourStar, fiveStar));
 
@@ -111,26 +93,10 @@ module.exports.getTrips = async (req, res, next) => {
 	const price_min = req.query.price_min || 1;
 	var trips;
 	if (Object.keys(req.query).length === 0) {
-		trips = await Trip.find({
-			removed: false
-		}).skip(skip).limit(limit).sort({
-			created: 'desc'
-		}).populate('author').exec();
+		trips = await Trip.find({removed: false}).skip(skip).limit(limit).sort({created: 'desc'}).populate('author').exec();
 	} else {
-		trips = await Trip.find({
-			removed       : false,
-			'hotel.rating': stars,
-			price         : {
-				$gte: price_min,
-				$lte: price_max
-			},
-			type: type,
-			travel_type: travel_type
-		}).skip(skip).limit(limit).sort({
-			created: 'desc'
-		}).populate('author').exec();
+		trips = await Trip.find({removed: false,'hotel.rating': stars,price: {$gte: price_min,$lte: price_max},type: type,travel_type: travel_type}).skip(skip).limit(limit).sort({created: 'desc'}).populate('author').exec();
 	}
-
 	const tripsCount = await Trip.find({
 		removed: false
 	}).count().exec();
