@@ -75,7 +75,7 @@ app.use(expressValidator({
 
 
 // populates req.cookies with any cookies that came along with the request
-app.use(cookieParser());
+app.use(cookieParser(process.env.SECRET));
 // csrf middleware function goes right after cookie parser
 app.use(csrf({ cookie: true }));
 // Sessions allow us to store data on visitors from request to request
