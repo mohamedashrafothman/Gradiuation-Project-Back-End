@@ -4,9 +4,9 @@
   "description": "gradiuation project",
   "main": "app.js",
   "scripts": {
-    "start": "npm-run-all --parallel watch:server watch:build",
-    "watch:server": "supervisor ./app.js",
-    "watch:build": "gulp"
+    "dev": "npm-run-all --parallel watch start",
+    "start": "supervisor ./app.js",
+    "watch": "gulp"
   },
   "keywords": [
     "graduation",
