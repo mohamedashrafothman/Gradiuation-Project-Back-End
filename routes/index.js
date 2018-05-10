@@ -26,7 +26,7 @@ router.post('/user/account/reset/:token', authController.confirmPassword, catchE
 router.get('/company/:company',catchErrors(indexController.getSingleCompany));
 router.get('/trips/:page', catchErrors(indexController.getTrips));
 router.get('/trips', (req, res) => {res.redirect('/trips/1');});
-router.post('/reviews/:id', catchErrors(indexController.addReview));
+router.post('/reviews/:companyId', catchErrors(indexController.addReview));
 router.get('/reviews/delete/:id', authController.ensureAuthenticated, requireRole("admin"), catchErrors(indexController.deleteReview));
 router.get('/reviews/show/:id', authController.ensureAuthenticated, requireRole("admin"), catchErrors(indexController.showReview));
 module.exports = router;

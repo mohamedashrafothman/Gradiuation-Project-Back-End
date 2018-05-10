@@ -159,18 +159,10 @@ module.exports.getTrips = async (req, res, next) => {
 
 module.exports.addReview = async (req, res, next) => {
 	      req.body.user    = req.user._id;
-	      req.body.company = req.params.id;
+	      req.body.company = req.params.companyId;
 	const newReview        = new Review(req.body);
 	await newReview.save();
-	await User.findOneAndUpdate({
-		_id: req.body.company
-	}, {
-		$push: {
-			reviews: newReview._id
-		}
-	}, {
-		upsert: true
-	}, (err) => {
+	await User.findOneAndUpdate({_id: req.body.company}, {$push: {reviews: newReview._id}}, {upsert: true}, (err) => {
 		if (err) {
 			console.log(err);
 		} else {

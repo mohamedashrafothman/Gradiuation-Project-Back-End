@@ -14,8 +14,8 @@ const expressValidator = require('express-validator');
 const helpers		   = require('./helpers');
 const indexRoute       = require('./routes/index');
 const dashboardRoute   = require('./routes/dashboard');
+const apiRoute 		   = require('./routes/api');
 
-// const apiRoute 		   = require('./routes/api');
 // const usersRoute	   = require('./routes/users');
 const errorHandlers    = require('./handlers/errorHandlers');
 const PORT             = process.env.PORT || 8000;
@@ -114,8 +114,7 @@ app.use((req, res, next) => {
 
 app.use('/', indexRoute);
 app.use('/dashboard', dashboardRoute);
-// app.use('/api/v1', apiRoute);
-// app.use('/company', usersRoute);
+app.use('/api/v1', apiRoute);
 
 
 app.use(errorHandlers.invalidCsrfToken);
