@@ -128,7 +128,7 @@ block content
 														i.trip-icon.fas.fa-ship.text-dark.fa-3x
 												.trip-body.d-flex.flex-column.align-items-start.justify-content-between.w-100.ml-2.pb-3
 													h3.w-100.d-flex.flex-row.justify-content-between.align-items-center.mb-0
-														a.text-dark.text-capitalize.font-weight-bold.text-left.display-3.d-inline.m-0(href="#" style="text-decoration: none;")= `${trip.name}`
+														a.text-dark.text-capitalize.font-weight-bold.text-left.display-3.d-inline.m-0(href=`/trip/${trip.slug}` style="text-decoration: none;")= `${trip.name}`
 														if (user && trip.author._id.equals(user._id))
 															a.float-right.mt-3(href=`/dashboard/trips/delete/${trip._id}` id=`deactivateTrip-${trip.code}`  data-toggle="tooltip" data-placement="top" title="De-Activatate this trip!")
 																i.fas.fa-eye-slash.text-dark.fa-xs
@@ -136,7 +136,7 @@ block content
 														if trip.price
 															span.text-success.float-right.font-weight-bold.text-center.h4.m-0= `${trip.price} LE`
 													a.text-dark(href=`/company/${trip.author.slug}` style="text-decoration: none;")= `Company name: ${trip.author.name}`
-													a(href="#" style="text-decoration: none;")
+													a(href=`/trip/${trip.slug}` style="text-decoration: none;")
 														p.w-100.text-muted.m-0= `${trip.description.slice(0, 150)}...`
 													.d-flex.flex-row.justify-content-start.mt-3
 														p.font-weight-bold.mr-3.mb-0 Hotel Include: 

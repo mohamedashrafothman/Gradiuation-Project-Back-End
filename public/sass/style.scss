@@ -117,6 +117,8 @@
 @import "./_companies.scss";
 @import "./_single-company.scss";
 @import "./_list-trips.scss";
+@import "./_single-trip.scss";
+
 
 
 .m-select-d-box[data-msdb-name="a"] {
@@ -164,4 +166,8 @@
   text-align: right;
   width: 55% !important;
   left: 55% !important;
+}
+
+.badge {
+  direction: rtl !important;
 }

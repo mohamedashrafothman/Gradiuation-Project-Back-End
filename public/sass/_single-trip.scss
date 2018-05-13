@@ -1,0 +1,39 @@
+#single-trip{
+	&-header{
+		position: relative;
+		min-height: 300px;
+		overflow: hidden;
+		.bg-blure {
+			position: absolute;
+			left: -30px;
+			right: -30px;
+			top: -30px;
+			bottom: -30px;
+			background-size: cover;
+			z-index: 2;
+			-webkit-filter: blur(20px);
+			-moz-filter: blur(20px);
+			-o-filter: blur(20px);
+			-ms-filter: blur(20px);
+			filter: blur(20px);
+		}
+
+		&-container {
+			position: relative;
+			z-index: 3;
+			min-height: auto;
+			max-width: 50vw;
+			width: auto;
+		}
+	}
+	&-content{
+		&-main,
+		&-side {
+			z-index: 5;
+			margin-top: -50px;
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 0px;
+		}
+
+	}
+}

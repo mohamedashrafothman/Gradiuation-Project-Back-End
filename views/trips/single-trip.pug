@@ -1,0 +1,69 @@
+extends ../layouts/home-layout.pug
+
+block content
+	#single-trip.bg-white
+		#single-trip-header.pt-100
+			.bg-blure(style=`background-image: url('/img/masjid.jpg')`)
+			.container.d-flex.flex-row.align-items-center.justify-content-start(style="min-height: 250px;")
+				.row
+					#single-trip-header-container
+						h3.display-2.pl-3.text-white.text-uppercase.text-left= `${trip.slug.split('-').join(' ')}`
+		main#single-trip-content.bg-white.pb-5
+			.container
+				.row
+					.col-12.col-lg-9
+						.card.w-100.border#single-trip-content-main
+							.card-body.py-2
+								.trip.d-flex.flex-row.justify-content-start.align-items-start.py-2
+									.border.p-4.rounded
+										if trip.travel_type == "air"
+											i.trip-icon.fas.fa-plane.text-dark.fa-3x
+										else if trip.travel_type == "land"
+											i.trip-icon.fas.fa-bus.text-dark.fa-3x
+										else 
+											i.trip-icon.fas.fa-ship.text-dark.fa-3x
+									.trip-body.d-flex.flex-column.align-items-start.justify-content-between.w-100.ml-2.pb-3
+										h3.w-100.d-flex.flex-row.justify-content-between.align-items-center.mb-0(style=(/[\u0600-\u06FF]/.test(`${trip.name}`) ? "direction: rtl;" : "direction: ltr;"))
+											p.text-dark.text-capitalize.font-weight-bold.text-left.display-3.d-inline.m-0= `${trip.name}`
+											if (user && trip.author._id.equals(user._id))
+												a.float-right.mt-3(href=`/dashboard/trips/delete/${trip._id}` id=`deactivateTrip-${trip.code}`  data-toggle="tooltip" data-placement="top" title="De-Activatate this trip!")
+													i.fas.fa-eye-slash.text-dark.fa-xs
+										p.w-100.text-success.m-0= `From ${trip.duration.from} To ${trip.duration.to}`
+											if trip.price
+												span.text-success.float-right.font-weight-bold.text-center.h4.m-0= `${trip.price} LE`
+										a.text-dark.font-weight-bold(href=`/company/${trip.author.slug}` style="text-decoration: none;")= `Company name: ${trip.author.name}`
+										p.text-dark.m-0.font-weight-bold= `Travel Type: ${trip.travel_type}`
+										.w-100.m-0.mb-3
+											p.w-100.text-dark.m-0.font-weight-bold Description:
+											p.w-100.text-muted.m-0= `${trip.description}.`
+										p.text-dark.m-0.font-weight-bold
+											| Hotel Name:
+											= `${trip.hotel.name}`
+										.d-flex.flex-row.justify-content-start.align-items-start.mt-3
+											p.text-dark.font-weight-bold.w-25.mb-0 Hotel Include: 
+											div
+												each badge in trip.hotel.include.split(',')
+													.badge.mr-1.badge-success= badge
+								if (user && user.role === 'user')
+									form.w-100.row.m-0.mt-5.border-top(action=`/trip/request/${trip._id}` method="POST")
+										h1.col-12.col-form-label.display-3.mb-2 Apply for this trip
+										input(type="hidden", name="_csrf", value=`${csrfToken()}`)
+										.form-label-group.col-md-6
+											input#request-name.form-control.form-control-lg(type='text', placeholder='Name' name="name" required)
+											label.ml-3(for='#request-name') Name
+										.form-label-group.col-md-6
+											input#request-email.form-control.form-control-lg(type='email', placeholder='Email', name="email" required)
+											label.ml-3(for='email') Email address
+										.form-group.col-md-12
+											label(for='#request-description') Message
+											textarea#request-description.form-control.form-control-lg(rows='5', name="Messaage" placeholder="leave us a message" required)
+										.form-group.col-md-4
+											button.btn.btn-success.btn-lg.mr-2(type='submit') Send Request
+								if (!user || user.role === 'admin')
+									.mt-5.py-3.border-top.text-center
+										p.h6.text-muted Sign in as a user so you can request to join this trip.
+										a(href="/login" class="btn btn-gradient-primary text-white btn-fw text-uppercase font-weight-bold mt-3") Sign In
+					.col-12.col-lg-3
+						.card.w-100.border#single-trip-content-side
+							.card-body.py-2
+								h1.display-5 Related Trips

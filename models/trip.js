@@ -1,5 +1,6 @@
 const mongoose         = require('mongoose');
 const User             = require('./user');
+const Request          = require('./request');
 const slug             = require('speakingurl');
 const Schema           = mongoose.Schema;
       mongoose.Promise = global.Promise;
@@ -60,6 +61,10 @@ const tripSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
+	requests: [{
+		type: mongoose.Schema.ObjectId,
+		ref: 'Request'
+	}],
 	updated: Date
 });
 

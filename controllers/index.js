@@ -1,7 +1,8 @@
-const User   = require('../models/user');
-const Trip   = require('../models/trip');
-const Review = require('../models/review');
-const h      = require('../helpers');
+const User    = require('../models/user');
+const Trip    = require('../models/trip');
+const Request = require('../models/request');
+const Review  = require('../models/review');
+const h       = require('../helpers');
 
 
 module.exports.getHome = async (req, res, next) => {
@@ -123,6 +124,14 @@ module.exports.getTrips = async (req, res, next) => {
 	});
 }
 
+module.exports.getSingleTrip = async (req, res, next)=> {
+
+	// TODO: get trips related to theis trip based on requestes number, company, price and type
+
+	const trip = await Trip.findOne().where('slug').equals(req.params.trip).populate('author').exec();
+	res.render('trips/single-trip', {title: `${trip.name} trip`,trip});
+};
+
 module.exports.addReview = async (req, res, next) => {
 	      req.body.user    = req.user._id;
 	      req.body.company = req.params.companyId;
@@ -141,29 +150,45 @@ module.exports.addReview = async (req, res, next) => {
 };
 
 module.exports.deleteReview = async (req, res, next) => {
-	const review = await Review.findOneAndUpdate({
-		_id: req.params.id
-	}, {
-		$set: {
-			removed: true
-		}
-	}, {
-		new: true
-	}).exec();
+	const review = await Review.findOneAndUpdate({_id: req.params.id}, {$set: {	removed: true}}, {new: true}).exec();
 	req.flash('success', `Successfully deactivated review, Users can't see it now. Go to Dashboard to active it.`);
 	res.redirect('back');
 };
 
 module.exports.showReview = async (req, res, next) => {
-	const review = await Review.findOneAndUpdate({
-		_id: req.params.id
-	}, {
-		$set: {
-			removed: false
-		}
-	}, {
-		new: true
-	}).exec();
+	const review = await Review.findOneAndUpdate({_id: req.params.id}, {$set: {removed: false}}, {new: true}).exec();
 	req.flash('success', `User can see this review now!`);
+	res.redirect('back');
+};
+
+module.exports.requestTrip = async (req, res, next)=> {
+	
+	// validate inputs
+	req.sanitizeBody('name');
+	req.checkBody('name', 'You must supply a name!').notEmpty();
+	req.checkBody('email', 'please enter your e-mail!').isEmail();
+
+	// if there are validation errors redirect back with them
+	const errors = req.validationErrors();
+	if (errors) {
+		req.flash('danger', errors.map(err => err.msg));
+		res.redirect('back');
+		return;
+	}
+
+	// Update req.body with user, company and trip data
+	req.body.user    = req.user._id;
+	req.body.trip    = await Trip.findOne({_id: req.params.trip}).populate('author').exec();
+	req.body.company = await User.findOne().where("_id").equals(req.body.trip.author._id).exec();
+	
+	// save new request to Request model
+	const request = new Request(req.body);
+	request.save();
+
+	// pushing this request to trip.requests array
+	await Trip.findOneAndUpdate({_id: req.params.trip}, {$push: {requests: request._id}}, {upsert: true});
+	
+	// send a success flash message and redirect back
+	req.flash('success', 'Your request has been send to review, wait for company to call you soon.');
 	res.redirect('back');
 };

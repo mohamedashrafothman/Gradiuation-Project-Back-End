@@ -1,7 +1,8 @@
-const User = require('./user');
-const trip = require('./trip');
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const User             = require('./user');
+const trip             = require('./trip');
+const mongoose         = require('mongoose');
+const Schema           = mongoose.Schema;
+      mongoose.Promise = global.Promise;
 
 const reviewSchema = new Schema({
 	created: {
