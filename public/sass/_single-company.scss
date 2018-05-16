@@ -109,9 +109,9 @@
 			}
 			&-trips {
 				.company-trip {
-					i{
-						transform: rotate(-45deg);
-					}
+					// i{
+					// 	transform: rotate(-45deg);
+					// }
 					&:not(:last-child) {
 						p {
 							border-bottom: 1px solid #ddd;

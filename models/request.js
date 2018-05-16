@@ -14,7 +14,6 @@ const requestSchema = new Schema({
 	},
 	email: {
 		type: String,
-		unique: true,
 		lowercase: true,
 		trim: true,
 		validate: [validator.isEmail, 'Invalid Email Address']

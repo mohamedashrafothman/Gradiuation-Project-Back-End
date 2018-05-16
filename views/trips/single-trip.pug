@@ -46,7 +46,7 @@ block content
 													.badge.mr-1.badge-success= badge
 								if (user && user.role === 'user')
 									form.w-100.row.m-0.mt-5.border-top(action=`/trip/request/${trip._id}` method="POST")
-										h1.col-12.col-form-label.display-3.mb-2 Apply for this trip
+										h1.col-12.col-form-label.display-3.mb-2.text-dark Apply for this trip
 										input(type="hidden", name="_csrf", value=`${csrfToken()}`)
 										.form-label-group.col-md-6
 											input#request-name.form-control.form-control-lg(type='text', placeholder='Name' name="name" required)

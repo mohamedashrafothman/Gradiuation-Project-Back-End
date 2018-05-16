@@ -94,6 +94,12 @@
 					}
 				}
 			}
+			&-pagenation{
+				.page-item.active .page-link{
+					background: linear-gradient(to left, rgba(172, 50, 228, .9), rgba(121, 24, 242, .9) 49%, rgba(72, 1, 255, .9)) !important;
+					border-color: gray !important;
+				}
+			}
 		}
 	}
 }

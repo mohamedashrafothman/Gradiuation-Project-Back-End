@@ -160,8 +160,13 @@ block content
 								#single-company-content-side-trips
 									if ( trips && trips.length > 0)
 										each trip in trips
-											.media.py-2.company-trip
-												i.fas.fa-plane.fa-3x.text-dark.mr-2
+											a.media.py-2.company-trip(href=`/trip/${trip.slug}` style="text-decoration:none;")
+												if trip.travel_type === 'air'
+													i.fas.fa-plane.fa-3x.text-dark.mr-2
+												else if trip.travel_type === 'land'
+													i.fas.fa-bus.fa-3x.text-dark.mr-2
+												else
+													i.fas.fa-ship.fa-3x.text-dark.mr-2
 												div.media-body.mb-0.small.lh-125.d-flex.flex-column
 													strong.d-block.text-dark= `${trip.name}`
 													span.font-italic.text-primary= `from ${trip.duration.from} to ${trip.duration.to}`
