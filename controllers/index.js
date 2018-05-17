@@ -8,7 +8,7 @@ const h       = require('../helpers');
 module.exports.getHome = async (req, res, next) => {
 	const companies = await User.find({
 		role: "admin"
-	}).limit(4).populate('trips').exec();
+	}).select('photo slug created name description').limit(4).populate('trips').exec();
 	res.render('home', {
 		companies,
 		title: "Home"
@@ -17,13 +17,15 @@ module.exports.getHome = async (req, res, next) => {
 module.exports.getCompanies = async (req, res, next) => {
 
 	// for pagenation purpose
-	const page      = req.params.page || 1;
-	const limit     = 8;
-	const skip      = (page * limit) - limit;
+	const page  = req.params.page || 1;
+	const limit = 8;
+	const skip  = (page * limit) - limit;
 
-	const companies = await User.find().where('role').equals('admin').skip(skip).limit(limit).sort({created: 'desc'}).populate('trips').exec();
-	const companiesCount = await User.find().where('role').equals('admin').count().exec()
-	const pages = Math.ceil(companiesCount / limit);
+	const companies = await User.find().where('role').equals('admin').select('photo slug created name description').skip(skip).limit(limit).sort({
+		created: 'desc'
+	}).exec();
+	const count = await User.find().where('role').equals('admin').count().exec()
+	const pages = Math.ceil(count / limit);
 
 	if (!companies.length && skip) {
 		res.redirect(`/companies/${pages}`);
@@ -32,10 +34,10 @@ module.exports.getCompanies = async (req, res, next) => {
 
 	res.render('companies/companies', {
 		title: 'Companies',
-		user: req.user,
+		user : req.user,
 		companies,
 		pages,
-		count: companiesCount,
+		count,
 		page
 	});
 };
@@ -61,14 +63,28 @@ module.exports.getSingleCompany = async (req, res, next) => {
 	const company = await User.findOne({
 		slug: req.params.company
 	}).populate('reviews').populate('trips').exec();
-	const trips = await Trip.find().where('author', company._id).and({removed: false}).limit(10).exec();
-	const reviews = await Review.find().where('company', company._id).and({removed: false}).limit(10).populate('company').populate('user').exec();
+	const trips = await Trip.find().where('author', company._id).and({
+		removed: false
+	}).limit(10).exec();
+	const reviews = await Review.find().where('company', company._id).and({
+		removed: false
+	}).limit(10).populate('company').populate('user').exec();
 
-	const oneStar = await Review.find().where('company', company._id).and({rating: 1}).count().exec();
-	const twoStar = await Review.find().where('company', company._id).and({rating: 2}).count().exec();
-	const threeStar = await Review.find().where('company', company._id).and({rating: 3}).count().exec();
-	const fourStar = await Review.find().where('company', company._id).and({rating: 4}).count().exec();
-	const fiveStar = await Review.find().where('company', company._id).and({rating: 5}).count().exec();
+	const oneStar = await Review.find().where('company', company._id).and({
+		rating: 1
+	}).count().exec();
+	const twoStar = await Review.find().where('company', company._id).and({
+		rating: 2
+	}).count().exec();
+	const threeStar = await Review.find().where('company', company._id).and({
+		rating: 3
+	}).count().exec();
+	const fourStar = await Review.find().where('company', company._id).and({
+		rating: 4
+	}).count().exec();
+	const fiveStar = await Review.find().where('company', company._id).and({
+		rating: 5
+	}).count().exec();
 
 	const rating = Math.ceil(h.starRating(oneStar, twoStar, threeStar, fourStar, fiveStar));
 
@@ -84,19 +100,34 @@ module.exports.getSingleCompany = async (req, res, next) => {
 
 module.exports.getTrips = async (req, res, next) => {
 
-	const page      = req.params.page || 1;
-	const limit     = 10;
-	const skip      = (page * limit) - limit;
-	const stars     = req.query.stars || 1;
-	const type      = req.query.type || "umrah";
+	const page        = req.params.page || 1;
+	const limit       = 10;
+	const skip        = (page * limit) - limit;
+	const stars       = req.query.stars || 1;
+	const type        = req.query.type || "umrah";
 	const travel_type = req.query.travel_type || "air";
-	const price_max = req.query.price_max || 50000;
-	const price_min = req.query.price_min || 1;
+	const price_max   = req.query.price_max || 50000;
+	const price_min   = req.query.price_min || 1;
 	var trips;
 	if (Object.keys(req.query).length === 0) {
-		trips = await Trip.find({removed: false}).skip(skip).limit(limit).sort({created: 'desc'}).populate('author').exec();
+		trips = await Trip.find({
+			removed: false
+		}).select('travel_type slug name author._id code duration price author.name description hotel.include ').skip(skip).limit(limit).sort({
+			created: 'desc'
+		}).populate('author').exec();
 	} else {
-		trips = await Trip.find({removed: false,'hotel.rating': stars,price: {$gte: price_min,$lte: price_max},type: type,travel_type: travel_type}).skip(skip).limit(limit).sort({created: 'desc'}).populate('author').exec();
+		trips = await Trip.find({
+			removed       : false,
+			'hotel.rating': stars,
+			price         : {
+				$gte: price_min,
+				$lte: price_max
+			},
+			type       : type,
+			travel_type: travel_type
+		}).select('travel_type slug name author._id code duration price author.name description hotel.include ').skip(skip).limit(limit).sort({
+			created: 'desc'
+		}).populate('author').exec();
 	}
 	const tripsCount = await Trip.find({
 		removed: false
@@ -124,12 +155,15 @@ module.exports.getTrips = async (req, res, next) => {
 	});
 }
 
-module.exports.getSingleTrip = async (req, res, next)=> {
+module.exports.getSingleTrip = async (req, res, next) => {
 
 	// TODO: get trips related to theis trip based on requestes number, company, price and type
 
 	const trip = await Trip.findOne().where('slug').equals(req.params.trip).populate('author').exec();
-	res.render('trips/single-trip', {title: `${trip.name} trip`,trip});
+	res.render('trips/single-trip', {
+		title: `${trip.name} trip`,
+		trip
+	});
 };
 
 module.exports.addReview = async (req, res, next) => {
@@ -137,7 +171,15 @@ module.exports.addReview = async (req, res, next) => {
 	      req.body.company = req.params.companyId;
 	const newReview        = new Review(req.body);
 	await newReview.save();
-	await User.findOneAndUpdate({_id: req.body.company}, {$push: {reviews: newReview._id}}, {upsert: true}, (err) => {
+	await User.findOneAndUpdate({
+		_id: req.body.company
+	}, {
+		$push: {
+			reviews: newReview._id
+		}
+	}, {
+		upsert: true
+	}, (err) => {
 		if (err) {
 			console.log(err);
 		} else {
@@ -150,19 +192,35 @@ module.exports.addReview = async (req, res, next) => {
 };
 
 module.exports.deleteReview = async (req, res, next) => {
-	const review = await Review.findOneAndUpdate({_id: req.params.id}, {$set: {	removed: true}}, {new: true}).exec();
+	const review = await Review.findOneAndUpdate({
+		_id: req.params.id
+	}, {
+		$set: {
+			removed: true
+		}
+	}, {
+		new: true
+	}).exec();
 	req.flash('success', `Successfully deactivated review, Users can't see it now. Go to Dashboard to active it.`);
 	res.redirect('back');
 };
 
 module.exports.showReview = async (req, res, next) => {
-	const review = await Review.findOneAndUpdate({_id: req.params.id}, {$set: {removed: false}}, {new: true}).exec();
+	const review = await Review.findOneAndUpdate({
+		_id: req.params.id
+	}, {
+		$set: {
+			removed: false
+		}
+	}, {
+		new: true
+	}).exec();
 	req.flash('success', `User can see this review now!`);
 	res.redirect('back');
 };
 
-module.exports.requestTrip = async (req, res, next)=> {
-	
+module.exports.requestTrip = async (req, res, next) => {
+
 	// validate inputs
 	req.sanitizeBody('name');
 	req.checkBody('name', 'You must supply a name!').notEmpty();
@@ -177,17 +235,27 @@ module.exports.requestTrip = async (req, res, next)=> {
 	}
 
 	// Update req.body with user, company and trip data
-	req.body.user    = req.user._id;
-	req.body.trip    = await Trip.findOne({_id: req.params.trip}).populate('author').exec();
+	req.body.user = req.user._id;
+	req.body.trip = await Trip.findOne({
+		_id: req.params.trip
+	}).populate('author').exec();
 	req.body.company = await User.findOne().where("_id").equals(req.body.trip.author._id).exec();
-	
+
 	// save new request to Request model
 	const request = new Request(req.body);
 	request.save();
 
 	// pushing this request to trip.requests array
-	await Trip.findOneAndUpdate({_id: req.params.trip}, {$push: {requests: request._id}}, {upsert: true});
-	
+	await Trip.findOneAndUpdate({
+		_id: req.params.trip
+	}, {
+		$push: {
+			requests: request._id
+		}
+	}, {
+		upsert: true
+	});
+
 	// send a success flash message and redirect back
 	req.flash('success', 'Your request has been send to review, wait for company to call you soon.');
 	res.redirect('back');

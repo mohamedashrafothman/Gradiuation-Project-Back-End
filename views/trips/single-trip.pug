@@ -59,7 +59,7 @@ block content
 											textarea#request-description.form-control.form-control-lg(rows='5', name="Messaage" placeholder="leave us a message" required)
 										.form-group.col-md-4
 											button.btn.btn-success.btn-lg.mr-2(type='submit') Send Request
-								if (!user || user.role === 'admin')
+								if (!user)
 									.mt-5.py-3.border-top.text-center
 										p.h6.text-muted Sign in as a user so you can request to join this trip.
 										a(href="/login" class="btn btn-gradient-primary text-white btn-fw text-uppercase font-weight-bold mt-3") Sign In
