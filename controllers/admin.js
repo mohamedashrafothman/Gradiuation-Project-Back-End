@@ -18,24 +18,16 @@ module.exports.getDashboard = async (req, res, next) => {
 };
 
 module.exports.getProfile = async (req, res) => {
-	const activeReviews = await Review.find({company: req.user._id, removed: false}).populate('user').populate('company').exec();
-	const removedReviews = await Review.find({company: req.user._id,removed: true }).populate('user').populate('company').exec();
-
 	const oneStar = await Review.find().where('company', req.user._id).and({rating: 1}).and({removed:false}).count().exec();
 	const twoStar = await Review.find().where('company', req.user._id).and({rating: 2}).and({removed:false}).count().exec();
 	const threeStar = await Review.find().where('company', req.user._id).and({rating: 3}).and({removed:false}).count().exec();
 	const fourStar = await Review.find().where('company', req.user._id).and({rating: 4}).and({removed:false}).count().exec();
 	const fiveStar = await Review.find().where('company', req.user._id).and({rating: 5}).and({removed:false}).count().exec();
-
 	const rating = Math.ceil(h.starRating(oneStar, twoStar, threeStar, fourStar, fiveStar));
-
-
 
 	res.render('admin/profile/profile', {
 		title: 'Profile',
 		company: req.user,
-		activeReviews, 
-		removedReviews,
 		rating
 	});
 };
@@ -95,10 +87,10 @@ module.exports.updateUser = async (req, res, next) => {
 
 module.exports.getTrips = async (req, res, next) => {
 
-	const activeTrips = await Trip.find({author: req.user._id}).$where('this.removed === false').populate('author').exec();
-	const unActiveTrips = await Trip.find().where('author', req.user._id).and({removed: true}).populate('author').exec();
+	const activeTrips = await Trip.find().where('author', req.user._id).and({removed: false}).select("name hotel.name hotel.include duration durationInDays").populate('author').exec();
+	const unActiveTrips = await Trip.find().where('author', req.user._id).and({removed: true}).select("name hotel.name hotel.include duration durationInDays").populate('author').exec();
 	const user = req.user;
-	res.render('admin/trips/trips', {title: "Trips",activeTrips,unActiveTrips,user});
+	res.render('admin/trips/trips', {title: "Trips",activeTrips, unActiveTrips, user});
 };
 
 module.exports.getTrip = async (req, res, next) => {
@@ -152,8 +144,14 @@ module.exports.activateTrip = async (req, res, next) => {
 };
 
 
+module.exports.editTrip = async (req, res, next)=> {
+	const trip = await Trip.findOne({_id: req.params.id}).exec();
+	res.render('admin/trips/addTrip', {title: 'Add Trip', trip});
+};
+
+
 module.exports.updateTrip = async (req, res, next) => {
-	// req.body.hotel.location.type = 'point';
+	req.body.hotel.location.type = 'point';
 	req.body.hotel.include = req.body.hotel.include.split(',');
 	req.body.updated = new Date();
 	req.body.durationInDays = h.dateInDays(req.body.duration.from, req.body.duration.to);
@@ -165,4 +163,17 @@ module.exports.updateTrip = async (req, res, next) => {
 	});
 	req.flash('success', `Successfully update trip number ${trip.code}.`);
 	res.redirect('/dashboard/trips');
+};
+
+
+
+module.exports.getReviews = async (req, res, next)=> {
+	const activeReviews = await Review.find().where('company', req.user._id).and({removed: false}).select("user.name user._id user.role created rating text removed").populate('user').populate('company').exec();
+	const removedReviews = await Review.find().where('company', req.user._id).and({removed: true}).select("user.name user._id user.role created rating text removed").populate('user').populate('company').exec();
+	res.render('admin/reviews/reviews', {
+		title: 'Reviews',
+		company: req.user,
+		activeReviews,
+		removedReviews
+	});
 };

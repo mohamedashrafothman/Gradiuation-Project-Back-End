@@ -137,6 +137,14 @@ html
 								a.nav-link(href='/dashboard')
 									span.menu-title Dashboard
 									i.fa.fa-home
+							li(class=`nav-item ${title==="Profile" ? "active" : ""}`)
+								a.nav-link(href=`/dashboard/profile/${user.slug}`)
+									span.menu-title Profile
+									i.fas.fa-user-alt
+							li(class=`nav-item ${title==="Reviews" ? "active" : ""}`)
+								a.nav-link(href=`/dashboard/reviews`)
+									span.menu-title Reviews
+									i.fas.fa-comment
 							li.nav-item
 								a.nav-link(class=`${title === "Trips" ? "active" : ""}` data-toggle="collapse" href="#trips" aria-expanded="true" aria-controls="trips")
 									span.menu-title Trips
@@ -148,7 +156,7 @@ html
 											a.nav-link.text-capitalize(href=`/dashboard/trips`) List of Trips
 										li.nav-item
 											a.nav-link.text-capitalize(href=`/dashboard/trips/add`) Add new trip
-
+							
 						block messages
 							if locals.flashes
 								- const categories = Object.keys(locals.flashes)

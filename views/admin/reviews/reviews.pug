@@ -1,0 +1,28 @@
+extends ../../layouts/layout.pug
+
+include ../../mixins/_singleReview.pug
+
+block content
+	.container
+		.row
+			.col-lg-12.grid-margin.stretch-card
+				.card
+					.card-body
+						h2.text-dark.mb-0 Active Reviews
+						if (activeReviews && activeReviews.length > 0)
+							each review in activeReviews
+								- var index = Math.floor((Math.random() * 100) + 1);
+								+singleReview(review, company, index)
+						else
+							h1.text-capitalize.text-muted.text-center.py-3.display-6 there is no actiev reviews for this company
+		.row
+			.col-lg-12.grid-margin.stretch-card
+				.card
+					.card-body
+						h2.text-dark.mb-0 Un-Active Reviews
+							if (removedReviews && removedReviews.length > 0)
+								each review in removedReviews
+									- var index = Math.floor((Math.random() * 100) + 100);
+									+singleReview(review, company, index)
+							else
+								h1.text-capitalize.text-muted.text-center.py-3.display-6 there is no unactive reviews for this company

@@ -16,8 +16,12 @@ router.post('/profile/:userName/edit', authController.ensureAuthenticated, requi
 router.get('/trips', authController.ensureAuthenticated, requireRole("admin") ,catchErrors(adminController.getTrips));
 router.get('/trips/add', authController.ensureAuthenticated, requireRole("admin"), catchErrors(adminController.getTrip));
 router.post('/trips/add', authController.ensureAuthenticated, requireRole("admin"), catchErrors(adminController.addTrip));
+router.get('/trip/update/:id', authController.ensureAuthenticated, requireRole('admin'), catchErrors(adminController.editTrip));
 router.post('/trip/update/:id', authController.ensureAuthenticated, requireRole("admin"), catchErrors(adminController.updateTrip));
 router.get('/trips/delete/:id', authController.ensureAuthenticated, requireRole("admin"), catchErrors(adminController.deleteTrip));
 router.get('/trips/show/:id', authController.ensureAuthenticated, requireRole("admin"), catchErrors(adminController.activateTrip));
+
+router.get('/reviews', authController.ensureAuthenticated, requireRole('admin'), catchErrors(adminController.getReviews));
+
 
 module.exports = router;

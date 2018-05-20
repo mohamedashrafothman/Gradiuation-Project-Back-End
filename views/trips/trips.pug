@@ -15,7 +15,9 @@ block content
 						.card.w-100.border#list-trips-content-filter
 							.card-body.py-2
 								#list-trips-content-filter-nav
-									h4.m-0.text-dark.text-capitalize.py-2.card-title.display-5 Filter
+									.d-flex.flex-row.align-items-center.justify-content-between.border-bottom
+										h4.m-0.text-dark.text-capitalize.py-2.card-title.display-5 Filter
+										a(href="/trips/1" class="text-primary text-capitalize") reset filter
 									form.mt-3(action="#" method="GET" id="filter-form")
 										.row
 											.form-group.col-12.mb-2
@@ -113,7 +115,7 @@ block content
 					.col-12.col-lg-9
 						.card.w-100.border#list-trips-content-main
 							.card-body.py-2
-								h4.m-0.text-dark.text-capitalize.py-2.card-title.display-5 Trips
+								h4.m-0.text-dark.text-capitalize.py-2.card-title.display-5.border-bottom Trips
 									small.text-muted.m-0.ml-3.d-inline-block= `${trips.length} trips are available`
 								#list-trips-content-main-trips.border-bottom
 									if (trips.length > 0)

@@ -4,10 +4,9 @@ block content
 	.col-12.grid-margin
 		.card
 			.card-body
-				h3.card-title.mb-1= title
-				h5.card-description.text-muted.mb-5
-					| Add new Trip.
-				form.form-sample(action='/dashboard/trips/add', method="POST")
+				h3.card-title.mb-1= (trip !== undefined) ? `Update Trip` : title
+				h5.card-description.text-muted.mb-5= (trip !== undefined) ? `Update Trip Number ${trip.code}` : 'Add new Trip'
+				form.form-sample(action=(trip!==undefined) ? `/dashboard/trip/update/${trip._id}` : '/dashboard/trips/add', method="POST")
 					input(type="hidden", name="_csrf", value=`${csrfToken()}`)
 					.row
 						.col
@@ -15,18 +14,18 @@ block content
 							.row
 								label.col-12.font-weight-bold.col-form-label Trip Name
 								.form-group.col-12
-									input.form-control.form-control-lg(type="text" name="name" placeholder="Trip Name" required)
+									input.form-control.form-control-lg(type="text" name="name" placeholder="Trip Name" value=(trip !== undefined ? trip.name : '') required)
 							.row
 								label.font-weight-bold.col-12.col-form-label Type							
 								.pl-5.w-100.row
 									.form-radio.col-4
 										label.form-check-label
-											input.form-check-input(type='radio', name='type', value='umrah', checked='')
+											input.form-check-input(type='radio', name='type', value='umrah' checked=(trip!== undefined && trip.type=="umrah") ? 'checked' : undefined )
 											| Umrah
 											i.input-helper
 									.form-radio.col-4
 										label.form-check-label
-											input.form-check-input(type='radio', name='type', value='hajj')
+											input.form-check-input(type='radio', name='type', value='hajj' checked=(trip!== undefined && trip.type=="hajj") ? 'checked' : undefined )
 											| Hajj
 											i.input-helper
 							.row
@@ -34,17 +33,17 @@ block content
 								.pl-5.w-100.row
 									.form-radio.col-4
 										label.form-check-label
-											input.form-check-input(type='radio', name='travel_type', value='air')
+											input.form-check-input(type='radio', name='travel_type', value='air' checked=(trip !== undefined && trip.travel_type == 'air') ? 'checked' : undefined)
 											| Air travel
 											i.input-helper
 									.form-radio.col-4
 										label.form-check-label
-											input.form-check-input(type='radio', name='travel_type', value='land')
+											input.form-check-input(type='radio', name='travel_type', value='land' checked=(trip !== undefined && trip.travel_type == 'land') ? 'checked' : undefined)
 											| Land Travel
 											i.input-helper
 									.form-radio.col-4
 										label.form-check-label
-											input.form-check-input(type='radio', name='travel_type', value='sea')
+											input.form-check-input(type='radio', name='travel_type', value='sea' checked=(trip !== undefined && trip.travel_type == 'sea') ? 'checked' : undefined)
 											| Sea Travel
 											i.input-helper
 							.row
@@ -52,21 +51,21 @@ block content
 								.form-group.col-12
 									label.col-12.col-form-label From
 									.col-12
-										input.form-control.form-control-lg(type="text", name="duration[from]", class="datepicker", id="addDatePicker-from", placeholder='dd/mm/yyyy')
+										input.form-control.form-control-lg(type="text", name="duration[from]", class="datepicker", id="addDatePicker-from", placeholder='dd/mm/yyyy' value=(trip !== undefined) ? trip.duration.from : '')
 								.form-group.col-12
 									labe.col-12.col-form-label To
 									.col-12
-										input.form-control.form-control-lg(type="text", name="duration[to]", class="datepicker", id="addDatePicker-to", placeholder='dd/mm/yyyy')
+										input.form-control.form-control-lg(type="text", name="duration[to]", class="datepicker", id="addDatePicker-to", placeholder='dd/mm/yyyy' value=(trip !== undefined) ? trip.duration.to : '')
 							.row
 								label.col-12.font-weight-bold.col-form-label Description
 								.form-group.col-12
 									.col-12
-										textarea.form-control.form-control-lg#description(name="description", cols="30", rows="10", placeholder="Enter Some Description.")
+										textarea.form-control.form-control-lg#description(name="description", cols="30", rows="10", placeholder="Enter Some Description.")= (trip !== undefined) ? trip.description : ''
 							.row
 								label.col-12.font-weight-bold.col-form-label price
 								.form-group.col-12
 									.col-12
-										input.form-control.form-control-lg(type="number" name="price" placeholder="price" required)
+										input.form-control.form-control-lg(type="number" name="price" placeholder="price" value=(trip !== undefined) ? trip.price : '' required)
 									.col-12
 										small.text-muted this price is for one person, and price unit will be in LE
 						.col
@@ -76,7 +75,7 @@ block content
 									label.col-12.col-form-label Country
 									.col-12#controls
 										select.form-control#country
-											option(value='all') All
+											option(value='all' selected='') All
 											option(value='au') Australia
 											option(value='br') Brazil
 											option(value='ca') Canada
@@ -88,7 +87,7 @@ block content
 											option(value='za') South Africa
 											option(value='es') Spain
 											option(value='pt') Portugal
-											option(value='us', selected='') U.S.A.
+											option(value='us') U.S.A.
 											option(value='uk') United Kingdom
 								.form-group.col-12
 									label.col-12.col-form-label Find hotels in:
@@ -108,38 +107,62 @@ block content
 								.form-group.col-12
 									label.col-12.col-form-label Hotel Name
 									.col-12
-										input.form-control.form-control-lg(type="text", id="hotelName" ,name="hotel[name]", placeholder="Hotel Name")
+										input.form-control.form-control-lg(type="text", id="hotelName" ,name="hotel[name]", placeholder="Hotel Name" value=(trip !== undefined) ? trip.hotel.name : '')
 								.form-group.col-12
 									label.col-12.col-form-label Hotel Address
 									.col-12
-										input.form-control.form-control-lg(type="text", id="hotelAddress" ,name="hotel[location][address]", placeholder="Hotel Address")
+										input.form-control.form-control-lg(type="text", id="hotelAddress" ,name="hotel[location][address]", placeholder="Hotel Address" value=(trip !== undefined) ? trip.hotel.location.address : '')
 								.form-group.col-12
 									label.col-12.col-form-label hotel Phone Number
 									.col-12
-										input.form-control.form-control-lg(type="text", id="hotelPhoneNumber" ,name="hotel[international_phone_number]", placeholder="Hotel phone number")
+										input.form-control.form-control-lg(type="text", id="hotelPhoneNumber" ,name="hotel[international_phone_number]", placeholder="Hotel phone number" value=(trip !== undefined) ? trip.hotel.international_phone_number : '')
 								.form-group.col-12
 									label.col-12.col-form-label Hotel lng
 									.col-12
-										input#hotelLng.form-control.form-control-lg(type='text' name="hotel[location][coordinates][0]" placeholder="Where is your company?")
+										input#hotelLng.form-control.form-control-lg(type='text' name="hotel[location][coordinates][0]" placeholder="Where is your company?" value=(trip !== undefined) ? trip.hotel.location.coordinates[0] : '')
 								.form-group.col-12
 									label.col-12.col-form-label Hotel lat
 									.col-12
-										input#hotelLat.form-control.form-control-lg(type='text' name="hotel[location][coordinates][1]" placeholder="Type Your Country Name.")
+										input#hotelLat.form-control.form-control-lg(type='text' name="hotel[location][coordinates][1]" placeholder="Type Your Country Name." value=(trip !== undefined) ? trip.hotel.location.coordinates[1] : '')
 								.form-group.col-12
 									label.col-12.col-form-label Stars
 									.col-12
-										.br-wrapper.br-theme-fontawesome-stars-o
-											select.form-control#addTrip(name="hotel[rating]")
-												option(value="1")
-												option(value="2")
-												option(value="3")
-												option(value="4")
-												option(value="5")
-												option(value="6")
-												option(value="7")
+										if trip !== undefined
+											.br-wrapper.br-theme-fontawesome-stars-o
+												select.form-control#editTrip(name="hotel[rating]")
+													option(value="1")
+													option(value="2")
+													option(value="3")
+													option(value="4")
+													option(value="5")
+													option(value="6")
+													option(value="7")
+											script.
+												$(document).ready(function(){
+													var initialRatingNum = parseInt(#{trip.hotel.rating});
+													$('#editTrip').barrating({
+														theme: 'fontawesome-stars',
+														deselectable: true,
+														readonly: false,
+														initialRating: `${initialRatingNum}`,
+														onSelect: function (value) {
+															$('#filter-stars').val(value);
+														}
+													});
+												});
+										else 
+											.br-wrapper.br-theme-fontawesome-stars-o
+												select.form-control#addTrip(name="hotel[rating]")
+													option(value="1")
+													option(value="2")
+													option(value="3")
+													option(value="4")
+													option(value="5")
+													option(value="6")
+													option(value="7")
 					.row
 						.col-12
-							button.btn.btn-success.btn-lg.float-right(type="submit") Add Trip
+							button.btn.btn-success.btn-lg.float-right(type="submit")= (trip !== undefined) ? 'Save Trip' : 'Add Trip'
 				script.
 					$(document).ready(function () {
 						var datepickersOpt = {

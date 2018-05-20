@@ -7,87 +7,52 @@ block content
 		.row
 			.col-lg-12.grid-margin.stretch-card
 				.card
-					nav#profileTabs.nav.nav-pills.nav-justified.border.border-secondary.border-top-0.border-left-0.border-right-0(role="tablist")
-						a.nav-item.nav-link.text-capitalize.rounded-0.active(id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true") overview
-						a.nav-item.nav-link.text-capitalize.rounded-0(id="#reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false") Comments
-						a.nav-item.nav-link.text-capitalize.rounded-0(id="#photos-tab" data-toggle="tab" href="#photos" role="tab" aria-controls="photos" aria-selected="false") photos
-
 					.card-body
-						.tab-content
-							.tab-pane.fade.show.active#overview(role="tabpanel" arial-labelledby="overview-tab")
-								h1.card-title.mb-2= `${company.name}'s Profile`
-									a.h6.font-weight-light.text-primary.ml-1.float-right(href=`/dashboard/profile/${company.slug}/edit`) Edit profile
-								.d-flex
-									.br-wrapper.br-theme-fontawesome-stars
-										.text-muted.ml-0
-											select#singleCompanyRating(disabled="disabled")
-												- for(var i = 1 ; i <= 5 ; i++){
-													if (i == rating)
-														option(value=`${i}` select)
-													else 
-														option(value=`${i}`)
-												- }
-								script.
-									$(document).ready(function(){
-										var ratingNum = "#{rating}";
-										ratingNum = parseInt(ratingNum);
-										$(`#singleCompanyRating`).barrating({
-											readonly: true,
-											showSelectedRating: true,
-											initialRating: `${ratingNum}`
-										});
-									});
-								.d-flex
-									.d-flex.text-muted#createdAt
-										i.mdi.mdi-calendar-blank.icon-sm.mr-2
-										-
-											var now = h.moment(company.created);
-											var diff = now.toNow();
-										span= `Created ${diff}`
-									.d-flex.text-muted.ml-5
-										i.fa.fa-phone.icon-sm.mr-2.pt-1
-										if !company.contacts.mobileNumber
-											span 
-												| +01-xxx-xxxxxx Edit your profile to add phone number
-												a.font-weight-light.text-primary.ml-3(href=`/dashboard/profile/${company.slug}/edit`) Edit 												
-										else 
-											span= `${company.contacts.mobileNumber}`
-								.row.mt-3
-									.col-12.pr-1
-										img.mb-2.mw-100.w-100.rounded(src=h.staticMap([`${company.location.coordinates[0]}`, `${company.location.coordinates[1]}`]), alt='image')
-								.d-flex.mt-3.align-items-top
-									.mb-0.flex-grow
-										if !company.description
-											p 
-												| Edit your profile to add description
-												a.font-weight-light.text-primary.ml-3(href=`/dashboard/profile/${company.slug}/edit`) Edit 
-										else 
-											p= `${company.description}`
-
-
-							.tab-pane.fade#reviews(role="tabPanel" arial-labelledby="reviews-tab")
-								h2.text-dark.mb-0 Active Reviews
-								if (activeReviews && activeReviews.length > 0)
-									each review in activeReviews
-										- var index = Math.floor((Math.random() * 100) + 1);
-										+singleReview(review, company, index)
-								else
-									h1.text-capitalize.text-muted.text-center.py-3.display-6 there is no actiev reviews for this company
-								hr
-								h2.text-dark.mb-0 Un-Active Reviews									
-								if (removedReviews && removedReviews.length > 0)
-									each review in removedReviews
-										- var index = Math.floor((Math.random() * 100) + 100);
-										+singleReview(review, company, index)
-								else
-									h1.text-capitalize.text-muted.text-center.py-3.display-6 there is no unactive reviews for this company
-
-
-							.tab-pane.fade#photos(role="tabPanel" arial-labelledby="photos-tab")
-								.row.mt-0
-									.col-6.pr-1
-										img.mb-2.mw-100.w-100.rounded(src='/img/dashboard/img_1.jpg', alt='image')
-										img.mw-100.w-100.rounded(src='/img/dashboard/img_4.jpg', alt='image')
-									.col-6.pl-1
-										img.mb-2.mw-100.w-100.rounded(src='/img/dashboard/img_2.jpg', alt='image')
-										img.mw-100.w-100.rounded(src='/img/dashboard/img_3.jpg', alt='image')
+						h1.card-title.mb-2= `${company.name}'s Profile`
+							a.h6.font-weight-light.text-primary.ml-1.float-right(href=`/dashboard/profile/${company.slug}/edit`) Edit profile
+						.d-flex
+							.br-wrapper.br-theme-fontawesome-stars
+								.text-muted.ml-0
+									select#singleCompanyRating(disabled="disabled")
+										- for(var i = 1 ; i <= 5 ; i++){
+											if (i == rating)
+												option(value=`${i}` select)
+											else 
+												option(value=`${i}`)
+										- }
+						script.
+							$(document).ready(function(){
+								var ratingNum = "#{rating}";
+								ratingNum = parseInt(ratingNum);
+								$(`#singleCompanyRating`).barrating({
+									readonly: true,
+									showSelectedRating: true,
+									initialRating: `${ratingNum}`
+								});
+							});
+						.d-flex
+							.d-flex.text-muted#createdAt
+								i.mdi.mdi-calendar-blank.icon-sm.mr-2
+								-
+									var now = h.moment(company.created);
+									var diff = now.toNow();
+								span= `Created ${diff}`
+							.d-flex.text-muted.ml-5
+								i.fa.fa-phone.icon-sm.mr-2.pt-1
+								if !company.contacts.mobileNumber
+									span 
+										| +01-xxx-xxxxxx Edit your profile to add phone number
+										a.font-weight-light.text-primary.ml-3(href=`/dashboard/profile/${company.slug}/edit`) Edit 												
+								else 
+									span= `${company.contacts.mobileNumber}`
+						.row.mt-3
+							.col-12.pr-1
+								img.mb-2.mw-100.w-100.rounded(src=h.staticMap([`${company.location.coordinates[0]}`, `${company.location.coordinates[1]}`]), alt='image')
+						.d-flex.mt-3.align-items-top
+							.mb-0.flex-grow
+								if !company.description
+									p 
+										| Edit your profile to add description
+										a.font-weight-light.text-primary.ml-3(href=`/dashboard/profile/${company.slug}/edit`) Edit 
+								else 
+									p= `${company.description}`
