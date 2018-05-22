@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Trip = require('../models/trip');
 const Review = require('../models/review');
+const Request = require('../models/request');
 const multer = require('multer'); // allawing us to upload a photo to the server
 const jimp = require('jimp'); // for resizing image
 const uuid = require('uuid'); // unique idenifier package
@@ -9,7 +10,7 @@ const slug = require('speakingurl');
 
 
 module.exports.getDashboard = async (req, res, next) => {
-	const trips = await Trip.find().where('author', req.user._id).and({removed: false}).limit(10).exec();
+	const trips = await Trip.find().where('author', req.user._id).and({removed: false}).select('code name hotel.name hotel.include duration durationInDays removed').limit(10).exec();
 	res.render('admin/dashboard', {
 		title: 'Dashboard',
 		user: req.user,
@@ -151,6 +152,7 @@ module.exports.editTrip = async (req, res, next)=> {
 
 
 module.exports.updateTrip = async (req, res, next) => {
+	req.body.slug = slug(req.body.name);
 	req.body.hotel.location.type = 'point';
 	req.body.hotel.include = req.body.hotel.include.split(',');
 	req.body.updated = new Date();
@@ -175,5 +177,14 @@ module.exports.getReviews = async (req, res, next)=> {
 		company: req.user,
 		activeReviews,
 		removedReviews
+	});
+};
+
+
+module.exports.getRequests = async (req, res, next)=> {
+	const waitingRequests = await Request.find().where({company: req.user._id}).and({status: 'waiting'}).populate('user').populate('trip').exec();
+	res.render('admin/requests/requests', {
+		title: 'Requests',
+		waitingRequests
 	});
 };

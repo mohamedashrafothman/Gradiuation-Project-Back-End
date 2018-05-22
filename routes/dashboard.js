@@ -23,5 +23,7 @@ router.get('/trips/show/:id', authController.ensureAuthenticated, requireRole("a
 
 router.get('/reviews', authController.ensureAuthenticated, requireRole('admin'), catchErrors(adminController.getReviews));
 
+router.get('/requests', authController.ensureAuthenticated, requireRole('admin'), catchErrors(adminController.getRequests));
+
 
 module.exports = router;

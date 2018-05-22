@@ -33,190 +33,58 @@ block content
 					.mt-auto
 						canvas#satisfaction-chart(height='200')
 	.row
-		.col-12.grid-margin
-			.card
-				.card-body
-					h4.display-3.text-uppercase all active trips
-					.table-responsive
-						if (trips.length)
-							table.table
-								thead
-									tr
-										th.border-0
-											| #
-										th.border-0
-											| Trip Code
-										th.border-0
-											| Hotel Name
-										th.border-0
-											| Hotel Include
-										th.border-0
-											| Start Date
-										th.border-0
-											| Due Date
-										th.border-0
-											| duration
-										th.border-0 
-											| Edit / Delete
-								tbody
-									each trip, index in trips
+		.col-md-12.grid-margin.stretch-card
+				.card
+					.card-body
+						h4.display-3.text-uppercase all active trips
+						.table-responsive
+							if (trips.length)
+								table.table
+									thead
 										tr
-											td= index+1
-											td= trip.code
-											td= trip.hotel.name
-											td.d-flex.flex-row.justify-content-start
-												if trip.hotel.include.split(',').length <= 2
-													each badge in trip.hotel.include.split(',')
-														.badge.mr-1.badge-success= badge
-												else 
-													.badge.mr-1.badge-success= trip.hotel.include.split(',')[0]
-													.badge.mr-1.badge-success= trip.hotel.include.split(',')[1]
-													.badge.mr-1.bg-white.text-success= `+${trip.hotel.include.split(',').length - 2}`
-											td= trip.duration.from
-											td= trip.duration.to
-											td= `${trip.durationInDays} Days`
-											td
-												a(href="#", data-toggle="modal", data-target=`#update-${trip.code}`)
-													i.fa.fa-edit.text-primary.mr-5
-												a.text-dark(href=`/dashboard/trips/delete/${trip._id}` id=`deactivateTrip-${trip.code}` data-toggle="tooltip" data-placement="top" title="De-Activatate this trip!")
-													i.fa.fa-eye-slash
-										//- Edit Trip Modal
-										.modal.fade(id=`update-${trip.code}` tabindex='-1', role='dialog', aria-labelledby=`update-${trip.code}Label`, aria-hidden='true')
-											.modal-dialog.modal-dialog-centered(role='document')
-												.modal-content
-													.modal-header.text-center.border-0
-														h5#exampleModalLongTitle.modal-title.text-uppercase= `update trip number ${trip.code}`
-														button.close(type='button', data-dismiss='modal', aria-label='Close')
-															span(aria-hidden='true') ×
-													.modal-body.text-center
-														form.form-sample(action=`/dashboard/trip/update/${trip._id}`, method="POST")
-															input(type="hidden", name="_csrf", value=`${csrfToken()}`)
-															.row
-																.col-md-12
-																	.form-group.row
-																		label.font-weight-bold.col-sm-12.text-left(style="padding-top: 1.2rem;") Trip Type
-																		if (trip.type == 'umrah')
-																			.col-sm-3
-																				.form-radio
-																					label.form-check-label.p-0
-																						input.form-check-input(type='radio', name='type', value='umrah', checked)
-																						| Umrah
-																						i.input-helper
-																			.col-sm-3
-																				.form-radio
-																					label.form-check-label.p-0
-																						input.form-check-input(type='radio', name='type', value='hajj')
-																						| Hajj
-																						i.input-helper
-																		else 
-																			.col-sm-3
-																				.form-radio
-																					label.form-check-label.p-0
-																						input.form-check-input(type='radio', name='type', value='umrah')
-																						| Umrah
-																						i.input-helper
-																			.col-sm-3
-																				.form-radio
-																					label.form-check-label.p-0
-																						input.form-check-input(type='radio', name='type', value='hajj', checked)
-																						| Hajj
-																						i.input-helper
-																.col-md-12
-																	.form-group.row
-																		label.font-weight-bold.col-sm-12.text-left Includes
-																		.col-sm-12
-																			input.form-control.selecteInclude(type='text', id=`selecteInclude-${trip.code}`, placeholder="what this trip include")
-																			input.invisible(type='text', id=`selecteIncludeHiddenInput-${trip.code}`, name="include")
-																			
-															.row
-																.col-md-6
-																	.form-group.row
-																		label.col-sm-12.font-weight-bold.text-left From
-																		.col-sm-12
-																			input.form-control(type="text", name="duration[from]" , class='datepicker', id=`update-${trip.code}-from`, value=(trip.duration.from), placeholder='dd/mm/yyyy')
-																.col-md-6
-																	.form-group.row
-																		label.col-sm-12.font-weight-bold.text-left To
-																		.col-sm-12
-																			input.form-control(type="text", name="duration[to]", class='datepicker', id=`update-${trip.code}-to`, value=(trip.duration.to), placeholder='dd/mm/yyyy')
-															.row.d-flex.flex-row.justify-content-end.mt-5
-																button.btn.btn-secondary.mr-3(type='button', data-dismiss='modal') Close
-																button.btn.btn-success.mr-3(type="submit") update
-														script.
-															$(document).ready(function(){
+											th.border-0
+												| #
+											th.border-0
+												| Trip Name
+											th.border-0
+												| Hotel Name
+											th.border-0
+												| Hotel Include
+											th.border-0
+												| Start Date
+											th.border-0
+												| Due Date
+											th.border-0
+												| duration
+											th.border-0 
+												| Edit / Delete
+									tbody
+										each trip, index in trips
+											tr
+												td= index+1
+												td= trip.name
+												td= trip.hotel.name
+												td.d-flex.flex-row.justify-content-start
+													if trip.hotel.include.split(',').length <= 2
+														each badge in trip.hotel.include.split(',')
+															.badge.mr-1.badge-success= badge
+													else 
+														.badge.mr-1.badge-success= trip.hotel.include.split(',')[0]
+														.badge.mr-1.badge-success= trip.hotel.include.split(',')[1]
+														.badge.mr-1.bg-white.text-success= `+${trip.hotel.include.split(',').length - 2}`
+												td= trip.duration.from
+												td= trip.duration.to
+												td= `${trip.durationInDays} Days`
+												td
+													a(href=`/dashboard/trip/update/${trip._id}`)
+														i.fa.fa-edit.teprimary.mr-5
+													a.text-dark(href=`/dashboard/trips/delete/${trip._id}` id=`deactivateTrip-${trip.code}` data-toggle="tooltip" data-placement="top" title="De-Activatate this trip!")
+														i.fa.fa-eye-slash
+							else 
+								h3.text-muted.text-center.text-capitalize.display-3 there is no active trips yet
 
-																$(`#deactivateTrip-#{trip.code}`).on('click', function(e){
-																	e.preventDefault();
-																	var redirectUrl = $(this).attr('href');
-																	var $deleteRev = confirm('Are you sure you want to De-Activatate this Trip? ');
-																	if ($deleteRev){
-																		window.location.href = redirectUrl;
-																	}
-																});
+						a.mt-5.float-right.btn.btn-gradient-secondary.text-white.text-capitalize(href="/dashboard/trips/add") Add new Trip
 
-
-
-																// caching dom
-																var trip = !{JSON.stringify(trip)};
-																var datepickersOpt = {
-																	dateFormat: 'dd-mm-yy',
-																	minDate: 0
-																}
-																var $datePickerFrom = $(`#update-${trip.code}-from`);
-																var $datePickerTo = $(`#update-${trip.code}-to`);
-
-																$datePickerFrom.datepicker($.extend({
-																	onSelect: function() {
-																		var minDate = $(this).datepicker('getDate');
-																		minDate.setDate(minDate.getDate() + 2); //add two days
-																		$datePickerTo.datepicker( "option", "minDate", minDate);
-																	}
-																},datepickersOpt));
-
-																$datePickerTo.datepicker($.extend({
-																	onSelect: function() {
-																		var maxDate = $(this).datepicker('getDate');
-																		maxDate.setDate(maxDate.getDate());
-																		$datePickerFrom.datepicker( "option", "maxDate", maxDate);
-																	}
-																},datepickersOpt));
-
-
-
-																var eventLog = function (ctx, e) {
-																	var html = [
-																		"name: " + ctx.get("name"),
-																		"event.type: " + e.type,
-																		"val: " + ctx[0]
-																	];
-																		// $(".events-plate").html(html.join("<br />"));
-																		// console.log(html.join());
-																};
-																var valuesArr = [];
-																$(`#selecteInclude-${trip.code}`).mSelectDBox({
-																	"list": ['خدمة الغرف','سبا','حمامات سباحة','غداء','فطار','عشاء','توصيل للحرم'],
-																	"multiple": true,
-																	"autoComplete": true,
-																	"onInit": function (ctx) {
-																		new $.fn.mSelectDBox.MyCustomAppear1(ctx);
-																	},
-																	"zIndex": 10000000,
-																	"width": "300px",			
-																	"name":"b",
-																	"onselect": function (msdbContext){
-																		//- var values = msdbContext._props.target.attributes['data-msdb-value'].value;
-																		valuesArr = $(`#selecteInclude-${trip.code}`).mSelectDBox().getSelectedValues();
-																		var input = $(`#selecteIncludeHiddenInput-${trip.code}`);
-																		$(input).val(valuesArr);
-																	}
-																});
-															});
-									
-									//- End Edit Trip Modal
-						else 
-							h3.text-muted.text-center.text-capitalize.display-3 there is no active trips yet
-
-					a.mt-5.float-right.btn.btn-gradient-secondary.text-white.text-capitalize(href="/dashboard/trips/add") Add new Trip
 	.row
 		.col-md-12.grid-margin.stretch-card
 			.card

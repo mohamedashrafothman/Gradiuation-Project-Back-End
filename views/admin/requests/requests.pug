@@ -1,0 +1,37 @@
+extends ../../layouts/layout.pug
+
+include ../../mixins/_singleReview.pug
+
+block content
+	.container
+		.row
+			.col-md-12.grid-margin.stretch-card
+				.card
+					.card-body
+						h4.display-3.text-uppercase all waiting requests
+						.table-responsive
+							if (waitingRequests.length)
+								table.table
+									thead
+										tr
+											th.border-0
+												| #
+											th.border-0
+												| Trip name
+											th.border-0
+												| Name
+											th.border-0
+												| Email
+											th.border-0
+												| Message
+									tbody
+										each request, index in waitingRequests
+											tr
+												td= index+1
+												th= request.trip.name
+												td= request.name
+												td= request.email
+												th= request.message
+												
+							else 
+								h3.text-muted.text-center.text-capitalize.display-3 there is no active trips yet

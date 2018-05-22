@@ -151,6 +151,10 @@ block content
 												+singleReview(review, company, index)
 										else
 											h1.text-capitalize.text-muted.text-center.py-5.display-6 there is no reviews for this company
+									if (!user)
+										.mt-5.py-3.border-top.text-center
+											p.h6.text-muted Sign in as a user to leave a review.
+											a(href="/login" class="btn btn-gradient-primary text-white btn-fw text-uppercase font-weight-bold mt-3") Sign In
 					
 					
 					.col-12.col-lg-4

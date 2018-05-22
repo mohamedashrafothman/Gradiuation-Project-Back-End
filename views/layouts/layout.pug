@@ -145,6 +145,10 @@ html
 								a.nav-link(href=`/dashboard/reviews`)
 									span.menu-title Reviews
 									i.fas.fa-comment
+							li(class=`nav-item ${title==="Requests" ? "active" : ""}`)
+								a.nav-link(href=`/dashboard/requests`)
+									span.menu-title Requests
+									i.fas.fa-address-card
 							li.nav-item
 								a.nav-link(class=`${title === "Trips" ? "active" : ""}` data-toggle="collapse" href="#trips" aria-expanded="true" aria-controls="trips")
 									span.menu-title Trips
