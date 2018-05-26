@@ -1,7 +1,7 @@
 mixin singleReview(review, company, index)
 	.review.d-flex.flex-column.justify-content-between
 		.reivew-head.mt-3.d-flex.flex-row.justify-content-start.align-items-start
-			img(src=(review.user.photo ? `/img/faces/${review.user.photo}` : `/img/faces/face1.jpg`) alt="user image" class="rounded-circle" style="width: 70px;")
+			img(src=(review.user.photo ? `/img/uploads/${review.user.photo}` : `/img/faces/face1.jpg`) alt="user image" class="rounded-circle" style="width: 70px;")
 			.d-flex.flex-column.justify-content-between.align-items-start.ml-3.w-100
 				h5.text-dark.text-capitalize.mt-2.mb-0.w-100
 					= review.user.name

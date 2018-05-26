@@ -79,7 +79,6 @@ tripSchema.pre('save', async function (next) {
 	if (tripWithSlug.length) {
 		this.slug = `${this.slug}-${tripWithSlug.length + 1}`;
 	}
-	console.log(this.slug);
 	next(); // go to next function
 });
 

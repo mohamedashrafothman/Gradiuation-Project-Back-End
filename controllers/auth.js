@@ -89,7 +89,6 @@ module.exports.userValidateRegister = (req, res, next) => {
 	req.checkBody('name', 'You must supply a name!').notEmpty();
 	req.checkBody('username', 'You must supply a username!').notEmpty();
 	req.checkBody('contacts[email]', 'You must supply an email!').notEmpty();
-	req.checkBody('gender', 'You must supply your gender').notEmpty();
 	req.checkBody('contacts[email]', 'That Email is not Valid!').isEmail();
 	req.sanitizeBody('contacts[email]').normalizeEmail({
 		remove_dots: false,
@@ -102,6 +101,8 @@ module.exports.userValidateRegister = (req, res, next) => {
 	req.checkBody('password', 'Password Cannot be Blank!').notEmpty();
 	req.checkBody('password-confirm', 'Confirmed Password cannot be blank!').notEmpty();
 	req.checkBody('password-confirm', 'Your Password do not mach!').equals(req.body.password);
+	req.checkBody('gender', 'You must supply your gender').notEmpty();
+	req.checkBody('photo', 'you must upload your photo').notEmpty();
 
 	const errors = req.validationErrors();
 	if (errors) {
@@ -117,7 +118,6 @@ module.exports.userValidateRegister = (req, res, next) => {
 };
 module.exports.adminRegister = async (req, res, next) => {
 	req.body.role = "admin";
-	console.log(req.body);
 	var newUser = await new User(req.body);
 	User.createUser(newUser, function (err, user) {
 		if (err) throw err;
@@ -127,9 +127,13 @@ module.exports.adminRegister = async (req, res, next) => {
 };
 module.exports.userRegister = async (req, res, next) => {
 	req.body.role = "user";
+	console.log(req.body);
 	var newUser = await new User(req.body);
 	User.createUser(newUser, function (err, user) {
-		if (err) throw err;
+		if (err){
+			console.log(err);
+			throw err;
+		};
 	});
 	req.flash('success', 'You are registered and can login!');
 	res.redirect('/');

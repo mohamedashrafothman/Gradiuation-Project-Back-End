@@ -28,82 +28,91 @@ html
 						.card.col-md-8.mx-auto
 							.card-body.px-4.py-4
 								h3.card-title.text-left.mb-3 Register
-								form.row.mt-5(action="/user/register", method="POST")
+								form.row.mt-5(action=`/user/register?_csrf=${csrfToken()}`, method="POST", enctype="multipart/form-data")
 									input(type="hidden", name="_csrf", value=`${csrfToken()}`)
-									.col-6
+									.col-lg-6.col-12
 										.form-label-group
 											input#name.form-control.form-control-lg(type='text' name="name" placeholder="Type Your Name.")
 											label.font-weight-bold(for="#name")
 												| Name
 												span.text-danger *
-									.col-6
+									.col-lg-6.col-12
 										.form-label-group
 											input#username.form-control.form-control-lg(type='text' name="username" placeholder="Type Your Name.")
 											label.font-weight-bold(for="#username") 
 												|Username
 												span.text-danger *
-									.col-6
-										.form-group
-											label.font-weight-bold(for='#gender') 
-												| Gender
-												span.text-danger *
-											select#gender.form-control.fom-control-lg(name="gender" required)
-												option(selected disabled) --Select Your Gender--
-												option(value="male") Male
-												option(value="female") Female
-									.col-6
+									.col-lg-6.col-12
 										.form-label-group
 											input#email.form-control.form-control-lg(type='email' name="contacts[email]" placeholder="Type Your E-mail.")
 											label.font-weight-bold(for="#email")
 												|Email
 												span.text-danger *
-									.col-6
+									.col-lg-6.col-12
 										.form-label-group
 											input#autocomplete.form-control.form-control-lg(type='text' name="location[address]" placeholder="where are you live?")
 											label.font-weight-bold(for="#autocomplete") 
 												|Address
 												span.text-danger *
-									.col-6
+
+									.col-lg-6.col-12
 										.form-label-group
-											input#lng.form-control.form-control-lg(type='text' name="location[coordinates][0]" placeholder="Where are you live?" readonly)
-											label.font-weight-bold(for="#lng")
-												|Address lng
-												span.text-danger *
-									.col-6
+											input#lng.form-control.form-control-lg(type='hidden' name="location[coordinates][0]" placeholder="Where are you live?" readonly)
+											//- label.font-weight-bold(for="#lng")
+											//- 	|Address lng
+											//- 	span.text-danger *
+									.col-lg-6.col-12
+										.form-label-group
+											input#lat.form-control.form-control-lg(type='hidden' name="location[coordinates][1]" placeholder="Type Your Country Name." readonly)
+											//- label.font-weight-bold(for="#lat")
+											//- 	|Address lat
+											//- 	span.text-danger *
+									.col-lg-6.col-12
 										.form-label-group
 											input#country.form-control.form-control-lg(type='text' name="location[country]" placeholder="Type Your Country Name.")
 											label.font-weight-bold(for="#country")
 												|Country
 												span.text-danger *
-									.col-6
-										.form-label-group
-											input#lat.form-control.form-control-lg(type='text' name="location[coordinates][1]" placeholder="Type Your Country Name." readonly)
-											label.font-weight-bold(for="#lat")
-												|Address lat
-												span.text-danger *
-									.col-6
+									.col-lg-6.col-12
 										.form-label-group
 											input#city.form-control.form-control-lg(type='text' name="location[city]" placeholder="Type Your State Name.")
 											label.font-weight-bold(for="#city")
 												|City
 												span.text-danger *
 									.w-100
-									.col-6
+									.col-lg-6.col-12
 										.form-label-group
 											input#password.form-control.form-control-lg(type='password', name="password", placeholder="Type Your Password.")
 											label.font-weight-bold(for="#password")
 												|Password
 												span.text-danger *
-									.col-6
+									.col-lg-6.col-12
 										.form-label-group
 											input#confirm-password.form-control.form-control-lg(type='password', name="password-confirm", placeholder="Retype Your Password.")
 											label.font-weight-bold(for="#confirm-password")
 												|Confirm Password
 												span.text-danger *
+									.col-lg-6.col-12
+										.form-group
+											label.font-weight-bold(for='#gender') 
+												| Gender
+												span.text-danger *
+											select#gender.form-control.fom-control-lg(name="gender" style="height: 52px;" required)
+												option(selected disabled) --Select Your Gender--
+												option(value="male") Male
+												option(value="female") Female
+									.col-lg-6.col-12
+										.form-group
+											input.file-upload-default(type='file', name='photo', id="photo", accept="image/gif, image/png, image/jpeg")
+											label.font-weight-bold(for="#photo") Image
+											.input-group.col-xs-12(style="z-index:0;")
+												input#photo.form-control.file-upload-info.form-control-lg(type='file', name='photo', accept="image/gif, image/png, image/jpeg", placeholder="Upload image")
+												span.input-group-btn
+													button.file-upload-browse.btn.btn-info(type='button') Upload
 									.w-100
 									.col-12
 										.row.justify-content-center
-											.col-6
+											.col-lg-6.col-12
 												.text-center
 													button.btn.btn-gradient-primary.text-white.btn-fw.text-uppercase.font-weight-bold.btn-block.enter-btn(type='submit') Register
 												p.sign-up.text-center

@@ -7,7 +7,8 @@ const h       = require('../helpers');
 
 module.exports.getHome = async (req, res, next) => {
 	const companies = await User.find({role: "admin"}).select('photo slug created name description').limit(4).populate('trips').exec();
-	res.render('home', {companies,title: "Home"});
+	// const user = await User.find({role: "user"}).select('photo').exec();
+	res.render('home', {companies,title: "Home", user: req.user});
 };
 module.exports.getCompanies = async (req, res, next) => {
 

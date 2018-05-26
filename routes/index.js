@@ -2,6 +2,7 @@ const express         = require('express');
 const router          = express.Router();
 const indexController = require('../controllers/index');
 const authController  = require('../controllers/auth');
+const adminController = require('../controllers/admin');
 const { requireRole } = require('../handlers/roleHandlers');
 const { catchErrors } = require('../handlers/errorHandlers');
 
@@ -15,7 +16,7 @@ router.get('/shaaer/umrah', indexController.getUmrah);
 router.get('/admin/register', authController.getAdminRegister);
 router.get('/user/register', authController.getUserRegister);
 router.post('/admin/register', authController.adminValidateRegister, catchErrors(authController.adminRegister));
-router.post('/user/register', authController.userValidateRegister, catchErrors(authController.userRegister));
+router.post('/user/register', adminController.upload, catchErrors(adminController.resize), authController.userValidateRegister, catchErrors(authController.userRegister));
 router.get('/login', authController.getLogin);
 router.post('/login', authController.login);
 router.get('/logout', authController.ensureAuthenticated, authController.logout);

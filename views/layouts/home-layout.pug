@@ -46,10 +46,13 @@ html(lang="en")
 									.col-4#navbar-top-regester
 										a.btn.btn-gradient-primary.text-white.btn-fw.text-uppercase.font-weight-bold(href="/login") sign in
 										a.ml-2.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/user/register") sign up
+
 								else
 									.col-4#navbar-top-company
 										if user.role === "admin"
 											a.btn.btn-outline-secondary.btn-fw.text-uppercase.font-weight-bold(href="/dashboard") my dashboard
+										else
+											img(src=`/img/uploads/${user.photo}` alt="user image" class="rounded-circle img-thumbnail" style="width: 50px;height:50px;")
 									.col-4.text-center#navbar-top-logo
 										a#navbar-top-logo-img(href="/")
 											img(src="/img/logo-sm-black.png")

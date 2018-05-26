@@ -247,7 +247,7 @@ module.exports.getRequests = async (req, res, next) => {
 							.where({company: req.user._id})
 							.populate('trip')
 							.populate('user')
-							.select("user.photo user.name email message status trip.name")
+							.select("user.photo user.name user.photo email message status trip.name")
 							.sort({field:'asc', status: 1})
 							.exec();
 		
