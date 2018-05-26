@@ -8,30 +8,53 @@ block content
 			.col-md-12.grid-margin.stretch-card
 				.card
 					.card-body
-						h4.display-3.text-uppercase all waiting requests
+						h4.h3.text-uppercase Requests
 						.table-responsive
-							if (waitingRequests.length)
+							if (Requests.length)
 								table.table
 									thead
 										tr
 											th.border-0
 												| #
 											th.border-0
-												| Trip name
-											th.border-0
 												| Name
 											th.border-0
-												| Email
+												| email
 											th.border-0
 												| Message
+											th.border-0
+												| Trip Name
+											th.border-0
+												| status
 									tbody
-										each request, index in waitingRequests
+										each request, index in Requests
 											tr
 												td= index+1
-												th= request.trip.name
-												td= request.name
+												td
+													img.mr-2(src=`/img/faces/face1.jpg`)
+													= `${request.user.name}`
 												td= request.email
-												th= request.message
+												td.px-0(style="white-space:pre-wrap;")= `${request.message.split(' ').splice(0, 10).join(' ')}...`
+												td= request.trip.name
+												td
+													if request.status === 'waiting'
+														label.badge.badge-gradient-primary= request.status
+													if request.status === 'accepted'
+														label.badge.badge-gradient-success= request.status
+													if request.status === 'rejected'
+														label.badge.badge-gradient-secondary= request.status
+												if (request.status === 'waiting' || request.status === 'rejected') 
+													td
+														a(href=`/dashboard/requests/accept/${request._id}` data-toggle="tooltip" data-placement="top" title="accept this request")
+															i.fas.fa-check.text-success
+												if (request.status === 'accepted' || request.status === 'rejected') 
+													td
+														a(href=`/dashboard/requests/wait/${request._id}` data-toggle="tooltip" data-placement="top" title="return this request to waiting status")
+															i.fas.fa-clock.text-primary
+												if (request.status === 'waiting' || request.status === 'accepted')
+													td
+														a(href=`/dashboard/requests/reject/${request._id}` data-toggle="tooltip" data-placement="top" title="reject this request")
+															i.fas.fa-times.text-danger
 												
 							else 
-								h3.text-muted.text-center.text-capitalize.display-3 there is no active trips yet
+								h3.text-muted.text-center.text-capitalize.display-3 there is no waiting requests yet

@@ -37,18 +37,17 @@
 			}
 		}
 		&-main {
-			&-companies{
+			&-companies {
 				.company {
 					background-color: $color_white;
 					border-top-left-radius: 4px;
 					border-top-right-radius: 4px;
-					padding: 0px;
-					// max-width: 265px !important;
+					padding: 0px; // max-width: 265px !important;
 					max-height: 450px;
 					height: 450px;
 					overflow: hidden;
-					box-shadow: 0 1px 39px rgba(0, 0, 0, .12), 0 0px 2px rgba(0, 0, 0, .24);
-					transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+					box-shadow: 0 1px 39px rgba(0, 0, 0, 0.12), 0 0px 2px rgba(0, 0, 0, 0.24);
+					transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 					&-image {
 						border-top-left-radius: 4px;
 						border-top-right-radius: 4px;
@@ -94,9 +93,9 @@
 					}
 				}
 			}
-			&-pagenation{
-				.page-item.active .page-link{
-					background: linear-gradient(to left, rgba(172, 50, 228, .9), rgba(121, 24, 242, .9) 49%, rgba(72, 1, 255, .9)) !important;
+			&-pagenation {
+				.page-item.active .page-link {
+					background: linear-gradient( to left, rgba(172, 50, 228, 0.9), rgba(121, 24, 242, 0.9) 49%, rgba(72, 1, 255, 0.9)) !important;
 					border-color: gray !important;
 				}
 			}

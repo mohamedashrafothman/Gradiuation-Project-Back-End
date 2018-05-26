@@ -24,6 +24,8 @@ router.get('/trips/show/:id', authController.ensureAuthenticated, requireRole("a
 router.get('/reviews', authController.ensureAuthenticated, requireRole('admin'), catchErrors(adminController.getReviews));
 
 router.get('/requests', authController.ensureAuthenticated, requireRole('admin'), catchErrors(adminController.getRequests));
-
+router.get('/requests/accept/:id', authController.ensureAuthenticated, requireRole('admin'), adminController.acceptRequest);
+router.get('/requests/wait/:id', authController.ensureAuthenticated, requireRole('admin'), adminController.waitRequest);
+router.get('/requests/reject/:id', authController.ensureAuthenticated, requireRole('admin'), adminController.rejectRequest);
 
 module.exports = router;

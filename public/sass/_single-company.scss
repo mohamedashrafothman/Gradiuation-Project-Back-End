@@ -74,14 +74,14 @@
 				}
 			}
 			&-reviews {
-				&-adding{
+				&-adding {
 					.br-wrapper.br-theme-fontawesome-stars {
 						display: flex;
 						justify-content: center;
 						align-items: center;
 						padding-top: 0.5rem;
-						border-bottom:1px solid #e6ecf5;
-						border-left:1px solid #e6ecf5;
+						border-bottom: 1px solid #e6ecf5;
+						border-left: 1px solid #e6ecf5;
 					}
 				}
 				&-content {
@@ -93,10 +93,11 @@
 					}
 				}
 			}
-			&-papers{
-				&-content{
-					li{
-						h4, small{
+			&-papers {
+				&-content {
+					li {
+						h4,
+						small {
 							font-family: $font-cairo;
 						}
 					}
