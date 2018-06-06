@@ -10,5 +10,5 @@ const { catchErrors } = require('../handlers/errorHandlers');
 router.get('/companies', catchErrors(apiController.getCompanies));
 router.get('/company/:company', catchErrors(apiController.getcompany));
 router.get('/trips', catchErrors(apiController.getTrips));
-
+router.get('/home', catchErrors(apiController.getHomePAge));
 module.exports = router;

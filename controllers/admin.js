@@ -258,12 +258,9 @@ module.exports.getRequests = async (req, res, next) => {
 };
 
 module.exports.acceptRequest = async (req,res,next)=>{
-
 	const trip = await Request.findOneAndUpdate({ _id: req.params.id }, { $set: { status: 'accepted' } }, { new: true }).exec();
 	req.flash('success', `Successfully accepted the request.`);
 	res.redirect('back');
-
-
 };
 
 module.exports.waitRequest = async (req, res, next)=> {

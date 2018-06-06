@@ -14,7 +14,6 @@ import scrollSmothy from './modules/scroll-smothy';
 import tooltips from './modules/tooltips';
 
 $(document).ready(function () {
-
 	initChartJs();
 	misc();
 	dashboard();
@@ -26,5 +25,4 @@ $(document).ready(function () {
 	mapAutoComplete();
 	scrollSmothy();
 	tooltips();
-	
 });

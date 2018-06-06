@@ -112,6 +112,7 @@ app.use((req, res, next) => {
 	next();
 });
 
+// initial routes
 app.use('/', indexRoute);
 app.use('/dashboard', dashboardRoute);
 app.use('/api/v1', apiRoute);

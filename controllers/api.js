@@ -20,3 +20,8 @@ module.exports.getTrips = async (req, res, next) => {
 	const trips = await Trip.find().where('removed').equals('false').populate('author').exec();
 	res.json(trips);
 };
+
+module.exports.getHomePAge = async (req, res, next)=> {
+	const companies = await Company.find().where('role').equals('admin').select('name _id photo').exec();
+	res.json(companies);
+};
