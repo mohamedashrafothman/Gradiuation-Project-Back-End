@@ -5,20 +5,23 @@ block content
 		.col-md-4.stretch-card.grid-margin
 			.card.bg-gradient-warning.text-white
 				.card-body
-					h4.font-weight-normal.mb-3 Weekly Sales
-					h2.font-weight-normal.mb-5 $ 15,00000.00
+					h4.font-weight-normal.mb-3
+						a.text-white(href="/dashboard/trips") Trips Numbers
+					h2.font-weight-normal.mb-5= trips.length
 					p.card-text Incresed by 60%
 		.col-md-4.stretch-card.grid-margin
 			.card.bg-gradient-info.text-white
 				.card-body
-					h4.font-weight-normal.mb-3 Weekly Requested
-					h2.font-weight-normal.mb-5 5,000
-					p.card-text Decreased by 1%
+					h4.font-weight-normal.mb-3 
+						a.text-white(href="/dashboard/requests?type='waiting'") Waiting Requested
+					h2.font-weight-normal.mb-5= requests
+					p.card-text Incresed by 1%
 		.col-md-4.stretch-card.grid-margin
 			.card.bg-gradient-success.text-white
 				.card-body
-					h4.font-weight-normal.mb-3 Visitors Online
-					h2.font-weight-normal.mb-5 5,632
+					h4.font-weight-normal.mb-3 
+						a.text-white(href="/dashboard/trips") Active Trips
+					h2.font-weight-normal.mb-5= activeTrips
 					p.card-text Increased by 5%
 	.row
 		.col-md-7.grid-margin.stretch-card

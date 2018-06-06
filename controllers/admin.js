@@ -10,13 +10,15 @@ const slug = require('speakingurl');
 
 
 module.exports.getDashboard = async (req, res, next) => {
-	const trips = await Trip.find().where('author', req.user._id).and({
-		removed: false
-	}).select('code name hotel.name hotel.include duration durationInDays removed').limit(10).exec();
+	const trips = await Trip.find().where('author', req.user._id).select('code name hotel.name hotel.include duration durationInDays removed').limit(10).exec();
+	const requests = await Request.find().where('company').equals(req.user._id).and({status: "waiting"}).count().exec();
+	const activeTrips = await Trip.find().where('author').equals(req.user._id).and({removed: false}).count().exec();
 	res.render('admin/dashboard', {
 		title: 'Dashboard',
 		user: req.user,
-		trips
+		trips,
+		activeTrips,
+		requests
 	});
 };
 
@@ -274,3 +276,19 @@ module.exports.rejectRequest = async (req, res, next)=> {
 	req.flash('success', `Successfully rejected the request.`);
 	res.redirect('back');
 };
+
+// module.exports.getWaitingRequests = async (req, res, next)=> {
+// 	const Requests = await Request
+// 								.find()
+// 								.where('company')
+// 								.equals(req.user._id)
+// 								.and({status: 'waiting'})
+// 								.populate('trip')
+// 								.populate('user')
+// 								.select("user.photo user.name user.photo email message status trip.name")
+// 									.sort({
+// 										field: 'asc',
+// 										status: 1
+// 									})
+// 									.exec();
+// };

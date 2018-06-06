@@ -23,5 +23,8 @@ module.exports.getTrips = async (req, res, next) => {
 
 module.exports.getHomePAge = async (req, res, next)=> {
 	const companies = await Company.find().where('role').equals('admin').select('name _id photo').exec();
+	for(var i = 0 ; i < companies.length; i++){
+		companies[i].photo = `http://${req.host}:${process.env.PORT}/img/${companies[i].photo}`
+	}
 	res.json(companies);
 };
