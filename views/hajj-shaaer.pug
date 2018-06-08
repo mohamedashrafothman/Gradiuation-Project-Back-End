@@ -1,0 +1,42 @@
+extends layouts/home-layout.pug
+
+block content
+	#hajj-header(dir="rtl")
+		.container
+			.row
+				.col-md-9
+					h1.display-1 الحج
+					p.lead.my-3.mb-2.font-italic 
+						| الحج الركن الخامس والأخير من أركان الدين الإسلاميّ فقال صلى الله عليه وسلم: "بُني الإسلام على خمسٍ...وذكر وحج البيت من استطاع إليه سبيلاً"، والحج فرض واجبٌ على كلّ مسلمٍ مرّةً واحدةً في العمر لمن امتلك القدرة المادية والجسدية والنفسيّة وما زاد على ذلك فهو تطوعً، قال الله تعالى:"ولله على الناس حج البيت من استطاع إليه سبيلاً ومن كفر فإن الله غنيٌّ عن العالمين"، وقد سمّى الله في الآية الكريمة تارك فريضة الحج مع القدرة والاستطاعة كافراً.
+	main#hajj-content(dir="rtl")
+		.container
+			.row
+				.blog-post.pt-5.w-100
+					h1.text-black.font-weight-bold مناسك الحج
+					hr
+					.container
+						.row
+							#v-pills-tab.nav.flex-column.nav-pills.col-lg-2.offset-lg-1.col-12(role='tablist', aria-orientation='vertical')
+								a#v-pills-home-tab.nav-link.active(data-toggle='pill', href='#v-pills-home', role='tab', aria-controls='v-pills-home', aria-selected='true') Home
+								a#v-pills-profile-tab.nav-link(data-toggle='pill', href='#v-pills-profile', role='tab', aria-controls='v-pills-profile', aria-selected='false') Profile
+								a#v-pills-messages-tab.nav-link(data-toggle='pill', href='#v-pills-messages', role='tab', aria-controls='v-pills-messages', aria-selected='false') Messages
+								a#v-pills-settings-tab.nav-link(data-toggle='pill', href='#v-pills-settings', role='tab', aria-controls='v-pills-settings', aria-selected='false') Settings
+							#v-pills-tabContent.tab-content.col-lg-9.col-12
+								#v-pills-home.show.active.tab-pane.fade(role='tabpanel', aria-labelledby='v-pills-home-tab')
+									ul#myTab.nav.nav-pills.nav-justified(role='tablist')
+										li.nav-item
+											a#home-tab.nav-link.active(data-toggle='tab', href='#home', role='tab', aria-controls='home', aria-selected='true') Home
+										li.nav-item
+											a#profile-tab.nav-link(data-toggle='tab', href='#profile', role='tab', aria-controls='profile', aria-selected='false') Profile
+										li.nav-item
+											a#contact-tab.nav-link(data-toggle='tab', href='#contact', role='tab', aria-controls='contact', aria-selected='false') Contact
+									#myTabContent.tab-content
+										#home.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='home-tab') home 
+										#profile.tab-pane.fade(role='tabpanel', aria-labelledby='profile-tab') profile
+										#contact.tab-pane.fade(role='tabpanel', aria-labelledby='contact-tab') contact
+
+
+
+								#v-pills-profile.tab-pane.fade(role='tabpanel', aria-labelledby='v-pills-profile-tab') profile
+								#v-pills-messages.tab-pane.fade(role='tabpanel', aria-labelledby='v-pills-messages-tab') Message
+								#v-pills-settings.tab-pane.fade(role='tabpanel', aria-labelledby='v-pills-settings-tab') Settings

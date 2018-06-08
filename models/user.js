@@ -80,6 +80,7 @@ const userSchema = new Schema({
 		ref : 'Review'
 	}],
 	gender              : String,
+	rating				: Number,
 	profileCompleted    : String,
 	resetPasswordTaken  : String,
 	resetPasswordExpires: Date

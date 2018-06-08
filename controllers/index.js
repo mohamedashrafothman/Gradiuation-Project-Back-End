@@ -145,19 +145,24 @@ module.exports.getSingleTrip = async (req, res, next) => {
 };
 
 module.exports.addReview = async (req, res, next) => {
-	      req.body.user    = req.user._id;
-	      req.body.company = req.params.companyId;
+	req.body.user    = req.user._id;
+	req.body.company = req.params.companyId;
+	company = await User.findOne({_id: req.params.companyId}).exec();
+	const oneStar = await Review.find().where('company', company._id).and({rating: 1}).count().exec();
+	const twoStar = await Review.find().where('company', company._id).and({rating: 2}).count().exec();
+	const threeStar = await Review.find().where('company', company._id).and({rating: 3}).count().exec();
+	const fourStar = await Review.find().where('company', company._id).and({rating: 4}).count().exec();
+	const fiveStar = await Review.find().where('company', company._id).and({rating: 5}).count().exec();
+
+	const rating = Math.ceil(h.starRating(oneStar, twoStar, threeStar, fourStar, fiveStar));
+	console.log(rating);
+
 	const newReview        = new Review(req.body);
 	await newReview.save();
-	await User.findOneAndUpdate({
-		_id: req.body.company
-	}, {
-		$push: {
-			reviews: newReview._id
-		}
-	}, {
-		upsert: true
-	}, (err) => {
+	await User.findOneAndUpdate(
+		{_id: req.body.company},  
+		{$push: {reviews: newReview._id}, $set: {"rating": rating}},
+		{upsert: true}, (err) => {
 		if (err) {
 			console.log(err);
 		} else {

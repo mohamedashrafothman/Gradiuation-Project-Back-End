@@ -165,3 +165,33 @@
 		}
 	}
 }
+
+#hajj {
+	&-header {
+		background: linear-gradient(to bottom right, rgba(149, 167, 146, 0.57), rgba(64, 63, 72, 0.5)), url('/img/makkah.jpg');
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
+		margin-top: 100px;
+		padding-top: 85px;
+		text-align: right;
+		h1 {
+			font-family: $font-cairo;
+			font-weight: bold;
+			color: white; // font-style: italic;
+		}
+		p {
+			font-family: $font-cairo;
+			font-weight: 400;
+			color: white;
+		}
+	}
+	&-content {
+		background: white;
+		text-align: right;
+		font-family: $font-cairo;
+		h3 {
+			font-weight: bold;
+		}
+	}
+}

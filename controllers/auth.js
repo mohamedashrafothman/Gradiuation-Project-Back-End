@@ -118,6 +118,7 @@ module.exports.userValidateRegister = (req, res, next) => {
 };
 module.exports.adminRegister = async (req, res, next) => {
 	req.body.role = "admin";
+	req.body.rating = 0;
 	var newUser = await new User(req.body);
 	User.createUser(newUser, function (err, user) {
 		if (err) throw err;

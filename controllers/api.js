@@ -10,12 +10,12 @@ module.exports = {
 			.equals('admin')
 			.populate('trips')
 			.populate('reviews')
-			.select('name _id photo trips reviews')
+			.select('name _id photo trips reviews rating')
 			.exec();
 		for (var i = 0; i < companies.length; i++) {
 			companies[i].photo = `http://${req.host}/img/uploads/${companies[i].photo}`;
 		}
-		res.json(companies);
+		res.json();
 	},
 	getCompany: async (req, res, next) => {
 		const company = await Company
@@ -62,7 +62,7 @@ module.exports = {
 			.find()
 			.where('role')
 			.equals('admin')
-			.select('name _id photo')
+			.select('name _id photo rating')
 			.exec();
 		for (var i = 0; i < companies.length; i++) {
 			companies[i].photo = `http://${req.host}/img/uploads/${companies[i].photo}`;
