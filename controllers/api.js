@@ -15,7 +15,7 @@ module.exports = {
 		for (var i = 0; i < companies.length; i++) {
 			companies[i].photo = `http://${req.host}/img/uploads/${companies[i].photo}`;
 		}
-		res.json();
+		res.json(companies);
 	},
 	getCompany: async (req, res, next) => {
 		const company = await Company
